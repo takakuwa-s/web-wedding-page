@@ -4,6 +4,7 @@ import './index.scss';
 import App from './views/pages/app/App';
 import reportWebVitals from './reportWebVitals';
 import "./i18n/configs"; //i18
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

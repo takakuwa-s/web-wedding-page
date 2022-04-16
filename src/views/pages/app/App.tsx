@@ -1,27 +1,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import logo from '../../../logo.svg';
+import WeddingNavbar from '../../components/wedding-navbar/WeddingNavbar';
+import Form from '../form/Form';
 import './App.scss';
+import seaImg from "./../../../resource/sea.jpeg";
 
 function App() {
   const { t } = useTranslation();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t('title')}
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <WeddingNavbar />
+      <img src={seaImg} alt="seaImg" className='w-100'/>
+      <Form />
+    </React.Fragment>
   );
 }
 
