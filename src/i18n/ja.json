@@ -1,7 +1,34 @@
 {
-  "title": "Wedding",
-  "host": "Host",
-  "infomation": "Infomation",
-  "message": "Message",
-  "form": "Attendance"
+  "nav" : {
+    "host": "Host",
+    "infomation": "Infomation",
+    "message": "Message",
+    "form": "Attendance"
+  },
+  "top": {
+    "title": "Wedding Invitation"
+  },
+  "greeting-message": {
+    "content": "謹啓\n\n早春の候 皆様におかれましては\n益々ご清祥のことと\nお慶び申し上げます\n\nこのたび 私たちは\n結婚式を挙げることとなりました\nおいそがしいことと存じますが\nぜひご参列いただき\n日頃お世話になっております\n皆様と一緒に\n喜びのひとときを過ごさせていただければ\n幸いに存じます\n\n式後ささやかではございますが\n小宴を催したく存じますので\nぜひご出席賜りますよう\nお願い申し上げます\n\n謹白"
+  },
+  "host": {
+    "title": "Host",
+    "groom-title": "Groom",
+    "groom-name": "高桑駿",
+    "groom-comment": "どーも",
+    "bride-title": "Bride",
+    "bride-name": "瀬山彩華",
+    "bride-comment": "チース"
+  },
+  "cowntdown": {
+    "title": "Cowntdown"
+  },
+  "information": {
+    "title": "Information",
+    "address": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
+    "venue": "SCAPES THE SUITE"
+  },
+  "form": {
+    "title": "Attendance"
+  }
 }

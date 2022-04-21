@@ -1,0 +1,31 @@
+.host-back-ground {
+  background-color: blue;
+  width: 100%;  
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.host-image {
+  width: 60%;
+  height: auto;
+}
+
+.groom-bride-title {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.groom-bride-name {
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.groom-bride-comment {
+  color: white;
+  font-size: 0.5em;
+}

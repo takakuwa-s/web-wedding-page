@@ -22,10 +22,10 @@ class WeddingNavbar extends React.Component<IProps, IState> {
             </Offcanvas.Header>
             <Offcanvas.Body className="text-center display-6 text-white">
               <Nav className="flex-grow-1">
-                <Nav.Link href="#action1" className="py-4 text-white">{t('host')}</Nav.Link>
-                <Nav.Link href="#action2" className="py-4 text-white">{t('infomation')}</Nav.Link>
-                <Nav.Link href="#action3" className="py-4 text-white">{t('message')}</Nav.Link>
-                <Nav.Link href="#action4" className="py-4 text-white">{t('form')}</Nav.Link>
+                <Nav.Link href="#action1" className="py-4 text-white">{t('nav.host')}</Nav.Link>
+                <Nav.Link href="#action2" className="py-4 text-white">{t('nav.infomation')}</Nav.Link>
+                <Nav.Link href="#action3" className="py-4 text-white">{t('nav.message')}</Nav.Link>
+                <Nav.Link href="#action4" className="py-4 text-white">{t('nav.form')}</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

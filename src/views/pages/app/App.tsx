@@ -1,16 +1,23 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import WeddingNavbar from '../../components/wedding-navbar/WeddingNavbar';
+import Countdown from '../countdown/Countdown';
 import Form from '../form/Form';
+import GreetingMessage from '../greeting-message/GreetingMessage';
+import Host from '../host/Host';
+import Information from '../information/Information';
+import Top from '../top/Top';
 import './App.scss';
-import seaImg from "./../../../resource/sea.jpeg";
+
 
 function App() {
-  const { t } = useTranslation();
   return (
     <React.Fragment>
       <WeddingNavbar />
-      <img src={seaImg} alt="seaImg" className='w-100'/>
+      <Top />
+      <GreetingMessage />
+      <Host />
+      <Countdown />
+      <Information />
       <Form />
     </React.Fragment>
   );
