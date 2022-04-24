@@ -21,15 +21,15 @@ class Host extends React.Component<IProps, IState> {
           <Row>
             <Col>
               <img className="host-image py-5" alt="groom" src={groom}/>
-              <p className="groom-bride-title">{t("host.groom-title")}</p>
-              <p className="groom-bride-name">{t("host.groom-name")}</p>
-              <p className="groom-bride-comment">{t("host.groom-comment")}</p>
+              <p className="groom-bride-title">{t("host.groom.title")}</p>
+              <p className="groom-bride-name">{t("host.groom.name")}</p>
+              <p className="groom-bride-comment">{t("host.groom.comment")}</p>
             </Col>
             <Col>
               <img className="host-image py-5" alt="bride" src={bride}/>
-              <p className="groom-bride-title">{t("host.bride-title")}</p>
-              <p className="groom-bride-name">{t("host.bride-name")}</p>
-              <p className="groom-bride-comment">{t("host.bride-comment")}</p>
+              <p className="groom-bride-title">{t("host.bride.title")}</p>
+              <p className="groom-bride-name">{t("host.bride.name")}</p>
+              <p className="groom-bride-comment">{t("host.bride.comment")}</p>
             </Col>
           </Row>
         </Container>

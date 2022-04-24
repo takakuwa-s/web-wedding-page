@@ -8,17 +8,21 @@
   "top": {
     "title": "Wedding Invitation"
   },
-  "greeting-message": {
+  "greetingMessage": {
     "content": "謹啓\n\n早春の候 皆様におかれましては\n益々ご清祥のことと\nお慶び申し上げます\n\nこのたび 私たちは\n結婚式を挙げることとなりました\nおいそがしいことと存じますが\nぜひご参列いただき\n日頃お世話になっております\n皆様と一緒に\n喜びのひとときを過ごさせていただければ\n幸いに存じます\n\n式後ささやかではございますが\n小宴を催したく存じますので\nぜひご出席賜りますよう\nお願い申し上げます\n\n謹白"
   },
   "host": {
     "title": "Host",
-    "groom-title": "Groom",
-    "groom-name": "高桑駿",
-    "groom-comment": "どーも",
-    "bride-title": "Bride",
-    "bride-name": "瀬山彩華",
-    "bride-comment": "チース"
+    "groom": {
+      "title": "Groom",
+      "name": "高桑駿",
+      "comment": "どーも"
+    },
+    "bride": {
+      "title": "Bride",
+      "name": "瀬山彩華",
+      "comment": "どーも"
+    }
   },
   "cowntdown": {
     "title": "Cowntdown"
@@ -29,6 +33,65 @@
     "venue": "SCAPES THE SUITE"
   },
   "form": {
-    "title": "Attendance"
+    "title": "Attendance",
+    "attendance": {
+      "label": "ご出席",
+      "attend": "ご出席",
+      "decline": "ご欠席"
+    },
+    "guestType": {
+      "label": "ゲスト様",
+      "groomLabel": "新郎側",
+      "brideLabel": "新婦側"
+    },
+    "name": {
+      "label": "お名前",
+      "familyName": {
+        "placeholder": "性",
+        "feedback": "入力してください"
+      },
+      "firstName": {
+        "placeholder": "名",
+        "feedback": "入力してください"
+      }
+    },
+    "nameKana": {
+      "label": "ふりがな",
+      "familyName": {
+        "placeholder": "せい",
+        "feedback": "かな文字で入力してください"
+      },
+      "firstName": {
+        "placeholder": "めい",
+        "feedback": "かな文字で入力してください"
+      }
+    },
+    "phone": {
+      "label": "電話番号",
+      "placeholder": "0468775730",
+      "feedback": "ハイフンなしで、入力してください"
+    },
+    "postalCode": {
+      "label": "郵便番号",
+      "placeholder": "2400112",
+      "feedback": "ハイフンなしの7桁の数字で入力してください"
+    },
+    "address": {
+      "label": "ご住所",
+      "placeholder": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
+      "feedback": "入力してください"
+    },
+    "allergy": {
+      "label": "アレルギー",
+      "placeholder": "卵・牛乳・小麦など、アレルギーのある場合"
+    },
+    "message": {
+      "label": "メッセージ",
+      "placeholder": "新郎新婦宛に一言あれば、お願いします"
+    },
+    "submit": "確認"
+  },
+  "formCheck": {
+
   }
 }

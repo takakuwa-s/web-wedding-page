@@ -19,7 +19,7 @@ class GreetingMessage extends React.Component<IProps, IState> {
           </Row>
           <Row>
             <Col>
-              <pre className="content">{t("greeting-message.content")}</pre>
+              <pre className="content">{t("greetingMessage.content")}</pre>
             </Col>
           </Row>
         </Container>
