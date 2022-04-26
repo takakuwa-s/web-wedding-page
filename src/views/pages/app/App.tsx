@@ -5,13 +5,11 @@ import { initUser } from '../../../dto/user';
 import AttendanceConfirm from '../attendance-confirm/AttendanceConfirm';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
-import React from 'react';
 
-class App extends React.Component<any, IState> {
-  public render() {
-    const user = initUser();
-    return (
-      <BrowserRouter>
+function App() {
+  const user = initUser();
+  return (
+    <BrowserRouter>
       <WeddingNavbar />
       <Routes>
         <Route index element={<Home />} />
@@ -19,11 +17,7 @@ class App extends React.Component<any, IState> {
         <Route path="attendance/confirm" element={<AttendanceConfirm user={user} />} />
       </Routes>
     </BrowserRouter>
-    );
-  }
-}
-
-interface IState {
+  );
 }
 
 export default App;

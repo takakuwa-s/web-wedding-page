@@ -1,380 +1,286 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/esm/Form";
 import Row from "react-bootstrap/esm/Row";
-import { WithTranslation, withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { User, GuestType } from "../../../dto/user";
-import { initValidation, Validation } from "../../../dto/validation";
+import { initValidation } from "../../../dto/validation";
 import './Attendance.scss';
 
-class Attendance extends React.Component<IProps, IState> {
+function Attendance(props: IProps) {
+  const { t } = useTranslation();
+  const [user, setUser] = useState(props.user);
+  const [familyNameValidation, setFamilyNameValidation] = useState(initValidation());
+  const [firstNameValidation, setFirstNameValidation] = useState(initValidation());
+  const [familyNameKanaValidation, setFamilyNameKanaValidation] = useState(initValidation());
+  const [firstNameKanaValidation, setFirstNameKanaValidation] = useState(initValidation());
+  const [phoneNumberValidation, setPhoneNumberValidation] = useState(initValidation());
+  const [postalCodeValidation, setPostalCodeValidation] = useState(initValidation());
+  const [addressValidation, setAddressValidation] = useState(initValidation());
 
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      user: this.props.user,
-      validation: {
-        familyName: initValidation(),
-        firstName: initValidation(),
-        familyNameKana: initValidation(),
-        firstNameKana: initValidation(),
-        phoneNumber: initValidation(),
-        postalCode: initValidation(),
-        address: initValidation(),
-      },
-      allowSubmmit: false,
-    };
-
-    this.fetchAddress = this.fetchAddress.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  private fetchAddress(postalCode: string): void {
+  const fetchAddress = (postalCode: string) => {
     fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + postalCode)
       .then(res => res.json())
-      .then((res) => {
-        const user = this.state.user;
-        user.address = res.results[0].address1 + res.results[0].address2 + res.results[0].address3;
-        this.setState({ user: user });
-      }, (error) => {
-        console.log(error);
-      })
-  }
+      .then((res) => setUser({ ...user, address: res.results[0].address1 + res.results[0].address2 + res.results[0].address3 })
+      , (error) => console.log(error))
+  };
 
-  private handleBlur(event: React.FocusEvent<HTMLInputElement>): void {
-    const validation = this.state.validation;
-    const val = event.target.value;;
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const val = event.target.value;
+    let isValid = false;
     switch (event.target.id) {
       case "formFamilyName":
-        validation.familyName.isValid = val.length > 0;
-        validation.familyName.isInvalid = !validation.familyName.isValid;
+        isValid = val.length > 0;
+        setFamilyNameValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formFirstName":
-        validation.firstName.isValid = val.length > 0;
-        validation.firstName.isInvalid = !validation.firstName.isValid;
+        isValid = val.length > 0;
+        setFirstNameValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formFamilyNameKana":
-        validation.familyNameKana.isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
-        validation.familyNameKana.isInvalid = !validation.familyNameKana.isValid;
+        isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
+        setFamilyNameKanaValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formFirstNameKana":
-        validation.firstNameKana.isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
-        validation.firstNameKana.isInvalid = !validation.firstNameKana.isValid;
+        isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
+        setFirstNameKanaValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formPhoneNumber":
-        validation.phoneNumber.isValid = /^[0-9]*$/.test(val);
-        validation.phoneNumber.isInvalid = !validation.phoneNumber.isValid;
+        isValid = /^[0-9]*$/.test(val);
+        setPhoneNumberValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formPostalCode":
-        validation.postalCode.isValid = /^\d{7}$/.test(val);
-        validation.postalCode.isInvalid = !validation.postalCode.isValid;
-        if (validation.postalCode.isValid) {
-          this.fetchAddress(val);
+        isValid = /^\d{7}$/.test(val);
+        if (isValid) {
+          fetchAddress(val);
         }
+        setPostalCodeValidation({isValid: isValid, isInvalid: !isValid});
         break;
       case "formAddress":
-        validation.address.isValid = val.length > 0;
-        validation.address.isInvalid = !validation.address.isValid;
+        isValid = val.length > 0;
+        setAddressValidation({isValid: isValid, isInvalid: !isValid});
         break;
     }
-    const allowSubmmit = this.state.validation.familyName.isValid
-                      && this.state.validation.firstName.isValid
-                      && this.state.validation.familyNameKana.isValid
-                      && this.state.validation.firstNameKana.isValid
-                      && this.state.validation.phoneNumber.isValid
-                      && this.state.validation.postalCode.isValid
-                      && this.state.validation.address.isValid;
-    this.setState({ validation: validation, allowSubmmit: allowSubmmit });
-  }
+  };
 
-  private handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const user = this.state.user;
-    const val = event.target.value;;
-    switch (event.target.id) {
-      case "formAttendanceAttend":
-      case "formAttendanceDecline":
-        user.attendance = val === "true";
-        break;
-      case "formGuestTypeGroom":
-      case "formGuestTypeBride":
-        user.guestType = val as GuestType;
-        break;
-      case "formFamilyName":
-        user.familyName = val;
-        break;
-      case "formFirstName":
-        user.firstName = val;
-        break;
-      case "formFamilyNameKana":
-        user.familyNameKana = val;
-        break;
-      case "formFirstNameKana":
-        user.firstNameKana = val;
-        break;
-      case "formPhoneNumber":
-        user.phoneNumber = val;
-        break;
-      case "formPostalCode":
-        user.postalCode = val;
-        break;
-      case "formAddress":
-        user.address = val;
-        break;
-      case "formAllergy":
-        user.allergy = val;
-        break;
-      case "formMessage":
-        user.message = val;
-        break;
-    }
-    this.setState({ user: user });
-  }
-
-  private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-  }
-
-  public render() {
-    const { t } = this.props;
-    return (
-      <Container fluid className="form-back-ground">
-        <Row>
-          <Col>
-            <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
+  return (
+    <Container fluid className="form-back-ground">
+      <Row>
+        <Col>
+          <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
+        </Col>
+      </Row>
+      <Form>
+        <Form.Group as={Row} className="my-3" controlId="formAttendance">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.attendance.label")}<span className="required">*</span>
+          </Form.Label>
+          <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
+            <Form.Check
+              type="radio"
+              inline
+              label={t("attendance.attendance.attend")}
+              id="formAttendanceAttend"
+              name="attendance"
+              checked={true === user.attendance}
+              onChange={(e) => setUser({ ...user, attendance: true })} />
+            <Form.Check
+              type="radio"
+              inline
+              label={t("attendance.attendance.decline")}
+              id="formAttendanceDecline"
+              name="attendance"
+              checked={false === user.attendance}
+              onChange={(e) => setUser({ ...user, attendance: false })} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formGuestType">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.guestType.label")}<span className="required">*</span>
+          </Form.Label>
+          <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
+            <Form.Check
+              type="radio"
+              inline
+              label={t("attendance.guestType.groomLabel")}
+              id="formGuestTypeGroom"
+              name="guestType"
+              checked={GuestType.GROOM === user.guestType}
+              onChange={() => setUser({ ...user, guestType: GuestType.GROOM})} />
+            <Form.Check
+              type="radio"
+              inline
+              label={t("attendance.guestType.brideLabel")}
+              id="formGuestTypeBride"
+              name="guestType"
+              checked={GuestType.BRIDE === user.guestType}
+              onChange={() => setUser({ ...user, guestType: GuestType.BRIDE })} />
+          </Col>
+        </Form.Group>
+        <Row className="my-3">
+          <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
+            {t("attendance.name.label")}<span className="required">*</span>
+          </Col>
+          <Col sm={8}>
+            <Row>
+              <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyName">
+                <Form.Control
+                  type="text"
+                  value={user.familyName}
+                  onChange={(e) => setUser({ ...user, familyName: e.target.value })}
+                  onBlur={handleBlur}
+                  placeholder={t("attendance.name.familyName.placeholder")}
+                  isInvalid={familyNameValidation.isInvalid}
+                  isValid={familyNameValidation.isValid}
+                  required />
+                <Form.Control.Feedback type="invalid">{t("attendance.name.familyName.feedback")}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} xs={12} sm={6} controlId="formFirstName">
+                <Form.Control
+                  type="text"
+                  value={user.firstName}
+                  onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+                  onBlur={handleBlur}
+                  placeholder={t("attendance.name.firstName.placeholder")}
+                  isInvalid={firstNameValidation.isInvalid}
+                  isValid={firstNameValidation.isValid}
+                  required />
+                <Form.Control.Feedback type="invalid">{t("attendance.name.firstName.feedback")}</Form.Control.Feedback>
+              </Form.Group>
+            </Row>
           </Col>
         </Row>
-        <Form>
-          <Form.Group as={Row} className="my-3" controlId="formAttendance">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.attendance.label")}<span className="required">*</span>
-            </Form.Label>
-            <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
-              <Form.Check
-                type="radio"
-                inline
-                label={t("attendance.attendance.attend")}
-                id="formAttendanceAttend"
-                name="attendance"
-                value="true"
-                checked={true === this.state.user.attendance}
-                onChange={this.handleChange} />
-              <Form.Check
-                type="radio"
-                inline
-                label={t("attendance.attendance.decline")}
-                id="formAttendanceDecline"
-                name="attendance"
-                value="false"
-                checked={false === this.state.user.attendance}
-                onChange={this.handleChange} />
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formGuestType">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.guestType.label")}<span className="required">*</span>
-            </Form.Label>
-            <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
-              <Form.Check
-                type="radio"
-                inline
-                label={t("attendance.guestType.groomLabel")}
-                id="formGuestTypeGroom"
-                name="guestType"
-                value={GuestType.GROOM}
-                checked={GuestType.GROOM === this.state.user.guestType}
-                onChange={this.handleChange} />
-              <Form.Check
-                type="radio"
-                inline
-                label={t("attendance.guestType.brideLabel")}
-                id="formGuestTypeBride"
-                name="guestType"
-                value={GuestType.BRIDE}
-                checked={GuestType.BRIDE === this.state.user.guestType}
-                onChange={this.handleChange} />
-            </Col>
-          </Form.Group>
-          <Row className="my-3">
-            <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
-              {t("attendance.name.label")}<span className="required">*</span>
-            </Col>
-            <Col sm={8}>
-              <Row>
-                <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyName">
-                  <Form.Control
-                    type="text"
-                    value={this.state.user.familyName}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    placeholder={t("attendance.name.familyName.placeholder")}
-                    isInvalid={this.state.validation.familyName.isInvalid}
-                    isValid={this.state.validation.familyName.isValid}
-                    required />
-                  <Form.Control.Feedback type="invalid">{t("attendance.name.familyName.feedback")}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} xs={12} sm={6} controlId="formFirstName">
-                  <Form.Control
-                    type="text"
-                    value={this.state.user.firstName}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    placeholder={t("attendance.name.firstName.placeholder")}
-                    isInvalid={this.state.validation.firstName.isInvalid}
-                    isValid={this.state.validation.firstName.isValid}
-                    required />
-                  <Form.Control.Feedback type="invalid">{t("attendance.name.firstName.feedback")}</Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-            </Col>
-          </Row>
-          <Form.Group as={Row} className="my-3" controlId="formNameKana">
-            <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
-              {t("attendance.nameKana.label")}<span className="required">*</span>
-            </Col>
-            <Col sm={8}>
-              <Row>
-                <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyNameKana">
-                  <Form.Control
-                    type="text"
-                    value={this.state.user.familyNameKana}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    placeholder={t("attendance.nameKana.familyName.placeholder")}
-                    isInvalid={this.state.validation.familyNameKana.isInvalid}
-                    isValid={this.state.validation.familyNameKana.isValid}
-                    required />
-                  <Form.Control.Feedback type="invalid">{t("attendance.nameKana.familyName.feedback")}</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} xs={12} sm={6} controlId="formFirstNameKana">
-                  <Form.Control
-                    type="text"
-                    value={this.state.user.firstNameKana}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur}
-                    placeholder={t("attendance.nameKana.firstName.placeholder")}
-                    isInvalid={this.state.validation.firstNameKana.isInvalid}
-                    isValid={this.state.validation.firstNameKana.isValid}
-                    required />
-                  <Form.Control.Feedback type="invalid">{t("attendance.nameKana.firstName.feedback")}</Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formPhoneNumber">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.phone.label")}<span className="required">*</span>
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Control
-                type="tel"
-                value={this.state.user.phoneNumber}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                placeholder={t("attendance.phone.placeholder")}
-                isInvalid={this.state.validation.phoneNumber.isInvalid}
-                isValid={this.state.validation.phoneNumber.isValid}
-                required />
-              <Form.Control.Feedback type="invalid">{t("attendance.phone.feedback")}</Form.Control.Feedback>
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formPostalCode">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.postalCode.label")}<span className="required">*</span>
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Control
-                type="tel"
-                value={this.state.user.postalCode}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                placeholder={t("attendance.postalCode.placeholder")}
-                isInvalid={this.state.validation.postalCode.isInvalid}
-                isValid={this.state.validation.postalCode.isValid}
-                required />
-              <Form.Control.Feedback type="invalid">{t("attendance.postalCode.feedback")}</Form.Control.Feedback>
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formAddress">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.address.label")}<span className="required">*</span>
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Control
-                type="text"
-                value={this.state.user.address}
-                onChange={this.handleChange}
-                onBlur={this.handleBlur}
-                placeholder={t("attendance.address.placeholder")}
-                isInvalid={this.state.validation.address.isInvalid}
-                isValid={this.state.validation.address.isValid}
-                required />
-              <Form.Control.Feedback type="invalid">{t("attendance.address.feedback")}</Form.Control.Feedback>
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formAllergy">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.allergy.label")}
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Control
-                type="text"
-                value={this.state.user.allergy}
-                onChange={this.handleChange}
-                placeholder={t("attendance.allergy.placeholder")} />
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="my-3" controlId="formMessage">
-            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("attendance.message.label")}
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Control
-                type="text"
-                as="textarea"
-                rows={4}
-                value={this.state.user.message}
-                onChange={this.handleChange}
-                placeholder={t("attendance.message.placeholder")} />
-            </Col>
-          </Form.Group>
-          <Row className="py-5">
-            <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-              <Button
-                type="button"
-                as="a"
-                href="/attendance/confirm"
-                size="lg"
-                disabled={!this.state.allowSubmmit}>
-                {t("attendance.submit")}
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Container>
-    );
-  }
+        <Form.Group as={Row} className="my-3" controlId="formNameKana">
+          <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
+            {t("attendance.nameKana.label")}<span className="required">*</span>
+          </Col>
+          <Col sm={8}>
+            <Row>
+              <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyNameKana">
+                <Form.Control
+                  type="text"
+                  value={user.familyNameKana}
+                  onChange={(e) => setUser({ ...user, familyNameKana: e.target.value })}
+                  onBlur={handleBlur}
+                  placeholder={t("attendance.nameKana.familyName.placeholder")}
+                  isInvalid={familyNameKanaValidation.isInvalid}
+                  isValid={familyNameKanaValidation.isValid}
+                  required />
+                <Form.Control.Feedback type="invalid">{t("attendance.nameKana.familyName.feedback")}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} xs={12} sm={6} controlId="formFirstNameKana">
+                <Form.Control
+                  type="text"
+                  value={user.firstNameKana}
+                  onChange={(e) => setUser({ ...user, firstNameKana: e.target.value })}
+                  onBlur={handleBlur}
+                  placeholder={t("attendance.nameKana.firstName.placeholder")}
+                  isInvalid={firstNameKanaValidation.isInvalid}
+                  isValid={firstNameKanaValidation.isValid}
+                  required />
+                <Form.Control.Feedback type="invalid">{t("attendance.nameKana.firstName.feedback")}</Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formPhoneNumber">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.phone.label")}<span className="required">*</span>
+          </Form.Label>
+          <Col sm={8}>
+            <Form.Control
+              type="tel"
+              value={user.phoneNumber}
+              onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+              onBlur={handleBlur}
+              placeholder={t("attendance.phone.placeholder")}
+              isInvalid={phoneNumberValidation.isInvalid}
+              isValid={phoneNumberValidation.isValid}
+              required />
+            <Form.Control.Feedback type="invalid">{t("attendance.phone.feedback")}</Form.Control.Feedback>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formPostalCode">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.postalCode.label")}<span className="required">*</span>
+          </Form.Label>
+          <Col sm={8}>
+            <Form.Control
+              type="tel"
+              value={user.postalCode}
+              onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
+              onBlur={handleBlur}
+              placeholder={t("attendance.postalCode.placeholder")}
+              isInvalid={postalCodeValidation.isInvalid}
+              isValid={postalCodeValidation.isValid}
+              required />
+            <Form.Control.Feedback type="invalid">{t("attendance.postalCode.feedback")}</Form.Control.Feedback>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formAddress">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.address.label")}<span className="required">*</span>
+          </Form.Label>
+          <Col sm={8}>
+            <Form.Control
+              type="text"
+              value={user.address}
+              onChange={(e) => setUser({ ...user, address: e.target.value })}
+              onBlur={handleBlur}
+              placeholder={t("attendance.address.placeholder")}
+              isInvalid={addressValidation.isInvalid}
+              isValid={addressValidation.isValid}
+              required />
+            <Form.Control.Feedback type="invalid">{t("attendance.address.feedback")}</Form.Control.Feedback>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formAllergy">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.allergy.label")}
+          </Form.Label>
+          <Col sm={8}>
+            <Form.Control
+              type="text"
+              value={user.allergy}
+              onChange={(e) => setUser({ ...user, allergy: e.target.value })}
+              placeholder={t("attendance.allergy.placeholder")} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="my-3" controlId="formMessage">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+            {t("attendance.message.label")}
+          </Form.Label>
+          <Col sm={8}>
+            <Form.Control
+              type="text"
+              as="textarea"
+              rows={4}
+              value={user.message}
+              onChange={(e) => setUser({ ...user, message: e.target.value })}
+              placeholder={t("attendance.message.placeholder")} />
+          </Col>
+        </Form.Group>
+        <Row className="py-5">
+          <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+            <Button
+              type="button"
+              // as="a"
+              // href="/attendance/confirm"
+              size="lg"
+              onClick={() => console.log(user)}
+            >{t("attendance.submit")}
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
+  );
 }
 
-interface IProps extends WithTranslation {
+export default Attendance;
+
+interface IProps {
   user: User;
 }
-
-interface IState {
-  user: User;
-  validation: {
-    familyName: Validation;
-    firstName: Validation;
-    familyNameKana: Validation;
-    firstNameKana: Validation;
-    phoneNumber: Validation;
-    postalCode: Validation;
-    address: Validation;
-  };
-  allowSubmmit: boolean;
-}
-
-export default withTranslation()(Attendance);
