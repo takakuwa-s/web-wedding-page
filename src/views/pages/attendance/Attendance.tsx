@@ -7,9 +7,9 @@ import Row from "react-bootstrap/esm/Row";
 import { WithTranslation, withTranslation } from "react-i18next";
 import { User, GuestType } from "../../../dto/user";
 import { initValidation, Validation } from "../../../dto/validation";
-import './AttendanceForm.scss';
+import './Attendance.scss';
 
-class AttendanceForm extends React.Component<IProps, IState> {
+class Attendance extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
@@ -135,7 +135,6 @@ class AttendanceForm extends React.Component<IProps, IState> {
   }
 
   private handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-    console.log(this.state.user);
     event.preventDefault();
   }
 
@@ -145,19 +144,19 @@ class AttendanceForm extends React.Component<IProps, IState> {
       <Container fluid className="form-back-ground">
         <Row>
           <Col>
-            <h2 className="pt-5 text-center">{t("form.title")}</h2>
+            <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
           </Col>
         </Row>
-        <Form onSubmit={this.handleSubmit}>
+        <Form>
           <Form.Group as={Row} className="my-3" controlId="formAttendance">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.attendance.label")}<span className="required">*</span>
+              {t("attendance.attendance.label")}<span className="required">*</span>
             </Form.Label>
             <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
               <Form.Check
                 type="radio"
                 inline
-                label={t("form.attendance.attend")}
+                label={t("attendance.attendance.attend")}
                 id="formAttendanceAttend"
                 name="attendance"
                 value="true"
@@ -166,7 +165,7 @@ class AttendanceForm extends React.Component<IProps, IState> {
               <Form.Check
                 type="radio"
                 inline
-                label={t("form.attendance.decline")}
+                label={t("attendance.attendance.decline")}
                 id="formAttendanceDecline"
                 name="attendance"
                 value="false"
@@ -176,13 +175,13 @@ class AttendanceForm extends React.Component<IProps, IState> {
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formGuestType">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.guestType.label")}<span className="required">*</span>
+              {t("attendance.guestType.label")}<span className="required">*</span>
             </Form.Label>
             <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
               <Form.Check
                 type="radio"
                 inline
-                label={t("form.guestType.groomLabel")}
+                label={t("attendance.guestType.groomLabel")}
                 id="formGuestTypeGroom"
                 name="guestType"
                 value={GuestType.GROOM}
@@ -191,7 +190,7 @@ class AttendanceForm extends React.Component<IProps, IState> {
               <Form.Check
                 type="radio"
                 inline
-                label={t("form.guestType.brideLabel")}
+                label={t("attendance.guestType.brideLabel")}
                 id="formGuestTypeBride"
                 name="guestType"
                 value={GuestType.BRIDE}
@@ -201,7 +200,7 @@ class AttendanceForm extends React.Component<IProps, IState> {
           </Form.Group>
           <Row className="my-3">
             <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
-              {t("form.name.label")}<span className="required">*</span>
+              {t("attendance.name.label")}<span className="required">*</span>
             </Col>
             <Col sm={8}>
               <Row>
@@ -211,11 +210,11 @@ class AttendanceForm extends React.Component<IProps, IState> {
                     value={this.state.user.familyName}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    placeholder={t("form.name.familyName.placeholder")}
+                    placeholder={t("attendance.name.familyName.placeholder")}
                     isInvalid={this.state.validation.familyName.isInvalid}
                     isValid={this.state.validation.familyName.isValid}
                     required />
-                  <Form.Control.Feedback type="invalid">{t("form.name.familyName.feedback")}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t("attendance.name.familyName.feedback")}</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} xs={12} sm={6} controlId="formFirstName">
                   <Form.Control
@@ -223,18 +222,18 @@ class AttendanceForm extends React.Component<IProps, IState> {
                     value={this.state.user.firstName}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    placeholder={t("form.name.firstName.placeholder")}
+                    placeholder={t("attendance.name.firstName.placeholder")}
                     isInvalid={this.state.validation.firstName.isInvalid}
                     isValid={this.state.validation.firstName.isValid}
                     required />
-                  <Form.Control.Feedback type="invalid">{t("form.name.firstName.feedback")}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t("attendance.name.firstName.feedback")}</Form.Control.Feedback>
                 </Form.Group>
               </Row>
             </Col>
           </Row>
           <Form.Group as={Row} className="my-3" controlId="formNameKana">
             <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
-              {t("form.nameKana.label")}<span className="required">*</span>
+              {t("attendance.nameKana.label")}<span className="required">*</span>
             </Col>
             <Col sm={8}>
               <Row>
@@ -244,11 +243,11 @@ class AttendanceForm extends React.Component<IProps, IState> {
                     value={this.state.user.familyNameKana}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    placeholder={t("form.nameKana.familyName.placeholder")}
+                    placeholder={t("attendance.nameKana.familyName.placeholder")}
                     isInvalid={this.state.validation.familyNameKana.isInvalid}
                     isValid={this.state.validation.familyNameKana.isValid}
                     required />
-                  <Form.Control.Feedback type="invalid">{t("form.nameKana.familyName.feedback")}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t("attendance.nameKana.familyName.feedback")}</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} xs={12} sm={6} controlId="formFirstNameKana">
                   <Form.Control
@@ -256,18 +255,18 @@ class AttendanceForm extends React.Component<IProps, IState> {
                     value={this.state.user.firstNameKana}
                     onChange={this.handleChange}
                     onBlur={this.handleBlur}
-                    placeholder={t("form.nameKana.firstName.placeholder")}
+                    placeholder={t("attendance.nameKana.firstName.placeholder")}
                     isInvalid={this.state.validation.firstNameKana.isInvalid}
                     isValid={this.state.validation.firstNameKana.isValid}
                     required />
-                  <Form.Control.Feedback type="invalid">{t("form.nameKana.firstName.feedback")}</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">{t("attendance.nameKana.firstName.feedback")}</Form.Control.Feedback>
                 </Form.Group>
               </Row>
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formPhoneNumber">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.phone.label")}<span className="required">*</span>
+              {t("attendance.phone.label")}<span className="required">*</span>
             </Form.Label>
             <Col sm={8}>
               <Form.Control
@@ -275,16 +274,16 @@ class AttendanceForm extends React.Component<IProps, IState> {
                 value={this.state.user.phoneNumber}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                placeholder={t("form.phone.placeholder")}
+                placeholder={t("attendance.phone.placeholder")}
                 isInvalid={this.state.validation.phoneNumber.isInvalid}
                 isValid={this.state.validation.phoneNumber.isValid}
                 required />
-              <Form.Control.Feedback type="invalid">{t("form.phone.feedback")}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t("attendance.phone.feedback")}</Form.Control.Feedback>
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formPostalCode">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.postalCode.label")}<span className="required">*</span>
+              {t("attendance.postalCode.label")}<span className="required">*</span>
             </Form.Label>
             <Col sm={8}>
               <Form.Control
@@ -292,16 +291,16 @@ class AttendanceForm extends React.Component<IProps, IState> {
                 value={this.state.user.postalCode}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                placeholder={t("form.postalCode.placeholder")}
+                placeholder={t("attendance.postalCode.placeholder")}
                 isInvalid={this.state.validation.postalCode.isInvalid}
                 isValid={this.state.validation.postalCode.isValid}
                 required />
-              <Form.Control.Feedback type="invalid">{t("form.postalCode.feedback")}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t("attendance.postalCode.feedback")}</Form.Control.Feedback>
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formAddress">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.address.label")}<span className="required">*</span>
+              {t("attendance.address.label")}<span className="required">*</span>
             </Form.Label>
             <Col sm={8}>
               <Form.Control
@@ -309,28 +308,28 @@ class AttendanceForm extends React.Component<IProps, IState> {
                 value={this.state.user.address}
                 onChange={this.handleChange}
                 onBlur={this.handleBlur}
-                placeholder={t("form.address.placeholder")}
+                placeholder={t("attendance.address.placeholder")}
                 isInvalid={this.state.validation.address.isInvalid}
                 isValid={this.state.validation.address.isValid}
                 required />
-              <Form.Control.Feedback type="invalid">{t("form.address.feedback")}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{t("attendance.address.feedback")}</Form.Control.Feedback>
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formAllergy">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.allergy.label")}
+              {t("attendance.allergy.label")}
             </Form.Label>
             <Col sm={8}>
               <Form.Control
                 type="text"
                 value={this.state.user.allergy}
                 onChange={this.handleChange}
-                placeholder={t("form.allergy.placeholder")} />
+                placeholder={t("attendance.allergy.placeholder")} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formMessage">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
-              {t("form.message.label")}
+              {t("attendance.message.label")}
             </Form.Label>
             <Col sm={8}>
               <Form.Control
@@ -339,16 +338,18 @@ class AttendanceForm extends React.Component<IProps, IState> {
                 rows={4}
                 value={this.state.user.message}
                 onChange={this.handleChange}
-                placeholder={t("form.message.placeholder")} />
+                placeholder={t("attendance.message.placeholder")} />
             </Col>
           </Form.Group>
           <Row className="py-5">
             <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
               <Button
-                type="submit"
+                type="button"
+                as="a"
+                href="/attendance/confirm"
                 size="lg"
                 disabled={!this.state.allowSubmmit}>
-                {t("form.submit")}
+                {t("attendance.submit")}
               </Button>
             </Col>
           </Row>
@@ -376,4 +377,4 @@ interface IState {
   allowSubmmit: boolean;
 }
 
-export default withTranslation()(AttendanceForm);
+export default withTranslation()(Attendance);

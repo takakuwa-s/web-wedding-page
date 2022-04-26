@@ -1,31 +1,29 @@
-import React from 'react';
 import WeddingNavbar from '../../components/wedding-navbar/WeddingNavbar';
-import Countdown from '../countdown/Countdown';
-import AttendanceForm from '../attendance-form/AttendanceForm';
-import GreetingMessage from '../greeting-message/GreetingMessage';
-import Host from '../host/Host';
-import Information from '../information/Information';
-import Top from '../top/Top';
+import Attendance from '../attendance/Attendance';
 import './App.scss';
 import { initUser } from '../../../dto/user';
-import AttendanceFormCheck from '../attendance-form-check/AttendanceFormCheck';
+import AttendanceConfirm from '../attendance-confirm/AttendanceConfirm';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from '../home/Home';
+import React from 'react';
 
-
-function App() {
-  const user = initUser();
-
-  return (
-    <React.Fragment>
+class App extends React.Component<any, IState> {
+  public render() {
+    const user = initUser();
+    return (
+      <BrowserRouter>
       <WeddingNavbar />
-      <Top />
-      <GreetingMessage />
-      <Host />
-      <Countdown />
-      <Information />
-      <AttendanceForm user={user} />
-      <AttendanceFormCheck user={user} />
-    </React.Fragment>
-  );
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="attendance" element={<Attendance user={user} />} />
+        <Route path="attendance/confirm" element={<AttendanceConfirm user={user} />} />
+      </Routes>
+    </BrowserRouter>
+    );
+  }
+}
+
+interface IState {
 }
 
 export default App;

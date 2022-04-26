@@ -32,7 +32,7 @@
     "address": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
     "venue": "SCAPES THE SUITE"
   },
-  "form": {
+  "attendance": {
     "title": "Attendance",
     "attendance": {
       "label": "ご出席",
@@ -91,7 +91,7 @@
     },
     "submit": "確認"
   },
-  "formCheck": {
-
+  "attendanceConfirm": {
+    "title": "Attendance"
   }
 }

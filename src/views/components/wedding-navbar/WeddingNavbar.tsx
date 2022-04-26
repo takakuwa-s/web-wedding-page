@@ -9,7 +9,7 @@ class WeddingNavbar extends React.Component<IProps, IState> {
   public render() {
     const { t } = this.props;
     return (
-      <Navbar bg="bg-transparent" variant="dark" expand={false} className="fixed-top">
+      <Navbar bg="bg-transparent" variant="light" expand={false} className="fixed-top">
         <Container fluid className="justify-content-end">
           <Navbar.Toggle aria-controls="offcanvasNavbar"/>
           <Navbar.Offcanvas
@@ -22,10 +22,10 @@ class WeddingNavbar extends React.Component<IProps, IState> {
             </Offcanvas.Header>
             <Offcanvas.Body className="text-center display-6 text-white">
               <Nav className="flex-grow-1">
-                <Nav.Link href="#action1" className="py-4 text-white">{t('nav.host')}</Nav.Link>
-                <Nav.Link href="#action2" className="py-4 text-white">{t('nav.infomation')}</Nav.Link>
-                <Nav.Link href="#action3" className="py-4 text-white">{t('nav.message')}</Nav.Link>
-                <Nav.Link href="#action4" className="py-4 text-white">{t('nav.form')}</Nav.Link>
+                <Nav.Link href="/" className="py-4 text-white">{t('nav.host')}</Nav.Link>
+                <Nav.Link href="/" className="py-4 text-white">{t('nav.infomation')}</Nav.Link>
+                <Nav.Link href="/" className="py-4 text-white">{t('nav.message')}</Nav.Link>
+                <Nav.Link href="/attendance" className="py-4 text-white">{t('nav.form')}</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
