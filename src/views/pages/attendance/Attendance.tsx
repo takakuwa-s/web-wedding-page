@@ -5,13 +5,21 @@ import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/esm/Form";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
-import { User, GuestType } from "../../../dto/user";
+import { useLocation, useNavigate } from "react-router-dom";
+import { User, GuestType, initUser } from "../../../dto/user";
 import { initValidation } from "../../../dto/validation";
 import './Attendance.scss';
 
-function Attendance(props: IProps) {
+function Attendance() {
   const { t } = useTranslation();
-  const [user, setUser] = useState(props.user);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { user: User };
+  let initialUser = initUser();
+  if (state && state.user) {
+    initialUser = state.user;
+  }
+  const [user, setUser] = useState(initialUser);
   const [familyNameValidation, setFamilyNameValidation] = useState(initValidation());
   const [firstNameValidation, setFirstNameValidation] = useState(initValidation());
   const [familyNameKanaValidation, setFamilyNameKanaValidation] = useState(initValidation());
@@ -23,47 +31,66 @@ function Attendance(props: IProps) {
   const fetchAddress = (postalCode: string) => {
     fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + postalCode)
       .then(res => res.json())
-      .then((res) => setUser({ ...user, address: res.results[0].address1 + res.results[0].address2 + res.results[0].address3 })
-      , (error) => console.log(error))
+      .then((res) => {
+        const address = res.results[0].address1 + res.results[0].address2 + res.results[0].address3;
+        setUser({ ...user, address: address });
+        setAddressValidation(validateStr(address));
+      }, (error) => console.log(error))
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const val = event.target.value;
-    let isValid = false;
-    switch (event.target.id) {
-      case "formFamilyName":
-        isValid = val.length > 0;
-        setFamilyNameValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formFirstName":
-        isValid = val.length > 0;
-        setFirstNameValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formFamilyNameKana":
-        isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
-        setFamilyNameKanaValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formFirstNameKana":
-        isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
-        setFirstNameKanaValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formPhoneNumber":
-        isValid = /^[0-9]*$/.test(val);
-        setPhoneNumberValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formPostalCode":
-        isValid = /^\d{7}$/.test(val);
-        if (isValid) {
-          fetchAddress(val);
-        }
-        setPostalCodeValidation({isValid: isValid, isInvalid: !isValid});
-        break;
-      case "formAddress":
-        isValid = val.length > 0;
-        setAddressValidation({isValid: isValid, isInvalid: !isValid});
-        break;
+  const validateStr = (val: string) => {
+    const isValid = val.length > 0;
+    return {isValid: isValid, isInvalid: !isValid};
+  }
+
+  const validateKana = (val: string) => {
+    const isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
+    return {isValid: isValid, isInvalid: !isValid};
+  }
+
+  const validatePhoneNumber = (val: string) => {
+    const isValid = /^[0-9]+$/.test(val);
+    const validation = {isValid: isValid, isInvalid: !isValid};
+    setPhoneNumberValidation(validation);
+    return validation;
+  }
+
+  const validatePostalCode = (val: string, doSearchAddress = true) => {
+    const isValid = /^\d{7}$/.test(val);
+    if (isValid && doSearchAddress) {
+      fetchAddress(val);
     }
-  };
+    const validation = {isValid: isValid, isInvalid: !isValid};
+    setPostalCodeValidation(validation);
+    return validation;
+  }
+
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const familyNameValidation = validateStr(user.familyName);
+    const firstNameValidation = validateStr(user.firstName);
+    const familyNameKanaValidation = validateKana(user.familyNameKana);
+    const firstNameKanaValidation = validateKana(user.firstNameKana);
+    const phoneNumberValidation = validatePhoneNumber(user.phoneNumber);
+    const postalCodeValidation = validatePostalCode(user.postalCode, false);
+    const addressValidation = validateStr(user.address);
+
+    if (familyNameValidation.isValid
+      && firstNameValidation.isValid
+      && familyNameKanaValidation.isValid
+      && firstNameKanaValidation.isValid
+      && phoneNumberValidation.isValid
+      && postalCodeValidation.isValid
+      && addressValidation.isValid) {
+      navigate("/attendance/confirm", { state: {user: user}});
+    } else {
+      setFamilyNameValidation(familyNameValidation);
+      setFirstNameValidation(firstNameValidation);
+      setFamilyNameKanaValidation(familyNameKanaValidation);
+      setFirstNameKanaValidation(firstNameKanaValidation);
+      setAddressValidation(addressValidation);
+    }
+  }
 
   return (
     <Container fluid className="form-back-ground">
@@ -104,7 +131,7 @@ function Attendance(props: IProps) {
             <Form.Check
               type="radio"
               inline
-              label={t("attendance.guestType.groomLabel")}
+              label={t("attendance.guestType.groom")}
               id="formGuestTypeGroom"
               name="guestType"
               checked={GuestType.GROOM === user.guestType}
@@ -112,7 +139,7 @@ function Attendance(props: IProps) {
             <Form.Check
               type="radio"
               inline
-              label={t("attendance.guestType.brideLabel")}
+              label={t("attendance.guestType.bride")}
               id="formGuestTypeBride"
               name="guestType"
               checked={GuestType.BRIDE === user.guestType}
@@ -130,7 +157,7 @@ function Attendance(props: IProps) {
                   type="text"
                   value={user.familyName}
                   onChange={(e) => setUser({ ...user, familyName: e.target.value })}
-                  onBlur={handleBlur}
+                  onBlur={(e) => setFamilyNameValidation(validateStr(e.target.value))}
                   placeholder={t("attendance.name.familyName.placeholder")}
                   isInvalid={familyNameValidation.isInvalid}
                   isValid={familyNameValidation.isValid}
@@ -142,7 +169,7 @@ function Attendance(props: IProps) {
                   type="text"
                   value={user.firstName}
                   onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                  onBlur={handleBlur}
+                  onBlur={(e) => setFirstNameValidation(validateStr(e.target.value))}
                   placeholder={t("attendance.name.firstName.placeholder")}
                   isInvalid={firstNameValidation.isInvalid}
                   isValid={firstNameValidation.isValid}
@@ -163,7 +190,7 @@ function Attendance(props: IProps) {
                   type="text"
                   value={user.familyNameKana}
                   onChange={(e) => setUser({ ...user, familyNameKana: e.target.value })}
-                  onBlur={handleBlur}
+                  onBlur={(e) => setFamilyNameKanaValidation(validateKana(e.target.value))}
                   placeholder={t("attendance.nameKana.familyName.placeholder")}
                   isInvalid={familyNameKanaValidation.isInvalid}
                   isValid={familyNameKanaValidation.isValid}
@@ -175,7 +202,7 @@ function Attendance(props: IProps) {
                   type="text"
                   value={user.firstNameKana}
                   onChange={(e) => setUser({ ...user, firstNameKana: e.target.value })}
-                  onBlur={handleBlur}
+                  onBlur={(e) => setFirstNameKanaValidation(validateKana(e.target.value))}
                   placeholder={t("attendance.nameKana.firstName.placeholder")}
                   isInvalid={firstNameKanaValidation.isInvalid}
                   isValid={firstNameKanaValidation.isValid}
@@ -194,7 +221,7 @@ function Attendance(props: IProps) {
               type="tel"
               value={user.phoneNumber}
               onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
-              onBlur={handleBlur}
+              onBlur={(e) => validatePhoneNumber(e.target.value)}
               placeholder={t("attendance.phone.placeholder")}
               isInvalid={phoneNumberValidation.isInvalid}
               isValid={phoneNumberValidation.isValid}
@@ -211,7 +238,7 @@ function Attendance(props: IProps) {
               type="tel"
               value={user.postalCode}
               onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
-              onBlur={handleBlur}
+              onBlur={(e) => validatePostalCode(e.target.value)}
               placeholder={t("attendance.postalCode.placeholder")}
               isInvalid={postalCodeValidation.isInvalid}
               isValid={postalCodeValidation.isValid}
@@ -228,7 +255,7 @@ function Attendance(props: IProps) {
               type="text"
               value={user.address}
               onChange={(e) => setUser({ ...user, address: e.target.value })}
-              onBlur={handleBlur}
+              onBlur={(e) => setAddressValidation(validateStr(e.target.value))}
               placeholder={t("attendance.address.placeholder")}
               isInvalid={addressValidation.isInvalid}
               isValid={addressValidation.isValid}
@@ -266,10 +293,8 @@ function Attendance(props: IProps) {
           <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
             <Button
               type="button"
-              // as="a"
-              // href="/attendance/confirm"
               size="lg"
-              onClick={() => console.log(user)}
+              onClick={handleSubmit}
             >{t("attendance.submit")}
             </Button>
           </Col>
@@ -280,7 +305,3 @@ function Attendance(props: IProps) {
 }
 
 export default Attendance;
-
-interface IProps {
-  user: User;
-}

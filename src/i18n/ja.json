@@ -41,8 +41,8 @@
     },
     "guestType": {
       "label": "ゲスト様",
-      "groomLabel": "新郎側",
-      "brideLabel": "新婦側"
+      "groom": "新郎側",
+      "bride": "新婦側"
     },
     "name": {
       "label": "お名前",
@@ -92,6 +92,8 @@
     "submit": "確認"
   },
   "attendanceConfirm": {
-    "title": "Attendance"
+    "title": "ご確認",
+    "back": "入力画面に戻る",
+    "register": "登録する"
   }
 }

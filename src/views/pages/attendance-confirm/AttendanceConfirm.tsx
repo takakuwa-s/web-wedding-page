@@ -4,9 +4,21 @@ import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { User } from "../../../dto/user";
+import { useLocation, useNavigate } from "react-router-dom";
+import AttendanceConfirmItem from "../../components/attendance-confirm-item/AttendanceConfirmItem";
+import Button from "react-bootstrap/esm/Button";
 
-function AttendanceConfirm(props: IProps) {
+function AttendanceConfirm() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const state = location.state as { user: User };
+
+  const handleRegister = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(state.user)
+    event.preventDefault();
+  }
+
   return (
     <Container fluid className="form-check-back-ground">
       <Row>
@@ -14,12 +26,61 @@ function AttendanceConfirm(props: IProps) {
           <h2 className="pt-5 text-center">{t("attendanceConfirm.title")}</h2>
         </Col>
       </Row>
-      <Row>
-        <Col sm={3} xl={{ span: 2, offset: 1 }}>
-          <p className="text-center">{t("attendance.name.label")}</p>
+      <AttendanceConfirmItem
+        label={t("attendance.attendance.label")}
+        value={state.user.attendance ? t("attendance.attendance.attend") : t("attendance.attendance.decline")}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.guestType.label")}
+        value={t("attendance.guestType." + state.user.guestType.toLowerCase())}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.name.label")}
+        value={state.user.familyName + " " + state.user.firstName}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.nameKana.label")}
+        value={state.user.familyNameKana + " " + state.user.firstNameKana}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.phone.label")}
+        value={state.user.phoneNumber}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.postalCode.label")}
+        value={state.user.postalCode}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.address.label")}
+        value={state.user.address}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.allergy.label")}
+        value={state.user.allergy}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.message.label")}
+        value={state.user.message}
+        as="pre"
+      />
+      <Row className="py-3">
+        <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+          <Button
+            type="button"
+            size="lg"
+            onClick={() => navigate("/attendance", { state: {user: state.user}})}
+          >{t("attendanceConfirm.back")}
+          </Button>
         </Col>
-        <Col sm={8}>
-          <p className="text-center">{props.user.familyName + props.user.firstName}</p>
+      </Row>
+      <Row className="pb-5">
+        <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+          <Button
+            type="button"
+            size="lg"
+            onClick={handleRegister}
+          >{t("attendanceConfirm.register")}
+          </Button>
         </Col>
       </Row>
     </Container>
@@ -27,7 +88,3 @@ function AttendanceConfirm(props: IProps) {
 }
 
 export default AttendanceConfirm;
-
-interface IProps {
-  user: User;
-}
