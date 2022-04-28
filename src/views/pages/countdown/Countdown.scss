@@ -1,9 +1,23 @@
 .cowntdown-back-ground {
-  background-color: green;
-  width: 100%;  
-  height: 100%;
-  display: flex;
+  background-image: url("./../../../resource/countdown-background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.cowntdown-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.cowntdown-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
 }

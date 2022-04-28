@@ -3,8 +3,8 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import './Host.scss';
-import bride from "./../../../resource/bride.jpeg"
-import groom from "./../../../resource/groom.jpeg"
+import bride from "./../../../resource/host-bride-photo.jpeg"
+import groom from "./../../../resource/host-groom-photo.jpeg"
 
 function Host() {
   const { t } = useTranslation();

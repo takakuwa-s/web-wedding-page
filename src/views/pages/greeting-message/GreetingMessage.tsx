@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import './GreetingMessage.scss';
-import greeting from "./../../../resource/greeting.jpeg"
+import mainPhoto from "./../../../resource/greetingMessage-main-photo.jpeg"
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -12,7 +12,7 @@ function GreetingMessage() {
       <Container>
         <Row>
           <Col>
-            <img className="greeting-image py-5" alt="greeting" src={greeting} />
+            <img className="greeting-image py-5" alt="greeting" src={mainPhoto} />
           </Col>
         </Row>
         <Row>
