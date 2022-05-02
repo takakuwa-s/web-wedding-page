@@ -42,8 +42,21 @@
   },
   "information": {
     "title": "Information",
-    "address": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
-    "venue": "SCAPES THE SUITE"
+    "venue": {
+      "lable": "会場",
+      "value": "SCAPES THE SUITE",
+      "link": "https://www.scapes.jp/"
+    },
+    "phone": {
+      "lable": "電話",
+      "value": "046-877-5730"
+    },
+    "address": {
+      "lable": "住所",
+      "value": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
+      "postalCode": "〒240-0112"
+    },
+    "register": "招待状に回答する"
   },
   "attendance": {
     "title": "Attendance",

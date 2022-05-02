@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/esm/Form";
+import FormCheck from "react-bootstrap/esm/FormCheck";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -99,55 +100,51 @@ function Attendance() {
           <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
         </Col>
       </Row>
-      <Form>
+      <Form className="py-5">
         <Form.Group as={Row} className="my-3" controlId="formAttendance">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.attendance.label")}<span className="required">*</span>
           </Form.Label>
           <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
             <Form.Check
               type="radio"
-              inline
-              label={t("attendance.attendance.attend")}
               id="formAttendanceAttend"
               name="attendance"
               checked={true === user.attendance}
               onChange={(e) => setUser({ ...user, attendance: true })} />
+            <FormCheck.Label htmlFor="formAttendanceAttend" className="px-3 radio-label">{t("attendance.attendance.attend")}</FormCheck.Label>
             <Form.Check
               type="radio"
-              inline
-              label={t("attendance.attendance.decline")}
               id="formAttendanceDecline"
               name="attendance"
               checked={false === user.attendance}
               onChange={(e) => setUser({ ...user, attendance: false })} />
+            <FormCheck.Label htmlFor="formAttendanceDecline"  className="px-3 radio-label">{t("attendance.attendance.decline")}</FormCheck.Label>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formGuestType">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.guestType.label")}<span className="required">*</span>
           </Form.Label>
           <Col sm={8} className="d-inline-flex justify-content-start align-items-center">
             <Form.Check
               type="radio"
-              inline
-              label={t("attendance.guestType.groom")}
               id="formGuestTypeGroom"
               name="guestType"
               checked={GuestType.GROOM === user.guestType}
               onChange={() => setUser({ ...user, guestType: GuestType.GROOM})} />
+            <FormCheck.Label htmlFor="formGuestTypeGroom"  className="px-3 radio-label">{t("attendance.guestType.groom")}</FormCheck.Label>
             <Form.Check
               type="radio"
-              inline
-              label={t("attendance.guestType.bride")}
               id="formGuestTypeBride"
               name="guestType"
               checked={GuestType.BRIDE === user.guestType}
               onChange={() => setUser({ ...user, guestType: GuestType.BRIDE })} />
+            <FormCheck.Label htmlFor="formGuestTypeBride"  className="px-3 radio-label">{t("attendance.guestType.bride")}</FormCheck.Label>
           </Col>
         </Form.Group>
         <Row className="my-3">
-          <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
+          <Col sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center align-items-center">
             {t("attendance.name.label")}<span className="required">*</span>
           </Col>
           <Col sm={8}>
@@ -180,7 +177,7 @@ function Attendance() {
           </Col>
         </Row>
         <Form.Group as={Row} className="my-3" controlId="formNameKana">
-          <Col sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center align-items-center">
+          <Col sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center align-items-center">
             {t("attendance.nameKana.label")}<span className="required">*</span>
           </Col>
           <Col sm={8}>
@@ -213,7 +210,7 @@ function Attendance() {
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formPhoneNumber">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.phone.label")}<span className="required">*</span>
           </Form.Label>
           <Col sm={8}>
@@ -230,7 +227,7 @@ function Attendance() {
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formPostalCode">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.postalCode.label")}<span className="required">*</span>
           </Form.Label>
           <Col sm={8}>
@@ -247,7 +244,7 @@ function Attendance() {
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formAddress">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.address.label")}<span className="required">*</span>
           </Form.Label>
           <Col sm={8}>
@@ -264,7 +261,7 @@ function Attendance() {
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formAllergy">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.allergy.label")}
           </Form.Label>
           <Col sm={8}>
@@ -276,7 +273,7 @@ function Attendance() {
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="my-3" controlId="formMessage">
-          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="d-inline-flex justify-content-sm-center">
+          <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-lable d-inline-flex justify-content-sm-center">
             {t("attendance.message.label")}
           </Form.Label>
           <Col sm={8}>

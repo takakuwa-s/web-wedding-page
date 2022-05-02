@@ -1,7 +1,21 @@
 .form-back-ground {
-  background-color: wheat;
+  background-image: url("./../../../resource/attendance-background.jpeg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+}
+
+.form-lable {
+  color: white;
 }
 
 .required {
   color: red;
+}
+
+.radio-label {
+  color: white;
 }
