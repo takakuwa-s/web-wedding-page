@@ -10,6 +10,14 @@
       "6" : "土"     
     }
   },
+  "error": {
+    "description" : {
+      "unknown" : "不明なエラーが発生しました。",
+      "liff" : "LINEアプリ設定に問題があります。",
+      "notLineInAppBrowser": "本ページはスマートフォンLINEアプリ上でのみ、表示できます。",
+      "notFound" : "該当するページが見つかりません。"
+    }
+  },
   "nav" : {
     "host": "Host",
     "infomation": "Infomation",
@@ -53,7 +61,7 @@
     },
     "address": {
       "lable": "住所",
-      "value": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
+      "value": "神奈川県三浦郡葉山町堀内922-2",
       "postalCode": "〒240-0112"
     },
     "register": "招待状に回答する"

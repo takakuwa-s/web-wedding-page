@@ -1,5 +1,7 @@
+import liff from "@line/liff/dist/lib";
+
 export interface User {
-  id: string;
+  id?: string;
   attendance: boolean;
   guestType: GuestType;
   familyName: string;
@@ -19,8 +21,9 @@ export enum GuestType {
 }
 
 export function initUser(): User {
+  const idToken = liff.getDecodedIDToken();
   return {
-    id: '',
+    id: idToken?.sub,
     attendance: true,
     guestType: GuestType.GROOM,
     familyName: '',

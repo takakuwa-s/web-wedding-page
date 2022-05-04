@@ -5,7 +5,6 @@ import Row from "react-bootstrap/esm/Row";
 import Table from "react-bootstrap/esm/Table";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { initUser } from "../../../dto/user";
 import './Information.scss';
 
 function Information() {
@@ -25,19 +24,19 @@ function Information() {
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
-                  <th scope="row">{t("information.venue.lable")}</th>
+                  {/* <th scope="row">{t("information.venue.lable")}</th> */}
                   <td>
                     <a href={t("information.venue.link")} target="_blank" rel="noreferrer">{t("information.venue.value")}</a>
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">{t("information.phone.lable")}</th>
+                  {/* <th scope="row">{t("information.phone.lable")}</th> */}
                   <td>
                     <a href={"tel:" + t("information.phone.value")}>{t("information.phone.value")}</a>
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">{t("information.address.lable")}</th>
+                  {/* <th scope="row">{t("information.address.lable")}</th> */}
                   <td>
                     <span>{t("information.address.postalCode")}</span><br />
                     <span>{t("information.address.value")}</span>
@@ -61,7 +60,7 @@ function Information() {
             <Button
               variant="success"
               size="lg"
-              onClick={() => navigate("/attendance", { state: {user: initUser()}})}
+              onClick={() => navigate("/attendance")}
             >{t("information.register")}
             </Button>
           </Col>

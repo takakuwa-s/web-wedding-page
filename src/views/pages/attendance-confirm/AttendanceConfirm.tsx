@@ -19,6 +19,7 @@ function AttendanceConfirm() {
     event.preventDefault();
   }
 
+  alert("line user id is " + state.user.id);
   return (
     <Container fluid className="form-check-back-ground">
       <Row>

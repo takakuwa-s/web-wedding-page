@@ -5,7 +5,6 @@ import Host from '../host/Host';
 import Information from '../information/Information';
 import Top from '../top/Top';
 
-
 function Home() {
   return (
     <React.Fragment>
