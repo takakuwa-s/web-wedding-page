@@ -7,6 +7,7 @@ import { User } from "../../../dto/user";
 import { useLocation, useNavigate } from "react-router-dom";
 import AttendanceConfirmItem from "../../components/attendance-confirm-item/AttendanceConfirmItem";
 import Button from "react-bootstrap/esm/Button";
+import { saveUser } from "../../../utils/api-call";
 
 function AttendanceConfirm() {
   const { t } = useTranslation();
@@ -14,12 +15,23 @@ function AttendanceConfirm() {
   const location = useLocation();
   const state = location.state as { user: User };
 
-  const handleRegister = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(state.user)
-    event.preventDefault();
-  }
+  const handleRegister = () => {
+    let code: number
+    saveUser(state.user)
+      .then(res => {
+        code = res.status;
+        return res.json();
+      })
+      .then(res => {
+        if (code === 200) {
+          navigate("/attendance/complete");
+        } else {
+          throw new Error(res.error);
+        }
+      })
+      .catch(e => navigate("/attendance/complete", { state: {err: e}}));
+  };
 
-  alert("line user id is " + state.user.id);
   return (
     <Container fluid className="form-check-back-ground">
       <Row>
@@ -69,8 +81,8 @@ function AttendanceConfirm() {
           <Button
             type="button"
             size="lg"
-            onClick={() => navigate("/attendance", { state: {user: state.user}})}
-          >{t("attendanceConfirm.back")}
+            onClick={handleRegister}
+          >{t("attendanceConfirm.register")}
           </Button>
         </Col>
       </Row>
@@ -79,11 +91,12 @@ function AttendanceConfirm() {
           <Button
             type="button"
             size="lg"
-            onClick={handleRegister}
-          >{t("attendanceConfirm.register")}
+            onClick={() => navigate("/", { state: {user: state.user}})}
+          >{t("attendanceConfirm.back")}
           </Button>
         </Col>
       </Row>
+
     </Container>
   );
 }

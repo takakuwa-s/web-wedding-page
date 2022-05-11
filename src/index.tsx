@@ -7,9 +7,10 @@ import "./i18n/configs"; //i18
 import 'bootstrap/dist/css/bootstrap.min.css';
 import liff from '@line/liff/dist/lib';
 import Error from './views/pages/error/Error';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from './utils/firebase';
 
 let element: JSX.Element;
-
 liff
   .init({
     liffId: process.env.REACT_APP_LIFF_ID || '',
@@ -20,6 +21,7 @@ liff
       if (liff.isLoggedIn()) {
         element = <App/>;
       } else {
+        logEvent(analytics, "liff login error on LINEs in-app browser");
         element = <Error err={{
           code: 500,
           message: 'Not logged in after liff.init()',
@@ -35,6 +37,7 @@ liff
     }
   })
   .catch((e) => {
+    logEvent(analytics, 'liff.init error');
     element = <Error err={{
       code: 500,
       message: e.message,
@@ -50,6 +53,7 @@ liff
       </React.StrictMode>
     );
   });
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

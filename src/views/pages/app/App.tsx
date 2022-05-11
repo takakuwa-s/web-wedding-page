@@ -6,8 +6,11 @@ import Error from '../error/Error';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
 import { error } from '../../../dto/error';
+import AttendanceComplete from '../attendance-complete/AttendanceComplete';
+import liff from '@line/liff/dist/lib';
 
 function App() {
+  console.log(liff.getDecodedIDToken());
   const notFoundError: error = {code: 404, message: 'Not Found', descriptionKey: 'error.description.notFound'};
   return (
     <BrowserRouter>
@@ -16,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="attendance" element={<Attendance />} />
         <Route path="attendance/confirm" element={<AttendanceConfirm />} />
+        <Route path="attendance/complete" element={<AttendanceComplete />} />
         <Route path="*" element={<Error err={notFoundError}/>} />
       </Routes>
     </BrowserRouter>
