@@ -8,6 +8,7 @@ import Home from '../home/Home';
 import { error } from '../../../dto/error';
 import AttendanceComplete from '../attendance-complete/AttendanceComplete';
 import liff from '@line/liff/dist/lib';
+import ImageList from '../image-list/ImageList';
 
 function App() {
   console.log(liff.getDecodedIDToken());
@@ -20,6 +21,7 @@ function App() {
         <Route path="attendance" element={<Attendance />} />
         <Route path="attendance/confirm" element={<AttendanceConfirm />} />
         <Route path="attendance/complete" element={<AttendanceComplete />} />
+        <Route path="image/list" element={<ImageList />} />
         <Route path="*" element={<Error err={notFoundError}/>} />
       </Routes>
     </BrowserRouter>

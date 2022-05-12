@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AttendanceConfirmItem from "../../components/attendance-confirm-item/AttendanceConfirmItem";
 import Button from "react-bootstrap/esm/Button";
 import { saveUser } from "../../../utils/api-call";
+import SubmitButton from "../../components/submit-button/SubmitButton";
 
 function AttendanceConfirm() {
   const { t } = useTranslation();
@@ -78,12 +79,10 @@ function AttendanceConfirm() {
       />
       <Row className="py-3">
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-          <Button
-            type="button"
-            size="lg"
-            onClick={handleRegister}
-          >{t("attendanceConfirm.register")}
-          </Button>
+          <SubmitButton
+            variant="primary"
+            buttonText={t("attendanceConfirm.register")}
+            onClick={handleRegister}/>
         </Col>
       </Row>
       <Row className="pb-5">
@@ -96,7 +95,6 @@ function AttendanceConfirm() {
           </Button>
         </Col>
       </Row>
-
     </Container>
   );
 }

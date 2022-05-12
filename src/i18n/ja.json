@@ -8,6 +8,9 @@
       "4" : "木",
       "5" : "金",
       "6" : "土"     
+    },
+    "button": {
+      "loading": "　Loading ... "
     }
   },
   "error": {
@@ -19,9 +22,8 @@
     }
   },
   "nav" : {
-    "host": "Host",
-    "infomation": "Infomation",
-    "message": "Message",
+    "top": "Top",
+    "image": "Image",
     "form": "Attendance"
   },
   "top": {
