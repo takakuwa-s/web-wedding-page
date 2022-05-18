@@ -15,7 +15,7 @@ export function saveUser(user: User): Promise<Response> {
   return fetch(url, requestOptions);
 }
 
-export function fetchImageList(limit: number, startAtId?: string): Promise<Response> {
+export function fetchImageList(limit: number, startId?: string): Promise<Response> {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {
     method: 'GET',
@@ -24,9 +24,21 @@ export function fetchImageList(limit: number, startAtId?: string): Promise<Respo
     }
   };
   let param = "?limit=" + limit;
-  if (startAtId) {
-    param += "&startAtId=" + startAtId;
+  if (startId) {
+    param += "&startId=" + startId;
   }
   const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/file/list" + param;
+  return fetch(url, requestOptions);
+}
+
+export function deleteImage(id: string): Promise<Response> {
+  const token = liff.getAccessToken();
+  const requestOptions: RequestInit = {
+    method: 'DELETE',
+    headers: {
+      "Authorization": token!
+    }
+  };
+  const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/file/" + id;
   return fetch(url, requestOptions);
 }

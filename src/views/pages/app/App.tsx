@@ -7,11 +7,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
 import { error } from '../../../dto/error';
 import AttendanceComplete from '../attendance-complete/AttendanceComplete';
-import liff from '@line/liff/dist/lib';
 import ImageList from '../image-list/ImageList';
 
 function App() {
-  console.log(liff.getDecodedIDToken());
   const notFoundError: error = {code: 404, message: 'Not Found', descriptionKey: 'error.description.notFound'};
   return (
     <BrowserRouter>

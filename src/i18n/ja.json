@@ -10,13 +10,15 @@
       "6" : "土"     
     },
     "button": {
-      "loading": "　Loading ... "
+      "loading": "　Loading ... ",
+      "reload": "写真をさらに読み込む",
+      "allLoaded": "未読込の写真はありません"
     }
   },
   "error": {
     "description" : {
       "unknown" : "不明なエラーが発生しました。",
-      "liff" : "LINEアプリ設定に問題があります。",
+      "liff" : "LINEアプリの初期設定に失敗しました。インターネットの接続をご確認下さい。",
       "notLineInAppBrowser": "本ページはスマートフォンLINEアプリ上でのみ、表示できます。",
       "notFound" : "該当するページが見つかりません。"
     }
@@ -143,5 +145,8 @@
     },
     "back": "トップに戻る",
     "close": "画面を閉じる"
+  },
+  "imageList": {
+    "title": "ギャラリー"
   }
 }
