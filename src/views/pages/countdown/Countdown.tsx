@@ -37,7 +37,7 @@ function Countdown() {
             </Col>
           </Row>
         <Row>
-          <Col className="pt-5 cowntdown-text">
+          <Col className="cowntdown-text">
             <p>{targetDateStr}</p>
             <p>{cowntdown}</p>
           </Col>

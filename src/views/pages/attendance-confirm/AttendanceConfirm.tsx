@@ -71,7 +71,7 @@ function AttendanceConfirm() {
       <Row className="py-3">
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
           <SubmitButton
-            variant="primary"
+            variant="outline-info"
             buttonText={t("attendanceConfirm.register")}
             onClick={handleRegister}/>
         </Col>
@@ -80,6 +80,7 @@ function AttendanceConfirm() {
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
           <Button
             type="button"
+            variant="outline-info"
             size="lg"
             onClick={() => navigate("/attendance", { state: {user: state.user}})}
           >{t("attendanceConfirm.back")}

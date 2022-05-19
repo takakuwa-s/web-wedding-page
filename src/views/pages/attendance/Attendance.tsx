@@ -314,6 +314,7 @@ function Attendance() {
                 <Button
                   type="button"
                   size="lg"
+                  variant="primary"
                   onClick={handleSubmit}
                 >{t("attendance.submit")}
                 </Button>
@@ -324,6 +325,7 @@ function Attendance() {
                 <Button
                   type="button"
                   size="lg"
+                  variant="primary"
                   onClick={() => navigate("/")}
                 >{t("attendance.back")}
                 </Button>

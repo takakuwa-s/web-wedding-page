@@ -15,15 +15,21 @@ function AttendanceComplete() {
   const state: any = location.state;
 
   let title: string;
-  let comment: string;
+  let comment1: string;
+  let comment2: string;
+  let comment3: string;
   if (state && state.err) {
     logEvent(analytics, "The attendance form submittion is failed");
     console.error(state.err);
     title = t("attendanceComplete.failure.title");
-    comment = t("attendanceComplete.failure.comment");
+    comment1 = t("attendanceComplete.failure.comment1");
+    comment2 = t("attendanceComplete.failure.comment2");
+    comment3 = t("attendanceComplete.failure.comment3");
   } else {
     title = t("attendanceComplete.success.title");
-    comment = t("attendanceComplete.success.comment");
+    comment1 = t("attendanceComplete.success.comment1");
+    comment2 = t("attendanceComplete.success.comment2");
+    comment3 = t("attendanceComplete.success.comment3");
   }
   return (
     <Container fluid>
@@ -34,7 +40,8 @@ function AttendanceComplete() {
       </Row>
       <Row>
         <Col>
-          <p className="pt-5 text-center">{comment}</p>
+          <p className="pt-5">{comment1}<br />{comment2}</p>
+          <p>{comment3}</p>
         </Col>
       </Row>
       <Row className="py-3">
@@ -42,6 +49,7 @@ function AttendanceComplete() {
           <Button
             type="button"
             size="lg"
+            variant="outline-info"
             onClick={() => navigate("/")}
           >{t("attendanceComplete.back")}
           </Button>
@@ -52,6 +60,7 @@ function AttendanceComplete() {
           <Button
             type="button"
             size="lg"
+            variant="outline-info"
             onClick={() => liff.closeWindow()}
           >{t("attendanceComplete.close")}
           </Button>
