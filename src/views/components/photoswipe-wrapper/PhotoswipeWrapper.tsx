@@ -57,7 +57,7 @@ function PhotoswipeWrapper(props: IProps) {
   let reloadEl: JSX.Element | null = null;
   if (props.isAll) {
     reloadEl = (
-      <Row className="pt-5">
+      <Row className="py-4">
         <Col className="d-grid gap-2 mx-auto">
           <Button
             type="button"
@@ -74,7 +74,7 @@ function PhotoswipeWrapper(props: IProps) {
     reloadEl = <Loading />;
   } else {
     reloadEl = (
-      <Row className="pt-5">
+      <Row className="py-4">
         <Col className="d-grid gap-2 mx-auto">
           <Button
             type="button"

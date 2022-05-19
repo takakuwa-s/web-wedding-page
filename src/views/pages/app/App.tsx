@@ -8,6 +8,7 @@ import Home from '../home/Home';
 import { error } from '../../../dto/error';
 import AttendanceComplete from '../attendance-complete/AttendanceComplete';
 import ImageList from '../image-list/ImageList';
+import UserDetail from '../user-detail/UserDetail';
 
 function App() {
   const notFoundError: error = {code: 404, message: 'Not Found', descriptionKey: 'error.description.notFound'};
@@ -20,6 +21,7 @@ function App() {
         <Route path="attendance/confirm" element={<AttendanceConfirm />} />
         <Route path="attendance/complete" element={<AttendanceComplete />} />
         <Route path="image/list" element={<ImageList />} />
+        <Route path="user" element={<UserDetail />} />
         <Route path="*" element={<Error err={notFoundError}/>} />
       </Routes>
     </BrowserRouter>

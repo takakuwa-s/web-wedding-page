@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './views/pages/app/App';
@@ -48,9 +47,9 @@ liff
       document.getElementById('root') as HTMLElement
     );
     root.render(
-      <React.StrictMode>
+      <div>
         {element}
-      </React.StrictMode>
+      </div>
     );
   });
 

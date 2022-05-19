@@ -22,6 +22,7 @@ function WeddingNavbar() {
             <Nav className="flex-grow-1">
               <Nav.Link href="/" className="py-4 text-white">{t('nav.top')}</Nav.Link>
               <Nav.Link href="/image/list" className="py-4 text-white">{t('nav.image')}</Nav.Link>
+              <Nav.Link href="/user" className="py-4 text-white">{t('nav.user')}</Nav.Link>
               <Nav.Link href="/attendance" className="py-4 text-white">{t('nav.form')}</Nav.Link>
             </Nav>
           </Offcanvas.Body>

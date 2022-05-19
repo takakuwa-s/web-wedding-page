@@ -26,7 +26,8 @@
   "nav" : {
     "top": "Top",
     "image": "Image",
-    "form": "Attendance"
+    "form": "Attendance",
+    "user": "User"
   },
   "top": {
     "title": "Wedding Invitation"
@@ -72,10 +73,12 @@
   },
   "attendance": {
     "title": "Attendance",
+    "back": "トップに戻る",
     "attendance": {
       "label": "ご出席",
       "attend": "ご出席",
-      "decline": "ご欠席"
+      "decline": "ご欠席",
+      "alert": "ご出席の変更に関しては、新郎新婦に直接ご連絡をお願い致します"
     },
     "guestType": {
       "label": "ゲスト様",
@@ -147,6 +150,15 @@
     "close": "画面を閉じる"
   },
   "imageList": {
-    "title": "ギャラリー"
+    "title": "ギャラリー",
+    "tab": {
+      "all": "All Photos",
+      "mine": "My Photos"
+    }
+  },
+  "userDetail": {
+    "title": "招待状回答状況",
+    "notRegistered": "招待状への回答が済んでおりません",
+    "edit": "回答を修正する"
   }
 }

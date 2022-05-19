@@ -5,10 +5,10 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { User } from "../../../dto/user";
 import { useLocation, useNavigate } from "react-router-dom";
-import AttendanceConfirmItem from "../../components/attendance-confirm-item/AttendanceConfirmItem";
+import DataCheckItem from "../../components/data-check-item/DataCheckItem";
 import Button from "react-bootstrap/esm/Button";
-import { saveUser } from "../../../utils/api-call";
 import SubmitButton from "../../components/submit-button/SubmitButton";
+import { saveUser } from "../../../utils/user-api-call";
 
 function AttendanceConfirm() {
   const { t } = useTranslation();
@@ -17,20 +17,11 @@ function AttendanceConfirm() {
   const state = location.state as { user: User };
 
   const handleRegister = () => {
-    let code: number
-    saveUser(state.user)
-      .then(res => {
-        code = res.status;
-        return res.json();
-      })
-      .then(res => {
-        if (code === 200) {
-          navigate("/attendance/complete");
-        } else {
-          throw new Error(res.error);
-        }
-      })
-      .catch(e => navigate("/attendance/complete", { state: {err: e}}));
+    saveUser(
+      state.user,
+      () => navigate("/attendance/complete"),
+      e => navigate("/attendance/complete", { state: {err: e}})
+    );
   };
 
   return (
@@ -40,39 +31,39 @@ function AttendanceConfirm() {
           <h2 className="pt-5 text-center">{t("attendanceConfirm.title")}</h2>
         </Col>
       </Row>
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.attendance.label")}
         value={state.user.attendance ? t("attendance.attendance.attend") : t("attendance.attendance.decline")}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.guestType.label")}
         value={t("attendance.guestType." + state.user.guestType.toLowerCase())}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.name.label")}
         value={state.user.familyName + " " + state.user.firstName}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.nameKana.label")}
         value={state.user.familyNameKana + " " + state.user.firstNameKana}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.phone.label")}
         value={state.user.phoneNumber}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.postalCode.label")}
         value={state.user.postalCode}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.address.label")}
         value={state.user.address}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.allergy.label")}
         value={state.user.allergy}
       />
-      <AttendanceConfirmItem
+      <DataCheckItem
         label={t("attendance.message.label")}
         value={state.user.message}
         as="pre"
@@ -90,7 +81,7 @@ function AttendanceConfirm() {
           <Button
             type="button"
             size="lg"
-            onClick={() => navigate("/", { state: {user: state.user}})}
+            onClick={() => navigate("/attendance", { state: {user: state.user}})}
           >{t("attendanceConfirm.back")}
           </Button>
         </Col>

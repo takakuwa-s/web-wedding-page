@@ -1,5 +1,3 @@
-import liff from "@line/liff/dist/lib";
-
 export interface User {
   id?: string;
   attendance: boolean;
@@ -13,6 +11,7 @@ export interface User {
   address: string;
   allergy: string;
   message: string;
+  isRegistered: boolean;
 }
 
 export enum GuestType {
@@ -21,9 +20,8 @@ export enum GuestType {
 }
 
 export function initUser(): User {
-  const idToken = liff.getDecodedIDToken();
   return {
-    id: idToken?.sub,
+    id: "",
     attendance: true,
     guestType: GuestType.GROOM,
     familyName: '',
@@ -35,5 +33,6 @@ export function initUser(): User {
     address: '',
     allergy: '',
     message: '',
+    isRegistered: false,
   };
 }
