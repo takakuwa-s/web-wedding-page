@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import './Countdown.scss';
 import Col from "react-bootstrap/esm/Col";
-import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { useEffect, useState } from "react";
 import { formatDate, formatDatetime } from "../../../utils/dateUtils";
@@ -29,21 +28,12 @@ function Countdown() {
   });
 
   return (
-    <div className="cowntdown-back-ground">
-      <Container>
-        <Row>
-            <Col>
-              <h2 className="py-5 cowntdown-title">{t("cowntdown.title")}</h2>
-            </Col>
-          </Row>
-        <Row>
-          <Col className="cowntdown-text">
-            <p>{targetDateStr}</p>
-            <p>{cowntdown}</p>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Row>
+      <Col className="cowntdown-text">
+        <p>{targetDateStr}</p>
+        <p>{cowntdown}</p>
+      </Col>
+    </Row>
   );
 }
 

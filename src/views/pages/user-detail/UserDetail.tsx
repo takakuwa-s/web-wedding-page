@@ -73,6 +73,7 @@ function UserDetail() {
             <Button
               type="button"
               size="lg"
+              variant="outline-info"
               onClick={() => navigate("/attendance", { state: {user: user}})}
             >{t("userDetail.edit")}
             </Button>

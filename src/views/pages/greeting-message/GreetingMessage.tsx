@@ -56,7 +56,7 @@ function GreetingMessage() {
       <Container>
         <SwipeWrapper images={images}/>
         <Row className="pt-4">
-          <Col xs={{span: 10, offset: 1}}>
+          <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}}>
             <pre className="message-content">{t("greetingMessage.content")}</pre>
           </Col>
         </Row>
