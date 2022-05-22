@@ -143,7 +143,28 @@
     "title": "ギャラリー",
     "tab": {
       "all": "All Photos",
-      "mine": "My Photos"
+      "mine": "My Photos",
+      "rank": "Photo Ranking"
+    },
+    "rank": {
+      "label": {
+        "faceCount": "人数",
+        "faceHappinessLevel": "幸福度",
+        "facePhotoBeauty": "綺麗さ",
+        "faceScore": "得点"
+      },
+      "rules": {
+        "faceScore": "得点は、AIが読み取った幸福度・写真の綺麗さ、及びボーナスポイントから計算されます",
+        "faceHappinessLevel": "幸福度は、AIが読み取った表情や笑顔の度合いから計算されます",
+        "facePhotoBeauty": "綺麗さは、写真のピント・明るさ・ノイズなどから計算されます",
+        "bonus": "人数が多かったり、新郎新婦と写っていると、ボーナスポイントが付与されます",
+        "other": "人数が11人以上の場合は無効になります"
+      }
+    },
+    "alert": {
+      "loadErr": "画像の読み込みに失敗しました。",
+      "reloadErr": "画像の再読み込みに失敗しました。",
+      "deleteErr": "画像の削除に失敗しました。"
     }
   },
   "userDetail": {

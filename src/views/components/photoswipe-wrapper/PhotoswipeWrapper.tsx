@@ -6,9 +6,12 @@ import { File } from "../../../dto/file";
 import Image from 'react-bootstrap/Image'
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
-import Button from 'react-bootstrap/esm/Button';
 import { useTranslation } from 'react-i18next';
 import Loading from '../loading/Loading';
+import Table from 'react-bootstrap/esm/Table';
+import rank1 from "./../../../resource/imagelist-ranking-1.png"
+import rank2 from "./../../../resource/imagelist-ranking-2.png"
+import rank3 from "./../../../resource/imagelist-ranking-3.png"
 
 function PhotoswipeWrapper(props: IProps) {
   const { t } = useTranslation();
@@ -53,73 +56,88 @@ function PhotoswipeWrapper(props: IProps) {
 
   if (props.isLoading) {
     return <Loading />;
-  }
-  let reloadEl: JSX.Element | null = null;
-  if (props.isAll) {
-    reloadEl = (
-      <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline-dark"
-            onClick={props.onClickReloadBtn}
-            disabled
-          >{t("common.button.allLoaded")}
-          </Button>
+  } else if (props.showAsRanking) {
+    const rankImages = [rank1, rank2, rank3];
+    return (
+      <Row className="pswp-gallery ps-1 pt-2 pb-4" id={props.galleryID}>
+        <Col>
+          {props.images.map((image, idx) => (
+            <Row key={props.galleryID + '-' + idx} className="pb-1">
+              <Col xs={1} className="p-1 text-end">
+                {idx >= 0 && idx <= 2 ?
+                  <img src={rankImages[idx]} alt={(idx+1).toString()} width={35}/> :
+                  <span>{idx+1}</span>}
+              </Col>
+              <Col>
+                <a
+                  href={image.contentUrl}
+                  data-pswp-width={image.width}
+                  data-pswp-height={image.height}
+                  data-cropped="true"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
+                </a>
+              </Col>
+              <Col>
+                <Table size="sm" className="information-table">
+                  <tbody>
+                    <tr>
+                      <td>{t("imageList.rank.label.faceScore")}</td>
+                      <td>{image.faceScore}</td>
+                    </tr>
+                    <tr>
+                      <td>{t("imageList.rank.label.faceCount")}</td>
+                      <td>{image.faceCount}</td>
+                    </tr>
+                    <tr>
+                      <td>{t("imageList.rank.label.faceHappinessLevel")}</td>
+                      <td>{image.faceHappinessLevel}</td>
+                    </tr>
+                    <tr>
+                      <td>{t("imageList.rank.label.facePhotoBeauty")}</td>
+                      <td>{image.facePhotoBeauty}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>
+          ))}
         </Col>
       </Row>
     );
-  } else if (props.isReloading) {
-    reloadEl = <Loading />;
   } else {
-    reloadEl = (
-      <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline-info"
-            onClick={props.onClickReloadBtn}
-          >{t("common.button.reload")}
-          </Button>
-        </Col>
-      </Row>
+    return (
+      <div>
+        <Row className="pswp-gallery ps-1 pt-2" id={props.galleryID}>
+          {props.images.map((image, idx) => (
+            <Col key={props.galleryID + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
+              <a
+                href={image.contentUrl}
+                data-pswp-width={image.width}
+                data-pswp-height={image.height}
+                data-cropped="true"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
+              </a>
+            </Col>
+          ))}
+        </Row>
+      </div>
     );
   }
-
-  return (
-    <div>
-      <Row className="pswp-gallery ps-1 pt-2" id={props.galleryID}>
-        {props.images.map((image, index) => (
-          <Col key={props.galleryID + '-' + index} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
-            <a
-              href={image.contentUrl}
-              data-pswp-width={image.width}
-              data-pswp-height={image.height}
-              data-cropped="true"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
-            </a>
-          </Col>
-        ))}
-      </Row>
-      {reloadEl}
-    </div>
-  );
 }
 
 interface IProps {
+  showAsRanking: boolean;
   isLoading: boolean;
-  isReloading: boolean;
-  isAll: boolean;
   images: File[];
   galleryID: string;
   showDeleteBtn: boolean;
   onClickDeleteBtn: (id: string, pswp: any) => void
-  onClickReloadBtn: () => void;
 }
 
 export default PhotoswipeWrapper;

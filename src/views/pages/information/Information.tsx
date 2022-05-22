@@ -19,24 +19,16 @@ function Information() {
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
-                  <th className="text-center">
-                    <span>{t("information.schedule.title")}</span>
-                  </th>
+                  <th className="text-center">{t("information.schedule.title")}</th>
                 </tr>
                 <tr>
-                  <td>
-                    <span>{t("information.schedule.date")}</span>
-                  </td>
+                  <td>{t("information.schedule.date")}</td>
                 </tr>
                 <tr>
-                  <td>
-                    <span>{t("information.schedule.ceremony")}</span>
-                  </td>
+                  <td>{t("information.schedule.ceremony")}</td>
                 </tr>
                 <tr>
-                  <td>
-                    <span>{t("information.schedule.reception")}</span>
-                  </td>
+                  <td>{t("information.schedule.reception")}</td>
                 </tr>
               </tbody>
             </Table>
@@ -47,9 +39,7 @@ function Information() {
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
-                  <th className="text-center">
-                    <span>{t("information.venue.title")}</span>
-                  </th>
+                  <th className="text-center">{t("information.venue.title")}</th>
                 </tr>
                 <tr>
                   <td>

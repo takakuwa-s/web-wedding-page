@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import './AttendanceConfirm.scss';
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -25,7 +24,7 @@ function AttendanceConfirm() {
   };
 
   return (
-    <Container fluid className="form-check-back-ground">
+    <Container fluid>
       <Row>
         <Col>
           <h2 className="pt-5 text-center">{t("attendanceConfirm.title")}</h2>

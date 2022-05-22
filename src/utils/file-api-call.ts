@@ -5,7 +5,9 @@ export function fetchImageList(
   limit: number,
   startId: string,
   doFilterUser: boolean,
+  orderByFaceScore: boolean,
   onSuccess: (files: File[]) => void,
+  onError: (e: any) => void,
   onComplete: () => void
   ): void {
   const token = liff.getAccessToken();
@@ -19,6 +21,9 @@ export function fetchImageList(
   }
   if (doFilterUser) {
     param += "&userId=" + liff.getDecodedIDToken()?.sub;
+  }
+  if (orderByFaceScore) {
+    param += "&orderBy=FaceScore";
   }
   const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/file/list" + param;
   let code: number;
@@ -34,13 +39,14 @@ export function fetchImageList(
         throw new Error(res.error);
       }
     })
-    .catch(e => console.error(e))
+    .catch(onError)
     .finally(onComplete);
 }
 
 export function deleteImage(
   id: string,
   onSuccess: () => void,
+  onError: (e: any) => void,
   onComplete: () => void
   ): void {
   const token = liff.getAccessToken();
@@ -67,6 +73,6 @@ export function deleteImage(
         throw new Error(res.error);
       }
     })
-    .catch(e => console.error(e))
+    .catch(onError)
     .finally(onComplete);
 }
