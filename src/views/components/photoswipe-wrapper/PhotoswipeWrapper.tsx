@@ -88,16 +88,16 @@ function PhotoswipeWrapper(props: IProps) {
                       <td>{image.faceScore}</td>
                     </tr>
                     <tr>
-                      <td>{t("imageList.rank.label.faceCount")}</td>
-                      <td>{image.faceCount}</td>
-                    </tr>
-                    <tr>
                       <td>{t("imageList.rank.label.faceHappinessLevel")}</td>
                       <td>{image.faceHappinessLevel}</td>
                     </tr>
                     <tr>
                       <td>{t("imageList.rank.label.facePhotoBeauty")}</td>
                       <td>{image.facePhotoBeauty}</td>
+                    </tr>
+                    <tr>
+                      <td>{t("imageList.rank.label.faceCount")}</td>
+                      <td>{image.faceCount}</td>
                     </tr>
                   </tbody>
                 </Table>

@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { User, GuestType, initUser } from "../../../dto/user";
 import { initValidation } from "../../../dto/validation";
 import { fetchUser } from "../../../utils/user-api-call";
+import ErrorAlert from "../../components/error-alert/ErrorAlert";
 import Loading from "../../components/loading/Loading";
 import './Attendance.scss';
 
@@ -17,6 +18,7 @@ function Attendance() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [alertMsg, setAlertMsg] = useState("");
   const [user, setUser] = useState(initUser());
   const [familyNameValidation, setFamilyNameValidation] = useState(initValidation());
   const [firstNameValidation, setFirstNameValidation] = useState(initValidation());
@@ -33,11 +35,19 @@ function Attendance() {
       setIsLoading(false);
     } else {
       fetchUser(
-        user => setUser(user),
-        () => setIsLoading(false),
+        user => {
+          setAlertMsg("");
+          setUser(user);
+          setIsLoading(false);
+        },
+        e => {
+          console.error(e);
+          setAlertMsg(t("attendance.alert"));
+        },
+        () => {}
       );
     }
-  }, [location.state]);
+  }, [location.state, t]);
 
   const fetchAddress = (postalCode: string) => {
     fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + postalCode)
@@ -110,6 +120,7 @@ function Attendance() {
           <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
         </Col>
       </Row>
+      <ErrorAlert msg={alertMsg} />
       {isLoading
         ?  <Loading />
         : (

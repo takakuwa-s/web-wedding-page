@@ -47,9 +47,9 @@ liff
       document.getElementById('root') as HTMLElement
     );
     root.render(
-      <div>
+      <>
         {element}
-      </div>
+      </>
     );
   });
 

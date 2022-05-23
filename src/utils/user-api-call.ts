@@ -34,6 +34,7 @@ export function saveUser(
 
 export function fetchUser(
   onSuccess: (user: User) => void,
+  onError: (err: any) => void,
   onComplete: () => void,
   ): void {
   const token = liff.getAccessToken();
@@ -63,6 +64,6 @@ export function fetchUser(
         throw new Error(res.error);
       }
     })
-    .catch(e => console.error(e))
+    .catch(onError)
     .finally(onComplete);
 }

@@ -8,9 +8,8 @@ import { fetchImageList, deleteImage } from "../../../utils/file-api-call";
 import BottomNavbar from "../../components/bottom-navbar/BottomNavbar";
 import PhotoswipeWrapper from "../../components/photoswipe-wrapper/PhotoswipeWrapper";
 import { File } from "../../../dto/file";
-import Loading from "../../components/loading/Loading";
-import Button from "react-bootstrap/esm/Button";
-import Alert from "react-bootstrap/esm/Alert";
+import ErrorAlert from '../../components/error-alert/ErrorAlert';
+import ReloadButton from '../../components/reload-button/ReloadButton';
 
 function ImageList() {
   const FILE_LIMIT = 50;
@@ -89,6 +88,7 @@ function ImageList() {
     setGalleryID(eventKey);
     setIsLoading(true);
     setIsAll(false);
+    setAlertMsg("");
     fetchImageList(
       eventKey === RankGalleryID ? RANK_FILE_LIMIT : FILE_LIMIT,
       "",
@@ -99,7 +99,6 @@ function ImageList() {
           setIsAll(true);
         }
         setImages(files);
-        setAlertMsg("");
       },
       e => {
         console.error(e);
@@ -124,38 +123,6 @@ function ImageList() {
     },
   ];
 
-  let reloadEl: JSX.Element | null = null;
-  if (isAll) {
-    reloadEl = (
-      <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline-dark"
-            disabled
-          >{t("common.button.allLoaded")}
-          </Button>
-        </Col>
-      </Row>
-    );
-  } else if (isReloading) {
-    reloadEl = <Loading />;
-  } else {
-    reloadEl = (
-      <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
-          <Button
-            type="button"
-            size="sm"
-            variant="outline-info"
-            onClick={reloadImage}
-          >{t("common.button.reload")}
-          </Button>
-        </Col>
-      </Row>
-    );
-  }
   return (
     <>
       <Container fluid className="pb-5">
@@ -164,13 +131,7 @@ function ImageList() {
             <h2 className="pt-5 text-center">{t('imageList.title')}</h2>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <Alert show={!!alertMsg} variant="danger" className="pb-0">
-              <p>{alertMsg}</p>
-            </Alert>
-          </Col>
-        </Row>
+        <ErrorAlert msg={alertMsg} />
         {galleryID === RankGalleryID && (
           <Row className="py-3">
             <Col xs={{span: 10, offset: 1}} className="photo-ranking-rule-container px-1">
@@ -195,7 +156,13 @@ function ImageList() {
               onClickDeleteBtn={removeImage}/>
           </Col>
         </Row>
-        {(galleryID === MyGalleryID || galleryID === AllGalleryID) && reloadEl}
+        {(galleryID === MyGalleryID || galleryID === AllGalleryID) &&
+          <ReloadButton 
+            isReloading={isReloading}
+            disableReload={isAll}
+            disableReloadBtnTxt={t("imageList.button.allLoaded")}
+            reloadBtnTxt={t("imageList.button.reload")}
+            onReloadButtonClicked={reloadImage} />}
       </Container>
       <BottomNavbar navs={navs} onSelectNav={switchGallery}/>
     </>

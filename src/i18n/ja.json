@@ -10,9 +10,7 @@
       "6" : "土"     
     },
     "button": {
-      "loading": "　Loading ... ",
-      "reload": "写真をさらに読み込む",
-      "allLoaded": "未読込の写真はありません"
+      "loading": "　Loading ... "
     }
   },
   "error": {
@@ -60,6 +58,7 @@
   "attendance": {
     "title": "Attendance",
     "back": "トップに戻る",
+    "alert": "情報の取得に失敗しました。",
     "attendance": {
       "label": "ご出席",
       "attend": "ご出席",
@@ -140,11 +139,15 @@
     "close": "画面を閉じる"
   },
   "imageList": {
-    "title": "ギャラリー",
+    "title": "Gallery",
     "tab": {
       "all": "All Photos",
       "mine": "My Photos",
       "rank": "Photo Ranking"
+    },
+    "button": {
+      "reload": "写真をさらに読み込む",
+      "allLoaded": "未読込の写真はありません"
     },
     "rank": {
       "label": {
@@ -168,8 +171,9 @@
     }
   },
   "userDetail": {
-    "title": "招待状回答状況",
+    "title": "ご回答内容",
     "notRegistered": "招待状への回答が済んでおりません",
-    "edit": "回答を修正する"
+    "edit": "回答を修正する",
+    "alert": "ユーザー情報の取得に失敗しました。"
   }
 }
