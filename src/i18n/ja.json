@@ -18,14 +18,16 @@
       "unknown" : "不明なエラーが発生しました。",
       "liff" : "LINEアプリの初期設定に失敗しました。インターネットの接続をご確認下さい。",
       "notLineInAppBrowser": "本ページはスマートフォンLINEアプリ上でのみ、表示できます。",
-      "notFound" : "該当するページが見つかりません。"
+      "notFound" : "該当するページが見つかりません。",
+      "init" : "初期化に失敗しました"
     }
   },
   "nav" : {
     "top": "Top",
     "image": "Image",
-    "form": "Attendance",
-    "user": "User"
+    "attendance": "Attendance",
+    "user": "User",
+    "admin": "Admin"
   },
   "top": {
     "title": "Wedding Invitation"
