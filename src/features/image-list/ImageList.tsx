@@ -12,7 +12,8 @@ import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { updateFilesForAll, updateFilesForMy, updateFilesForRank, updateReload } from './fileSlice';
+import { updateFiles } from './fileSlice';
+import { useSearchParams } from 'react-router-dom';
 
 function ImageList() {
   const dispatch = useAppDispatch();
@@ -21,10 +22,9 @@ function ImageList() {
   const AllGalleryID = "all-gallery";
   const MyGalleryID = "my-gallery";
   const RankGalleryID = "rank-gallery";
-  const allFiles = useAppSelector((state: RootState) => state.files.all);
-  const myFiles = useAppSelector((state: RootState) => state.files.my);
-  const rankFiles = useAppSelector((state: RootState) => state.files.rank);
-  const needReload = useAppSelector((state: RootState) => state.files.reload);
+  const allFiles = useAppSelector((state: RootState) => state.files.val);
+  const [searchParams] = useSearchParams();
+  const needReload = searchParams.get("reload");
   const { t } = useTranslation();
   const [galleryID, setGalleryID] = useState(AllGalleryID);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,22 +34,20 @@ function ImageList() {
   const [images, setImages] = useState<File[]>(allFiles);
 
   useEffect(() => {
-    if (allFiles.length === 0) {
-      setIsLoading(true);
-    }
     if (needReload) {
+      setIsLoading(true);
       fetchImageList(
         FILE_LIMIT,
         "",
         false,
         false,
-        files => {
-          if (files.length < FILE_LIMIT) {
+        f => {
+          if (f.length < FILE_LIMIT) {
             setIsAll(true);
           }
-          setImages(files);
+          setImages(f);
           setAlertMsg("");
-          dispatch(updateFilesForAll(files));
+          dispatch(updateFiles(f));
         },
         e => {
           console.error(e);
@@ -58,7 +56,7 @@ function ImageList() {
         () => setIsLoading(false)
       );
     }
-  }, [t, needReload, dispatch, allFiles.length]);
+  }, [t, dispatch, needReload]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -67,11 +65,11 @@ function ImageList() {
       images[images.length - 1].id,
       galleryID === MyGalleryID,
       galleryID === RankGalleryID,
-      files => {
-        if (files.length < FILE_LIMIT) {
+      f => {
+        if (f.length < FILE_LIMIT) {
           setIsAll(true);
         }
-        const list = images.concat(files);
+        const list = images.concat(f);
         setImages(list);
         setAlertMsg("");
       },
@@ -83,76 +81,41 @@ function ImageList() {
     );
   };
   const removeImage = (id: string, pswp: any) => {
-    const list = images.filter(i => i.id !== id);
-    setImages(list);
+    setIsLoading(true);
     pswp.close();
     deleteImage(
       id,
       () => {
         setAlertMsg("");
-        dispatch(updateReload(true));
-        dispatch(updateFilesForMy(list));
+        const myList = images.filter(i => i.id !== id);
+        setImages(myList);
       },
       e => {
         console.error(e);
-        setImages(myFiles);
         setAlertMsg(t("imageList.alert.deleteErr"));
       },
-      () => {});
+      () => setIsLoading(false));
   };
 
   const switchGallery = (eventKey: any, event: any) => {
-    let files: File[];
-    switch (eventKey) {
-      case AllGalleryID:
-        files = allFiles;
-        break;
-      case MyGalleryID:
-        files = myFiles;
-        break;
-      case RankGalleryID:
-        files = rankFiles;
-        break;
-      default:
-        files = [];
-    }
-    if (files.length > 0) {
-      setImages(files);
-    } else {
-      setIsLoading(true);
-    }
-    setGalleryID(eventKey);
+    setIsLoading(true);
     setIsAll(false);
     setAlertMsg("");
+    setGalleryID(eventKey);
     fetchImageList(
       eventKey === RankGalleryID ? RANK_FILE_LIMIT : FILE_LIMIT,
       "",
       eventKey === MyGalleryID,
       eventKey === RankGalleryID,
-      files => {
-        if (files.length < FILE_LIMIT) {
+      f => {
+        if (f.length < FILE_LIMIT) {
           setIsAll(true);
         }
-        setImages(files);
-        switch (eventKey) {
-          case AllGalleryID:
-            dispatch(updateFilesForAll(files));
-            break;
-          case MyGalleryID:
-            dispatch(updateFilesForMy(files));
-            break;
-          case RankGalleryID:
-            dispatch(updateFilesForRank(files));
-            break;
-        }
+        setImages(f);
       },
       e => {
         console.error(e);
-        if (files.length === 0) {
-          setAlertMsg(t("imageList.alert.loadErr"));
-        } else {
-          setAlertMsg(t("imageList.alert.reloadErr"));
-        }
+        setAlertMsg(t("imageList.alert.loadErr"));
       },
       () => setIsLoading(false)
     );

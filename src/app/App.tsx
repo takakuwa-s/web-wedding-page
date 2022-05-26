@@ -11,12 +11,12 @@ import Admin from '../features/admin/Admin';
 import { User } from '../common/dto/user';
 import ErrorPage from '../features/error-page/ErrorPage';
 import { File } from "./../common/dto/file";
-import { updateFilesForAll } from '../features/image-list/fileSlice';
+import { updateFiles } from '../features/image-list/fileSlice';
 
 function App(props: IProps) {
   const dispatch = useAppDispatch();
   dispatch(updateUser(props.user));
-  dispatch(updateFilesForAll(props.files));
+  dispatch(updateFiles(props.files));
 
   const notFoundError: error = {code: 404, message: 'Not Found', descriptionKey: 'error.description.notFound'};
   return (
