@@ -1,59 +1,80 @@
 import liff from "@line/liff/dist/lib";
-import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
-import ErrorAlert from "../error-alert/ErrorAlert";
+import { PushMessageType } from "../../dto/push-message-type";
+import { sendMessageToLineBot } from "../../utils/lineApiCall";
 
 function SendMessageButton(props: IProps) {
   const { t } = useTranslation();
-  const [alertMsg, setAlertMsg] = useState("");
-  const [alertVariant, setAlertVariant] = useState("danger");
-  const [sentMsg, setSentMsg] = useState(false);
 
-  const checkInvitationMsg = () => {
+  const checkSendingMsg = () => {
+    let checkMsgText: string = "";
+    switch (props.pushMsgType) {
+      case PushMessageType.INVITATION:
+        checkMsgText = t('admin.sendMessage.checkMsgContent.invitation');
+        break;
+      case PushMessageType.REMINDER:
+        checkMsgText = t('admin.sendMessage.checkMsgContent.reminder');
+        break;
+      default:
+        props.onCheckError(new Error("Unknown push message type"));
+        return;
+    }
     liff
       .sendMessages([
         {
           type: "text",
-          text: props.msgText,
+          text: checkMsgText,
         },
       ])
-      .then(() => {
-        setAlertMsg(t("admin.sendMessage.alert.sendSuccess"));
-        setAlertVariant("success");
-        setSentMsg(true);
-      })
-      .catch((err) => {
-        console.log("error", err);
-        setAlertMsg(t("admin.sendMessage.alert.sendErr"));
-        setAlertVariant("danger");
-      });
+      .then(props.onCheckSuccess)
+      .catch(props.onCheckError);
+  }
+
+  const multicastMsg = () => {
+    sendMessageToLineBot(
+      props.pushMsgType.toLowerCase(),
+      props.onMulticastSuccess,
+      props.onMulticastError,
+      () => {}
+    );
   }
 
   return (
     <>
-      <ErrorAlert msg={alertMsg} variant={alertVariant}/>
       <Row className="py-5">
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-          {sentMsg ? (
-            <Button
-              type="button"
-              variant="outline-info"
-              size="lg"
-              onClick={() => liff.closeWindow()}
-            >{t("common.button.close")}
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              variant="outline-info"
-              size="lg"
-              onClick={checkInvitationMsg}
-            >{t("admin.sendMessage.button.check")}
-            </Button>
-          )}
+          <Button
+            type="button"
+            variant="outline-info"
+            size="lg"
+            onClick={checkSendingMsg}
+          >{t("admin.sendMessage.button.check")}
+          </Button>
+        </Col>
+      </Row>
+      <Row className="pb-5">
+        <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+          <Button
+            type="button"
+            variant="outline-info"
+            size="lg"
+            onClick={multicastMsg}
+          >{t("admin.sendMessage.button.send")}
+          </Button>
+        </Col>
+      </Row>
+      <Row className="pb-5">
+        <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+          <Button
+            type="button"
+            variant="outline-info"
+            size="lg"
+            onClick={() => liff.closeWindow()}
+          >{t("common.button.close")}
+          </Button>
         </Col>
       </Row>
     </>
@@ -61,7 +82,11 @@ function SendMessageButton(props: IProps) {
 }
 
 interface IProps {
-  msgText: string;
+  pushMsgType: PushMessageType;
+  onCheckSuccess: () => void;
+  onCheckError: (err: Error) => void;
+  onMulticastSuccess: () => void;
+  onMulticastError: (err: Error) => void;
 }
 
 export default SendMessageButton;

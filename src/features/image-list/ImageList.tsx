@@ -12,7 +12,7 @@ import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { updateFiles, updateReload } from './fileSlice';
+import { updateFilesForAll, updateFilesForMy, updateFilesForRank, updateReload } from './fileSlice';
 
 function ImageList() {
   const dispatch = useAppDispatch();
@@ -21,7 +21,9 @@ function ImageList() {
   const AllGalleryID = "all-gallery";
   const MyGalleryID = "my-gallery";
   const RankGalleryID = "rank-gallery";
-  const initialFiles = useAppSelector((state: RootState) => state.files.val);
+  const allFiles = useAppSelector((state: RootState) => state.files.all);
+  const myFiles = useAppSelector((state: RootState) => state.files.my);
+  const rankFiles = useAppSelector((state: RootState) => state.files.rank);
   const needReload = useAppSelector((state: RootState) => state.files.reload);
   const { t } = useTranslation();
   const [galleryID, setGalleryID] = useState(AllGalleryID);
@@ -29,9 +31,12 @@ function ImageList() {
   const [isReloading, setIsReloading] = useState(false);
   const [isAll, setIsAll] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const [images, setImages] = useState<File[]>(initialFiles);
+  const [images, setImages] = useState<File[]>(allFiles);
 
   useEffect(() => {
+    if (allFiles.length === 0) {
+      setIsLoading(true);
+    }
     if (needReload) {
       fetchImageList(
         FILE_LIMIT,
@@ -44,7 +49,7 @@ function ImageList() {
           }
           setImages(files);
           setAlertMsg("");
-          dispatch(updateFiles(files));
+          dispatch(updateFilesForAll(files));
         },
         e => {
           console.error(e);
@@ -53,7 +58,7 @@ function ImageList() {
         () => setIsLoading(false)
       );
     }
-  }, [t, needReload, dispatch]);
+  }, [t, needReload, dispatch, allFiles.length]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -78,26 +83,45 @@ function ImageList() {
     );
   };
   const removeImage = (id: string, pswp: any) => {
+    const list = images.filter(i => i.id !== id);
+    setImages(list);
     pswp.close();
-    setIsLoading(true);
     deleteImage(
       id,
       () => {
-        const list = images.filter(i => i.id !== id);
-        setImages(list);
         setAlertMsg("");
         dispatch(updateReload(true));
+        dispatch(updateFilesForMy(list));
       },
       e => {
         console.error(e);
+        setImages(myFiles);
         setAlertMsg(t("imageList.alert.deleteErr"));
       },
-      () => setIsLoading(false));
+      () => {});
   };
 
   const switchGallery = (eventKey: any, event: any) => {
+    let files: File[];
+    switch (eventKey) {
+      case AllGalleryID:
+        files = allFiles;
+        break;
+      case MyGalleryID:
+        files = myFiles;
+        break;
+      case RankGalleryID:
+        files = rankFiles;
+        break;
+      default:
+        files = [];
+    }
+    if (files.length > 0) {
+      setImages(files);
+    } else {
+      setIsLoading(true);
+    }
     setGalleryID(eventKey);
-    setIsLoading(true);
     setIsAll(false);
     setAlertMsg("");
     fetchImageList(
@@ -110,13 +134,25 @@ function ImageList() {
           setIsAll(true);
         }
         setImages(files);
-        if (eventKey === AllGalleryID) {
-          dispatch(updateFiles(files));
+        switch (eventKey) {
+          case AllGalleryID:
+            dispatch(updateFilesForAll(files));
+            break;
+          case MyGalleryID:
+            dispatch(updateFilesForMy(files));
+            break;
+          case RankGalleryID:
+            dispatch(updateFilesForRank(files));
+            break;
         }
       },
       e => {
         console.error(e);
-        setAlertMsg(t("imageList.alert.loadErr"));
+        if (files.length === 0) {
+          setAlertMsg(t("imageList.alert.loadErr"));
+        } else {
+          setAlertMsg(t("imageList.alert.reloadErr"));
+        }
       },
       () => setIsLoading(false)
     );

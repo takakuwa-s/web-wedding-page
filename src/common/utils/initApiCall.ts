@@ -5,7 +5,6 @@ export function callInitApi(): Promise<Response> {
   const requestOptions: RequestInit = {
     method: 'GET',
     headers: {
-      "Content-Type": "application/json",
       "Authorization": token!
     },
   };

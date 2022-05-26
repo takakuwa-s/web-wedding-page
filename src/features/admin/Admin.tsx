@@ -1,42 +1,38 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import BottomNavbar from "../../common/components/bottom-navbar/BottomNavbar";
+import { PushMessageType } from "../../common/dto/push-message-type";
 import AdminInvitation from "../admin-invitation/AdminInvitation";
 import AdminReminder from "../admin-reminder/AdminReminder";
 import ErrorPage from "../error-page/ErrorPage";
 
-enum Page {
-  INVITATION = "INVITATION",
-  REMINDER = "REMINDER",
-}
-
 function Admin() {
   const { t } = useTranslation();
-  const [page, setPage] = useState<Page>(Page.INVITATION);
+  const [pushMessageType, setPushMessageType] = useState<PushMessageType>(PushMessageType.INVITATION);
   const switchPage = (eventKey: any, event: any) => {
-    setPage(eventKey);
+    setPushMessageType(eventKey);
   }
   const navs = [
     {
-      id: Page.INVITATION,
+      id: PushMessageType.INVITATION,
       title: t("admin.tab.invitation"),
     },
     {
-      id: Page.REMINDER,
+      id: PushMessageType.REMINDER,
       title: t("admin.tab.reminder"),
     },
   ];
 
   let content: JSX.Element;
-  switch (page) {
-    case Page.INVITATION:
+  switch (pushMessageType) {
+    case PushMessageType.INVITATION:
       content = <AdminInvitation />;
       break;
-    case Page.REMINDER:
+    case PushMessageType.REMINDER:
       content = <AdminReminder />;
       break;
     default:
-      return <ErrorPage err={{code: 500, message: `Unknown page: ${page}`, descriptionKey: 'error.description.unknown'}}/>
+      return <ErrorPage err={{code: 500, message: `Unknown push message type: ${pushMessageType}`, descriptionKey: 'error.description.unknown'}}/>
   }
   return (
     <>
