@@ -10,7 +10,8 @@
       "6" : "土"     
     },
     "button": {
-      "loading": "　Loading ... "
+      "loading": "　Loading ... ",
+      "close": "画面を閉じる"
     }
   },
   "error": {
@@ -137,8 +138,7 @@
       "comment2": "不明なエラーのため、ご回答の登録ができませんでした。",
       "comment3": "お手数おかけ致しますが、新郎新婦にまでお問い合わせください。"
     },
-    "back": "トップに戻る",
-    "close": "画面を閉じる"
+    "back": "トップに戻る"
   },
   "imageList": {
     "title": "Gallery",
@@ -177,5 +177,29 @@
     "notRegistered": "招待状への回答が済んでおりません",
     "edit": "回答を修正する",
     "alert": "ユーザー情報の取得に失敗しました。"
+  },
+  "admin": {
+    "tab": {
+      "invitation": "招待状送信",
+      "reminder": "前日メッセージ"
+    },
+    "sendMessage": {
+      "button": {
+        "check": "メッセージ確認"
+      },
+      "alert": {
+        "sendSuccess": "LINE botへメッセージを送信しました。",
+        "sendErr": "LINE botへのメッセージ送信に失敗しました。"
+      }
+    }
+  },
+  "adminInvitation": {
+    "title": "招待状送信",
+    "sendMessageContent": "招待状送信内容確認"
+
+  },
+  "adminReminder": {
+    "title": "前日メッセージ",
+    "sendMessageContent": "前日メッセージ送信内容確認"
   }
 }

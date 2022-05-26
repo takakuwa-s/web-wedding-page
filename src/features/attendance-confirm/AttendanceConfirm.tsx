@@ -7,11 +7,14 @@ import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { saveUser } from "../../common/utils/userApiCall";
 import AttendanceConfirmContent from "../../common/components/attendance-confirm-content/AttendanceConfirmContent";
 import { User } from "../../common/dto/user";
+import { useState } from "react";
 
 function AttendanceConfirm(props: IProps) {
   const { t } = useTranslation();
+  const [diableBackBtn, setDiableBackBtn] = useState(false);
 
   const handleRegister = () => {
+    setDiableBackBtn(true);
     saveUser(
       props.user,
       props.onSaveSuccess,
@@ -41,6 +44,7 @@ function AttendanceConfirm(props: IProps) {
             type="button"
             variant="outline-info"
             size="lg"
+            disabled={diableBackBtn}
             onClick={props.onBackButtonClicked}
           >{t("attendanceConfirm.back")}
           </Button>

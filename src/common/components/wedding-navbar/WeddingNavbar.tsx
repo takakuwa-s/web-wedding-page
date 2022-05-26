@@ -23,13 +23,18 @@ function WeddingNavbar() {
           placement="top"
           show={show}
         >
-          <Offcanvas.Body bsPrefix="offcanvas-body" className="text-center display-6">
+          <Offcanvas.Header
+            className="justify-content-end pb-0"
+            closeButton
+            closeVariant="white"
+            onHide={() => setShow(false)} />
+          <Offcanvas.Body bsPrefix="offcanvas-body" className="text-center display-6 pt-0">
             <Nav className="flex-grow-1 text-white" onSelect={() => setShow(false)}>
-              <Nav.Link as={Link} to="/" eventKey="top" className="py-4 text-decoration-none text-white">{t('nav.top')}</Nav.Link>
-              <Nav.Link as={Link} to="/image/list" eventKey="images" className="py-4 text-decoration-none text-white">{t('nav.image')}</Nav.Link>
-              <Nav.Link as={Link} to="/user" eventKey="user" className="py-4 text-decoration-none text-white">{t('nav.user')}</Nav.Link>
-              <Nav.Link as={Link} to="/attendance" eventKey="attendance" className="py-4 text-decoration-none text-white">{t('nav.attendance')}</Nav.Link>
-              {user.isAdmin && <Nav.Link as={Link} to="/admin" eventKey="attendance" className="py-4 text-decoration-none text-white">{t('nav.admin')}</Nav.Link>}
+              <Nav.Link as={Link} to="/" eventKey="top" className="pb-5 text-decoration-none text-white">{t('nav.top')}</Nav.Link>
+              <Nav.Link as={Link} to="/image/list" eventKey="images" className="pb-5 text-decoration-none text-white">{t('nav.image')}</Nav.Link>
+              <Nav.Link as={Link} to="/user" eventKey="user" className="pb-5 text-decoration-none text-white">{t('nav.user')}</Nav.Link>
+              <Nav.Link as={Link} to="/attendance" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.attendance')}</Nav.Link>
+              {user.isAdmin && <Nav.Link as={Link} to="/admin" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.admin')}</Nav.Link>}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

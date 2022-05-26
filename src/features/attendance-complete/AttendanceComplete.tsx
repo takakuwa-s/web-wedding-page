@@ -60,7 +60,7 @@ function AttendanceComplete(props: IProps) {
             size="lg"
             variant="outline-info"
             onClick={() => liff.closeWindow()}
-          >{t("attendanceComplete.close")}
+          >{t("common.button.close")}
           </Button>
         </Col>
       </Row>

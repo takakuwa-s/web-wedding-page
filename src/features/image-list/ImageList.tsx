@@ -1,5 +1,5 @@
 import './ImageList.scss';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -12,7 +12,7 @@ import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { updateFiles } from './fileSlice';
+import { updateFiles, updateReload } from './fileSlice';
 
 function ImageList() {
   const dispatch = useAppDispatch();
@@ -22,6 +22,7 @@ function ImageList() {
   const MyGalleryID = "my-gallery";
   const RankGalleryID = "rank-gallery";
   const initialFiles = useAppSelector((state: RootState) => state.files.val);
+  const needReload = useAppSelector((state: RootState) => state.files.reload);
   const { t } = useTranslation();
   const [galleryID, setGalleryID] = useState(AllGalleryID);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,30 @@ function ImageList() {
   const [isAll, setIsAll] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [images, setImages] = useState<File[]>(initialFiles);
+
+  useEffect(() => {
+    if (needReload) {
+      fetchImageList(
+        FILE_LIMIT,
+        "",
+        false,
+        false,
+        files => {
+          if (files.length < FILE_LIMIT) {
+            setIsAll(true);
+          }
+          setImages(files);
+          setAlertMsg("");
+          dispatch(updateFiles(files));
+        },
+        e => {
+          console.error(e);
+          setAlertMsg(t("imageList.alert.loadErr"));
+        },
+        () => setIsLoading(false)
+      );
+    }
+  }, [t, needReload, dispatch]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -61,6 +86,7 @@ function ImageList() {
         const list = images.filter(i => i.id !== id);
         setImages(list);
         setAlertMsg("");
+        dispatch(updateReload(true));
       },
       e => {
         console.error(e);
@@ -119,7 +145,7 @@ function ImageList() {
             <h2 className="pt-5 text-center">{t('imageList.title')}</h2>
           </Col>
         </Row>
-        <ErrorAlert msg={alertMsg} />
+        <ErrorAlert msg={alertMsg} variant="danger" />
         {galleryID === RankGalleryID && (
           <Row className="py-3">
             <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-ranking-rule-container px-1">

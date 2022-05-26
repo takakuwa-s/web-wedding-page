@@ -14,7 +14,6 @@ import { GuestType } from './common/dto/user';
 import ErrorPage from './features/error-page/ErrorPage';
 import Loading from './common/components/loading/Loading';
 import Container from 'react-bootstrap/esm/Container';
-import React from 'react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -75,11 +74,9 @@ liff
     }}/>;
   }).finally(() => {
     root.render(
-      <React.StrictMode>
-        <Provider store={store}>
-          {element}
-        </Provider>
-      </React.StrictMode>
+      <Provider store={store}>
+        {element}
+      </Provider>
     );
   });
 

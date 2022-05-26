@@ -6,7 +6,7 @@ function ErrorAlert(props: IProps) {
   return (
     <Row className="pt-2">
       <Col>
-        <Alert show={!!props.msg} variant="danger" className="pb-0">
+        <Alert show={!!props.msg} variant={props.variant} className="pb-0">
           <p>{props.msg}</p>
         </Alert>
       </Col>
@@ -16,6 +16,7 @@ function ErrorAlert(props: IProps) {
 
 interface IProps {
   msg: string;
+  variant: string;
 }
 
 export default ErrorAlert;
