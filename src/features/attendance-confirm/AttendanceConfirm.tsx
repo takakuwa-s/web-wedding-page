@@ -36,7 +36,6 @@ function AttendanceConfirm(props: IProps) {
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
           <SubmitButton
             buttonSize="lg"
-            spinnerSize="lg"
             buttonText={t("attendanceConfirm.register")}
             isLoading={isLoading}
             onClick={handleRegister}/>

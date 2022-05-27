@@ -1,46 +1,42 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import BottomNavbar from "../../common/components/bottom-navbar/BottomNavbar";
-import { PushMessageType } from "../../common/dto/push-message-type";
-import AdminInvitation from "../admin-invitation/AdminInvitation";
-import AdminReminder from "../admin-reminder/AdminReminder";
+import AdminPushNotification from "../admin-push-notification/AdminPushNotification";
 import AdminUsers from "../admin-users/AdminUsers";
 import ErrorPage from "../error-page/ErrorPage";
 
+enum AdminPage {
+  USERS = "USERS",
+  PUSH_NOTIFICATION = "PUSH_NOTIFICATION",
+}
+
 function Admin() {
   const { t } = useTranslation();
-  const [pushMessageType, setPushMessageType] = useState<PushMessageType>(PushMessageType.USERS);
+  const [adminPage, setAdminPage] = useState<AdminPage>(AdminPage.USERS);
   const switchPage = (eventKey: any, event: any) => {
-    setPushMessageType(eventKey);
+    setAdminPage(eventKey);
   }
   const navs = [
     {
-      id: PushMessageType.USERS,
+      id: AdminPage.USERS,
       title: t("admin.tab.users"),
     },
     {
-      id: PushMessageType.INVITATION,
-      title: t("admin.tab.invitation"),
-    },
-    {
-      id: PushMessageType.REMINDER,
-      title: t("admin.tab.reminder"),
+      id: AdminPage.PUSH_NOTIFICATION,
+      title: t("admin.tab.pushNotification"),
     },
   ];
 
   let content: JSX.Element;
-  switch (pushMessageType) {
-    case PushMessageType.USERS:
+  switch (adminPage) {
+    case AdminPage.USERS:
       content = <AdminUsers />;
       break;
-    case PushMessageType.INVITATION:
-      content = <AdminInvitation />;
-      break;
-    case PushMessageType.REMINDER:
-      content = <AdminReminder />;
+    case AdminPage.PUSH_NOTIFICATION:
+      content = <AdminPushNotification />;
       break;
     default:
-      return <ErrorPage err={{code: 500, message: `Unknown push message type: ${pushMessageType}`, descriptionKey: 'error.description.unknown'}}/>
+      return <ErrorPage err={{code: 500, message: `Unknown admin page: ${adminPage}`, descriptionKey: 'error.description.unknown'}}/>
   }
   return (
     <>

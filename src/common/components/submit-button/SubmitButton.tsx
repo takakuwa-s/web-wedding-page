@@ -7,8 +7,9 @@ function SubmitButton(props: IProps) {
 
   if (props.isLoading) {
     return (
-    <Button variant="outline-info" size={props.spinnerSize} disabled>
+    <Button variant="outline-info" size={props.buttonSize} disabled>
       <Spinner
+        size={props.spinnerSize}
         as="span"
         animation="border"
         role="status"
@@ -22,6 +23,7 @@ function SubmitButton(props: IProps) {
     return (
       <Button
         type="button"
+        disabled={props.disabled}
         size={props.buttonSize}
         variant="outline-info"
         onClick={props.onClick}
@@ -32,8 +34,9 @@ function SubmitButton(props: IProps) {
 }
 
 interface IProps {
+  disabled?: boolean;
   buttonText: string;
-  spinnerSize?: "sm" | "lg";
+  spinnerSize?: "sm";
   buttonSize?: "sm" | "lg";
   isLoading: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;

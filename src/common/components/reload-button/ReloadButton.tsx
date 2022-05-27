@@ -9,7 +9,7 @@ function ReloadButton(props: IProps) {
   } else if (props.disableReload) {
     return (
       <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
+        <Col lg={8} className="d-grid gap-2 mx-auto">
           <Button
             type="button"
             size="sm"
@@ -23,7 +23,7 @@ function ReloadButton(props: IProps) {
   } else {
     return (
       <Row className="py-4">
-        <Col className="d-grid gap-2 mx-auto">
+        <Col lg={8} className="d-grid gap-2 mx-auto">
           <Button
             type="button"
             size="sm"

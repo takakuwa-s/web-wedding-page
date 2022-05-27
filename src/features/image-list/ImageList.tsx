@@ -13,6 +13,7 @@ import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
 import { useAppSelector } from '../../app/hooks';
 import { useSearchParams } from 'react-router-dom';
+import liff from '@line/liff/dist/lib';
 
 function ImageList() {
   const FILE_LIMIT = 50;
@@ -145,7 +146,7 @@ function ImageList() {
         <ErrorAlert msg={alertMsg} variant="danger" />
         {galleryID === RankGalleryID && (
           <Row className="py-3">
-            <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-ranking-rule-container px-1">
+            <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
               <ol className="my-1">
                 <li>{t("imageList.rank.rules.faceScore")}</li>
                 <li>{t("imageList.rank.rules.faceHappinessLevel")}</li>
@@ -153,6 +154,13 @@ function ImageList() {
                 <li>{t("imageList.rank.rules.bonus")}</li>
                 <li>{t("imageList.rank.rules.other")}</li>
               </ol>
+            </Col>
+          </Row>
+        )}
+        {galleryID !== RankGalleryID && liff.getOS() === "ios" && (
+          <Row className="py-3">
+            <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
+              <p className="my-1">{t("imageList.iosSave")}</p>
             </Col>
           </Row>
         )}

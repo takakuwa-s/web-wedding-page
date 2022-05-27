@@ -141,6 +141,7 @@
   },
   "imageList": {
     "title": "Gallery",
+    "iosSave": "iPhoneの場合、写真を開き長押しで保存できます",
     "tab": {
       "all": "All Photos",
       "mine": "My Photos",
@@ -179,31 +180,29 @@
   },
   "admin": {
     "tab": {
-      "invitation": "招待状送信",
-      "reminder": "前日メッセージ",
-      "users": "ユーザー一覧"
-    },
-    "sendMessage": {
-      "button": {
-        "check": "メッセージ確認",
-        "send": "メッセージ送信"
-      },
-      "alert": {
-        "sendSuccess": "LINE botへメッセージを送信しました。",
-        "sendErr": "LINE botへのメッセージ送信に失敗しました。"
-      },
-      "checkMsgContent": {
-        "invitation": "招待状送信内容確認",
-        "reminder": "前日メッセージ送信内容確認"
-      }
+      "users": "ユーザー一覧",
+      "pushNotification": "メッセージ送信"
     }
   },
-  "adminInvitation": {
-    "title": "招待状送信"
-
-  },
-  "adminReminder": {
-    "title": "前日メッセージ"
+  "adminPushNotification": {
+    "title": "メッセージ送信",
+    "psuhConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
+    "sellect": {
+      "invitation": "招待状送信",
+      "reminder": "前日メッセージ"
+    },
+    "button": {
+      "check": "メッセージ確認",
+      "send": "メッセージ送信"
+    },
+    "alert": {
+      "sendSuccess": "LINE botへメッセージを送信しました。",
+      "sendErr": "LINE botへのメッセージ送信に失敗しました。"
+    },
+    "checkMsgContent": {
+      "invitation": "招待状送信内容確認",
+      "reminder": "前日メッセージ送信内容確認"
+    }
   },
   "adminUser": {
     "title": "ユーザー一覧",
@@ -224,13 +223,16 @@
       "notRegistered": "未回答者",
       "registered": "回答済み",
       "participant": "参加者",
-      "absentee": "欠席者"
+      "absentee": "欠席者",
+      "follow": "botフォロー済",
+      "unfollow": "bot未フォロー"
     },
     "table": {
       "th": {
         "name": "名前",
         "nameKana": "かな",
         "isAdmin": "管理者",
+        "follow": "フォロー",
         "registered": "回答済",
         "attendance": "出席",
         "guestType": "ゲスト",

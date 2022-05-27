@@ -11,6 +11,7 @@ export interface User {
   address: string;
   allergy: string;
   message: string;
+  follow: boolean;
   registered: boolean;
   isAdmin: boolean;
 }
@@ -34,6 +35,7 @@ export function initUser(): User {
     address: '',
     allergy: '',
     message: '',
+    follow: false,
     registered: false,
     isAdmin: false,
   };

@@ -12,6 +12,7 @@ import Table from 'react-bootstrap/esm/Table';
 import rank1 from "./../../../resource/imagelist-ranking-1.png"
 import rank2 from "./../../../resource/imagelist-ranking-2.png"
 import rank3 from "./../../../resource/imagelist-ranking-3.png"
+import liff from '@line/liff/dist/lib';
 
 function PhotoswipeWrapper(props: IProps) {
   const { t } = useTranslation();
@@ -24,19 +25,21 @@ function PhotoswipeWrapper(props: IProps) {
     };
     let lightbox: any = new PhotoSwipeLightbox(options);
     lightbox.on('uiRegister', () => {
-      lightbox.pswp.ui.registerElement({
-        name: 'download-button',
-        order: 9,
-        isButton: true,
-        tagName: 'a',
-        html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" /></svg>',
-        onInit: (el: any, pswp: any) => {
-          el.setAttribute('download', '');
-          el.setAttribute('target', '_blank');
-          el.setAttribute('rel', 'noopener');
-          pswp.on('change', () => el.href = pswp.currSlide.data.src);
-        }
-      });
+      if (liff.getOS() !== 'ios') {
+        lightbox.pswp.ui.registerElement({
+          name: 'download-button',
+          order: 9,
+          isButton: true,
+          tagName: 'a',
+          html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" /></svg>',
+          onInit: (el: any, pswp: any) => {
+            el.setAttribute('download', '');
+            el.setAttribute('target', '_blank');
+            el.setAttribute('rel', 'noopener');
+            pswp.on('change', () => el.href = pswp.currSlide.data.src);
+          }
+        });
+      }
       if (props.showDeleteBtn) {
         lightbox.pswp.ui.registerElement({
           name: 'delete-button',
