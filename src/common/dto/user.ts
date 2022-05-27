@@ -1,5 +1,5 @@
 export interface User {
-  id?: string;
+  id: string;
   attendance: boolean;
   guestType: GuestType;
   familyName: string;
@@ -11,7 +11,7 @@ export interface User {
   address: string;
   allergy: string;
   message: string;
-  isRegistered: boolean;
+  registered: boolean;
   isAdmin: boolean;
 }
 
@@ -34,7 +34,7 @@ export function initUser(): User {
     address: '',
     allergy: '',
     message: '',
-    isRegistered: false,
+    registered: false,
     isAdmin: false,
   };
 }

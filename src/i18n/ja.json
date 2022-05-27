@@ -18,7 +18,6 @@
     "description" : {
       "unknown" : "不明なエラーが発生しました。",
       "liff" : "LINEアプリの初期設定に失敗しました。インターネットの接続をご確認下さい。",
-      "notLineInAppBrowser": "本ページはスマートフォンLINEアプリ上でのみ、表示できます。",
       "notFound" : "該当するページが見つかりません。",
       "init" : "初期化に失敗しました"
     }
@@ -162,7 +161,7 @@
         "faceScore": "得点は、顔の幸福度・写真の綺麗さ・ボーナスポイントの合計で100点満点になります",
         "faceHappinessLevel": "幸福度は、AIが読み取った表情や笑顔の度合いから計算されます",
         "facePhotoBeauty": "綺麗さは、写真のピント・光の当たり具合・ノイズなどから計算されます",
-        "bonus": "人数が多かったり、新郎新婦と写っていると、ボーナスポイントが加算されます",
+        "bonus": "人数が多かったり、年齢・男女などの多様性があると、ボーナスポイントが加算されます",
         "other": "人数が11人以上の場合は無効になります"
       }
     },
@@ -181,7 +180,8 @@
   "admin": {
     "tab": {
       "invitation": "招待状送信",
-      "reminder": "前日メッセージ"
+      "reminder": "前日メッセージ",
+      "users": "ユーザー一覧"
     },
     "sendMessage": {
       "button": {
@@ -204,5 +204,48 @@
   },
   "adminReminder": {
     "title": "前日メッセージ"
+  },
+  "adminUser": {
+    "title": "ユーザー一覧",
+    "csvName": "ユーザー一覧",
+    "alert": {
+      "loadErr": "ユーザーの読み込みに失敗しました",
+      "reloadErr": "ユーザーの再読み込みに失敗しました"
+    },
+    "button": {
+      "search": "検索",
+      "csv": "csv",
+      "reload": "ユーザーをさらに読み込む",
+      "allLoaded": "未読込のユーザーはいません"
+    },
+    "sellect": {
+      "all": "全員",
+      "admin": "管理者",
+      "notRegistered": "未回答者",
+      "registered": "回答済み",
+      "participant": "参加者",
+      "absentee": "欠席者"
+    },
+    "table": {
+      "th": {
+        "name": "名前",
+        "nameKana": "かな",
+        "isAdmin": "管理者",
+        "registered": "回答済",
+        "attendance": "出席",
+        "guestType": "ゲスト",
+        "phone": "電話番号",
+        "postalCode": "郵便番号",
+        "address": "住所",
+        "allergy": "アレルギー",
+        "message": "メッセージ"
+      },
+      "td": {
+        "bool": {
+          "true": "○",
+          "false": "×"
+        }
+      }
+    }
   }
 }

@@ -32,20 +32,15 @@ let errDescriptionKey: string = "error.description.liff";
 liff
   .init({
     liffId: process.env.REACT_APP_LIFF_ID || '',
-    withLoginOnExternalBrowser: false
+    withLoginOnExternalBrowser: true
   })
   .then(() => {
-    if (liff.isInClient()) {
-      if (liff.isLoggedIn()) {
-        return callInitApi();
-      } else {
-        logEvent(analytics, "liff login error on LINEs in-app browser");
-        errDescriptionKey = "error.description.unknown";
-        throw new Error("Not logged in after liff.init()");
-      }
+    if (liff.isLoggedIn()) {
+      return callInitApi();
     } else {
-      errDescriptionKey = "error.description.notLineInAppBrowser";
-      throw new Error("Not opened by LINE's in-app browser");
+      logEvent(analytics, "liff login error on LINEs in-app browser");
+      errDescriptionKey = "error.description.unknown";
+      throw new Error("Not logged in after liff.init()");
     }
   })
   .then((res: Response) => {

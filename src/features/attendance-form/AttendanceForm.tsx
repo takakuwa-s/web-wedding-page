@@ -100,7 +100,7 @@ function AttendanceForm(props: IProps) {
             {t("attendance.attendance.label")}<span className="required">*</span>
           </Form.Label>
           {
-            user.isRegistered
+            user.registered
               ? (
                 <Col xs={12} sm={6} className="d-inline-flex justify-content-start align-items-center">
                   <span className="span-alert-label">{t("attendance.attendance.alert")}</span>

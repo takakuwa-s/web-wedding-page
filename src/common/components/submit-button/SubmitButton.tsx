@@ -1,20 +1,13 @@
-import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Spinner from "react-bootstrap/esm/Spinner";
 import { useTranslation } from "react-i18next";
 
 function SubmitButton(props: IProps) {
   const { t } = useTranslation();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setIsSubmitting(true);
-    return props.onClick(e);
-  }
-
-  if (isSubmitting) {
+  if (props.isLoading) {
     return (
-    <Button variant={props.variant} size="lg" disabled>
+    <Button variant="outline-info" size={props.spinnerSize} disabled>
       <Spinner
         as="span"
         animation="border"
@@ -29,9 +22,9 @@ function SubmitButton(props: IProps) {
     return (
       <Button
         type="button"
-        size="lg"
-        variant={props.variant}
-        onClick={onClick}
+        size={props.buttonSize}
+        variant="outline-info"
+        onClick={props.onClick}
       >{props.buttonText}
       </Button>
     );
@@ -40,7 +33,9 @@ function SubmitButton(props: IProps) {
 
 interface IProps {
   buttonText: string;
-  variant: string;
+  spinnerSize?: "sm" | "lg";
+  buttonSize?: "sm" | "lg";
+  isLoading: boolean;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 

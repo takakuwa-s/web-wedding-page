@@ -11,12 +11,10 @@ import { File } from "../../common/dto/file";
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { updateFiles } from './fileSlice';
+import { useAppSelector } from '../../app/hooks';
 import { useSearchParams } from 'react-router-dom';
 
 function ImageList() {
-  const dispatch = useAppDispatch();
   const FILE_LIMIT = 50;
   const RANK_FILE_LIMIT = 10;
   const AllGalleryID = "all-gallery";
@@ -47,7 +45,6 @@ function ImageList() {
           }
           setImages(f);
           setAlertMsg("");
-          dispatch(updateFiles(f));
         },
         e => {
           console.error(e);
@@ -56,7 +53,7 @@ function ImageList() {
         () => setIsLoading(false)
       );
     }
-  }, [t, dispatch, needReload]);
+  }, [t, needReload]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -81,20 +78,21 @@ function ImageList() {
     );
   };
   const removeImage = (id: string, pswp: any) => {
-    setIsLoading(true);
+    const list = images;
+    const deletedList = images.filter(i => i.id !== id);
+    setImages(deletedList);
     pswp.close();
     deleteImage(
       id,
       () => {
         setAlertMsg("");
-        const myList = images.filter(i => i.id !== id);
-        setImages(myList);
       },
       e => {
         console.error(e);
+        setImages(list);
         setAlertMsg(t("imageList.alert.deleteErr"));
       },
-      () => setIsLoading(false));
+      () => {});
   };
 
   const switchGallery = (eventKey: any, event: any) => {
@@ -105,7 +103,7 @@ function ImageList() {
     fetchImageList(
       eventKey === RankGalleryID ? RANK_FILE_LIMIT : FILE_LIMIT,
       "",
-      eventKey === MyGalleryID,
+      false,
       eventKey === RankGalleryID,
       f => {
         if (f.length < FILE_LIMIT) {

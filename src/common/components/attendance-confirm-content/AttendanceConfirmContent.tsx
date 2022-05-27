@@ -13,15 +13,15 @@ function AttendanceConfirmContent(props: IProps) {
       />
       <AttendanceConfirmItem
         label={t("attendance.guestType.label")}
-        value={t("attendance.guestType." + props.user.guestType.toLowerCase())}
+        value={t(`attendance.guestType.${props.user.guestType.toLowerCase()}`)}
       />
       <AttendanceConfirmItem
         label={t("attendance.name.label")}
-        value={props.user.familyName + " " + props.user.firstName}
+        value={`${props.user.familyName} ${props.user.firstName}`}
       />
       <AttendanceConfirmItem
         label={t("attendance.nameKana.label")}
-        value={props.user.familyNameKana + " " + props.user.firstNameKana}
+        value={`${props.user.familyNameKana} ${props.user.firstNameKana}`}
       />
       <AttendanceConfirmItem
         label={t("attendance.phone.label")}

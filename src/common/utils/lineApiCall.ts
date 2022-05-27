@@ -13,7 +13,7 @@ export function sendMessageToLineBot(
       "Authorization": token!
     },
   };
-  const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/line/message?messageKey=" + messageKey;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/line/message?messageKey=${messageKey}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {

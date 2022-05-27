@@ -12,8 +12,10 @@ import { useState } from "react";
 function AttendanceConfirm(props: IProps) {
   const { t } = useTranslation();
   const [diableBackBtn, setDiableBackBtn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = () => {
+    setIsLoading(true);
     setDiableBackBtn(true);
     saveUser(
       props.user,
@@ -33,8 +35,10 @@ function AttendanceConfirm(props: IProps) {
       <Row className="py-3">
         <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
           <SubmitButton
-            variant="outline-info"
+            buttonSize="lg"
+            spinnerSize="lg"
             buttonText={t("attendanceConfirm.register")}
+            isLoading={isLoading}
             onClick={handleRegister}/>
         </Col>
       </Row>

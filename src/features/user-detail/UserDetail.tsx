@@ -20,7 +20,7 @@ function UserDetail() {
           <h2 className="pt-5 text-center">{t("userDetail.title")}</h2>
         </Col>
       </Row>
-      {user.isRegistered ?
+      {user.registered ?
         (
           <>
             <AttendanceConfirmContent user={user}/>

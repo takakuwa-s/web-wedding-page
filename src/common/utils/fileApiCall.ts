@@ -15,17 +15,17 @@ export function fetchImageList(
     method: 'GET',
     headers: { "Authorization": token! }
   };
-  let param = "?limit=" + limit;
+  let param = `?limit=${limit}`;
   if (startId) {
-    param += "&startId=" + startId;
+    param += `&startId=${startId}`;
   }
   if (doFilterUser) {
-    param += "&userId=" + liff.getDecodedIDToken()?.sub;
+    param += `&userId=${liff.getDecodedIDToken()?.sub}`;
   }
   if (orderByFaceScore) {
     param += "&orderBy=FaceScore";
   }
-  const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/file/list" + param;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list${param}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {
@@ -56,7 +56,7 @@ export function deleteImage(
       "Authorization": token!
     }
   };
-  const url: string = process.env.REACT_APP_BACKEND_BASE_URL! + "/api/file/" + id;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/${id}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {
