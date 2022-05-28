@@ -1,13 +1,12 @@
 import liff from "@line/liff/dist/lib";
 import { ChangeEvent, useState } from "react";
-import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/esm/Form";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
-import SelectForm from "../../common/components/select-form/SelectForm";
+import FormSelect from "../../common/components/form-select/FormSelect";
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { sendMessageToLineBot } from "../../common/utils/lineApiCall";
 
@@ -34,13 +33,13 @@ function AdminPushNotification() {
         },
       ])
       .then(() => {
-        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
         setAlertVariant("success");
+        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
       })
       .catch(err => {
         console.log("error", err);
-        setAlertMsg(t("adminPushNotification.alert.sendErr"));
         setAlertVariant("danger");
+        setAlertMsg(t("adminPushNotification.alert.sendErr"));
       })
       .finally(() => setIsCheckLoading(false)
       );
@@ -51,14 +50,14 @@ function AdminPushNotification() {
     sendMessageToLineBot(
       messageType,
       () => {
-        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
-        setAlertVariant("success");
         setMsgChecked(false);
+        setAlertVariant("success");
+        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
       },
       (err: Error) => {
         console.log("error", err);
-        setAlertMsg(t("adminPushNotification.alert.sendErr"));
         setAlertVariant("danger");
+        setAlertMsg(t("adminPushNotification.alert.sendErr"));
       },
       () => setIsMulticastLoading(false)
     );
@@ -84,7 +83,7 @@ function AdminPushNotification() {
       <ErrorAlert msg={alertMsg} variant={alertVariant}/>
       <Row>
         <Col md={6} xl={4} className="mx-auto">
-          <SelectForm onSelect={onSelect} options={options} />
+          <FormSelect onSelect={onSelect} options={options} />
         </Col>
       </Row>
       <Row className="py-5">

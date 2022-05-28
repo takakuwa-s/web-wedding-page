@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userSlice from '../features/user-detail/userSlice'
 import fileSlice from '../features/image-list/fileSlice'
+import adminUserSlice from '../features/admin-users/adminUsersSlice'
 
 const store = configureStore({
   reducer: {
     user: userSlice,
     files: fileSlice,
+    adminUsers: adminUserSlice,
   },
 })
 

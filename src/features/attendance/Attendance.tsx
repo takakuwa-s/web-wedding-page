@@ -23,24 +23,25 @@ function Attendance() {
   switch (status) {
     case Status.FORM:
       return <AttendanceForm
-                  user={user}
-                  onConfirm={u => {
-                    setUser(u);
-                    setStatus(Status.CONFIRM);
-                  }}/>;
+                user={user}
+                onConfirm={u => {
+                  setUser(u);
+                  setStatus(Status.CONFIRM);
+                }}
+              />;
     case Status.CONFIRM:
      return <AttendanceConfirm
-                  user={user}
-                  onBackButtonClicked={() => setStatus(Status.FORM)}
-                  onSaveSuccess={u => {
-                    setUser(u);
-                    dispatch(updateUser(u));
-                    setStatus(Status.COMPLETE);
-                  }}
-                  onSaveError={err => {
-                    setError(err);
-                    setStatus(Status.COMPLETE);
-                  }} />;
+              user={user}
+              onBackButtonClicked={() => setStatus(Status.FORM)}
+              onSaveSuccess={u => {
+                setUser(u);
+                dispatch(updateUser(u));
+              }}
+              onSaveError={err => {
+                setError(err);
+              }}
+              onSaveComplete={() => setStatus(Status.COMPLETE)}
+            />;
     case Status.COMPLETE:
       return <AttendanceComplete err={err} />;
     default:

@@ -11,16 +11,15 @@ import { useState } from "react";
 
 function AttendanceConfirm(props: IProps) {
   const { t } = useTranslation();
-  const [diableBackBtn, setDiableBackBtn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = () => {
     setIsLoading(true);
-    setDiableBackBtn(true);
     saveUser(
       props.user,
       props.onSaveSuccess,
       props.onSaveError,
+      props.onSaveComplete,
     );
   };
 
@@ -47,7 +46,7 @@ function AttendanceConfirm(props: IProps) {
             type="button"
             variant="outline-info"
             size="lg"
-            disabled={diableBackBtn}
+            disabled={isLoading}
             onClick={props.onBackButtonClicked}
           >{t("attendanceConfirm.back")}
           </Button>
@@ -62,6 +61,7 @@ interface IProps {
   onBackButtonClicked: () => void;
   onSaveSuccess: (user: User) => void;
   onSaveError: (err: Error) => void;
+  onSaveComplete: () => void;
 }
 
 export default AttendanceConfirm;

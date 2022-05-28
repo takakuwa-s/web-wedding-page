@@ -12,6 +12,7 @@ import { User } from '../common/dto/user';
 import ErrorPage from '../features/error-page/ErrorPage';
 import { File } from "./../common/dto/file";
 import { updateFiles } from '../features/image-list/fileSlice';
+import AdminUserDetail from '../features/admin-user-detail/AdminUserDetail';
 
 function App(props: IProps) {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ function App(props: IProps) {
         <Route path="image/list" element={<ImageList />} />
         <Route path="user" element={<UserDetail />} />
         {props.user.isAdmin && <Route path="admin" element={<Admin />} />}
+        {props.user.isAdmin && <Route path="admin/user/:id" element={<AdminUserDetail />} />}
         <Route path="*" element={<ErrorPage err={notFoundError}/>} />
       </Routes>
     </BrowserRouter>

@@ -7,7 +7,7 @@ function SubmitButton(props: IProps) {
 
   if (props.isLoading) {
     return (
-    <Button variant="outline-info" size={props.buttonSize} disabled>
+    <Button variant="outline-info" size={props.buttonSize} disabled className={props.className}>
       <Spinner
         size={props.spinnerSize}
         as="span"
@@ -24,6 +24,7 @@ function SubmitButton(props: IProps) {
       <Button
         type="button"
         disabled={props.disabled}
+        className={props.className}
         size={props.buttonSize}
         variant="outline-info"
         onClick={props.onClick}
@@ -35,6 +36,7 @@ function SubmitButton(props: IProps) {
 
 interface IProps {
   disabled?: boolean;
+  className?: string;
   buttonText: string;
   spinnerSize?: "sm";
   buttonSize?: "sm" | "lg";

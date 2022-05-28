@@ -11,7 +11,8 @@
     },
     "button": {
       "loading": "　Loading ... ",
-      "close": "画面を閉じる"
+      "close": "画面を閉じる",
+      "back": "戻る"
     }
   },
   "error": {
@@ -204,7 +205,7 @@
       "reminder": "前日メッセージ送信内容確認"
     }
   },
-  "adminUser": {
+  "adminUsers": {
     "title": "ユーザー一覧",
     "csvName": "ユーザー一覧",
     "alert": {
@@ -227,26 +228,43 @@
       "follow": "botフォロー済",
       "unfollow": "bot未フォロー"
     },
-    "table": {
-      "th": {
-        "name": "名前",
-        "nameKana": "かな",
-        "isAdmin": "管理者",
-        "follow": "フォロー",
-        "registered": "回答済",
-        "attendance": "出席",
-        "guestType": "ゲスト",
-        "phone": "電話番号",
-        "postalCode": "郵便番号",
-        "address": "住所",
-        "allergy": "アレルギー",
-        "message": "メッセージ"
+    "userLabel": {
+      "name": "名前",
+      "nameKana": "かな",
+      "isAdmin": "管理者",
+      "follow": "フォロー",
+      "registered": "回答済",
+      "attendance": "出席",
+      "guestType": "ゲスト",
+      "phone": "電話番号",
+      "postalCode": "郵便番号",
+      "address": "住所",
+      "allergy": "アレルギー",
+      "message": "メッセージ"
+    },
+    "boolAnswer": {
+      "true": "○",
+      "false": "×"
+    }
+  },
+  "adminUserDetail": {
+    "title": "ユーザー詳細",
+    "alert": {
+      "loadErr": "ユーザーの読み込みに失敗しました",
+      "updateErr": "更新に失敗しました",
+      "updateSuccess": "更新しました"
+    },
+    "button": {
+      "update": "更新する"
+    },
+    "input": {
+      "isAdmin": {
+        "true": "有効",
+        "false": "無効"
       },
-      "td": {
-        "bool": {
-          "true": "○",
-          "false": "×"
-        }
+      "attendance": {
+        "true": "出席",
+        "false": "欠席"
       }
     }
   }

@@ -6,16 +6,23 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Table from "react-bootstrap/esm/Table";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
+import FormSelect from "../../common/components/form-select/FormSelect";
 import Loading from "../../common/components/loading/Loading";
 import ReloadButton from "../../common/components/reload-button/ReloadButton";
-import SelectForm from "../../common/components/select-form/SelectForm";
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { User } from "../../common/dto/user";
 import { getUserList } from "../../common/utils/userApiCall";
+import { updateAdminUsers } from "./adminUsersSlice";
 
 function AdminUsers() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const users = useAppSelector((state: RootState) => state.adminUsers.val);
   const [isCsVLoading, setIsCsVLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -24,7 +31,6 @@ function AdminUsers() {
   const [searchFlg, setSearchFlg] = useState("");
   const [searchVal, setSearchVal] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
-  const [users, setUsers] = useState<User[]>([]);
   const USER_LINIT = 50;
 
   const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,13 +52,13 @@ function AdminUsers() {
         if (u.length < USER_LINIT) {
           setIsAll(true);
         }
-        setUsers(u);
+        dispatch(updateAdminUsers(u));
         setAlertMsg("");
         setLoaded(true);
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUser.alert.loadErr"));
+        setAlertMsg(t("adminUsers.alert.loadErr"));
       },
       () => setIsLoading(false));
   };
@@ -70,12 +76,12 @@ function AdminUsers() {
           setIsAll(true);
         }
         const list = users.concat(u);
-        setUsers(list);
+        dispatch(updateAdminUsers(list));
         setAlertMsg("");
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUser.alert.reloadErr"));
+        setAlertMsg(t("adminUsers.alert.reloadErr"));
       },
       () => setIsReloading(false));
   };
@@ -93,7 +99,7 @@ function AdminUsers() {
         const url = URL.createObjectURL(b);
         const a = document.createElement("a");
         document.body.appendChild(a);
-        a.download = `${t("adminUser.csvName")}.csv`;
+        a.download = `${t("adminUsers.csvName")}.csv`;
         a.href = url;
         a.click();
         a.remove();
@@ -101,48 +107,47 @@ function AdminUsers() {
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUser.alert.loadErr"));
+        setAlertMsg(t("adminUsers.alert.loadErr"));
       },
       () => setIsCsVLoading(false));
   };
 
   const options = [
-    {value: ",", label: t("adminUser.sellect.all")},
-    {value: "IsAdmin,t", label: t("adminUser.sellect.admin")},
-    {value: "Registered,t", label: t("adminUser.sellect.registered")},
-    {value: "Registered,", label: t("adminUser.sellect.notRegistered")},
-    {value: "Attendance,t", label: t("adminUser.sellect.participant")},
-    {value: "Attendance,", label: t("adminUser.sellect.absentee")},
-    {value: "Follow,t", label: t("adminUser.sellect.follow")},
-    {value: "Follow,", label: t("adminUser.sellect.unfollow")},
+    {value: ",", label: t("adminUsers.sellect.all")},
+    {value: "IsAdmin,t", label: t("adminUsers.sellect.admin")},
+    {value: "Registered,t", label: t("adminUsers.sellect.registered")},
+    {value: "Registered,", label: t("adminUsers.sellect.notRegistered")},
+    {value: "Attendance,t", label: t("adminUsers.sellect.participant")},
+    {value: "Attendance,", label: t("adminUsers.sellect.absentee")},
+    {value: "Follow,t", label: t("adminUsers.sellect.follow")},
+    {value: "Follow,", label: t("adminUsers.sellect.unfollow")},
   ];
 
   return (
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-5 text-center">{t('adminUser.title')}</h2>
+          <h2 className="pt-5 text-center">{t('adminUsers.title')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg} variant="danger" />
       <Row className="pt-3 pb-3">
         <Col xs={6} sm={{offset:1, span:6}} md={{offset:2, span:5}} lg={{offset:3, span:4}} xl={{offset:4, span:3}}>
-          <SelectForm onSelect={onSelect} options={options} />
+          <FormSelect onSelect={onSelect} options={options} />
         </Col>
         <Col>
           <Button
             className="me-2"
             variant="outline-info"
             onClick={loadUsers}
-          >{t("adminUser.button.search")}
+          >{t("adminUsers.button.search")}
           </Button>
-          {liff.getOS() !== "ios" && 
-            <SubmitButton
-              spinnerSize="sm"
-              isLoading={isCsVLoading}
-              buttonText={t("adminUser.button.csv")}
-              onClick={downloadCsv}/>
-          }
+          <SubmitButton
+            disabled={liff.getOS() === "ios"}
+            spinnerSize="sm"
+            isLoading={isCsVLoading}
+            buttonText={t("adminUsers.button.csv")}
+            onClick={downloadCsv}/>
         </Col>
       </Row>
       {isLoading ? <Loading /> : (
@@ -152,30 +157,30 @@ function AdminUsers() {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>{t("adminUser.table.th.name")}</th>
-                  <th>{t("adminUser.table.th.nameKana")}</th>
-                  <th>{t("adminUser.table.th.isAdmin")}</th>
-                  <th>{t("adminUser.table.th.follow")}</th>
-                  <th>{t("adminUser.table.th.registered")}</th>
-                  <th>{t("adminUser.table.th.attendance")}</th>
-                  <th>{t("adminUser.table.th.guestType")}</th>
-                  <th>{t("adminUser.table.th.phone")}</th>
-                  <th>{t("adminUser.table.th.postalCode")}</th>
-                  <th>{t("adminUser.table.th.address")}</th>
-                  <th>{t("adminUser.table.th.allergy")}</th>
-                  <th>{t("adminUser.table.th.message")}</th>
+                  <th>{t("adminUsers.userLabel.name")}</th>
+                  <th>{t("adminUsers.userLabel.nameKana")}</th>
+                  <th>{t("adminUsers.userLabel.isAdmin")}</th>
+                  <th>{t("adminUsers.userLabel.follow")}</th>
+                  <th>{t("adminUsers.userLabel.registered")}</th>
+                  <th>{t("adminUsers.userLabel.attendance")}</th>
+                  <th>{t("adminUsers.userLabel.guestType")}</th>
+                  <th>{t("adminUsers.userLabel.phone")}</th>
+                  <th>{t("adminUsers.userLabel.postalCode")}</th>
+                  <th>{t("adminUsers.userLabel.address")}</th>
+                  <th>{t("adminUsers.userLabel.allergy")}</th>
+                  <th>{t("adminUsers.userLabel.message")}</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="cursor-pointer">
                 {users.map((u: User, idx) => (
-                  <tr key={idx}>
+                  <tr key={idx} onClick={() => navigate(`/admin/user/${u.id}`)}>
                     <td>{idx + 1}</td>
                     <td>{`${u.familyName} ${u.firstName}`}</td>
                     <td>{`${u.familyNameKana} ${u.firstNameKana}`}</td>
-                    <td>{u.isAdmin ? t("adminUser.table.td.bool.true") : t("adminUser.table.td.bool.false")}</td>
-                    <td>{u.follow ? t("adminUser.table.td.bool.true") : t("adminUser.table.td.bool.false")}</td>
-                    <td>{u.registered ? t("adminUser.table.td.bool.true") : t("adminUser.table.td.bool.false")}</td>
-                    <td>{u.attendance ? t("adminUser.table.td.bool.true") : t("adminUser.table.td.bool.false")}</td>
+                    <td>{u.isAdmin ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
+                    <td>{u.follow ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
+                    <td>{u.registered ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
+                    <td>{u.attendance ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{t(`attendance.guestType.${u.guestType.toLowerCase()}`)}</td>
                     <td>{u.phoneNumber}</td>
                     <td>{u.postalCode}</td>
@@ -193,8 +198,8 @@ function AdminUsers() {
         <ReloadButton 
           isReloading={isReloading}
           disableReload={isAll}
-          disableReloadBtnTxt={t("adminUser.button.allLoaded")}
-          reloadBtnTxt={t("adminUser.button.reload")}
+          disableReloadBtnTxt={t("adminUsers.button.allLoaded")}
+          reloadBtnTxt={t("adminUsers.button.reload")}
           onReloadButtonClicked={reloadUsers}/>
       )}
     </Container>

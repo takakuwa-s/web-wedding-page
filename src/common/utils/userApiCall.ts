@@ -5,6 +5,7 @@ export function saveUser(
   user: User,
   onSuccess: (user: User) => void,
   onError: (err: any) => void,
+  onComplete: () => void,
   ): void {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {
@@ -15,7 +16,7 @@ export function saveUser(
     },
     body: JSON.stringify(user)
   };
-  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/user`;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/user/${user.id}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {
@@ -29,7 +30,46 @@ export function saveUser(
         throw new Error(res.error);
       }
     })
-    .catch(onError);
+    .catch(onError)
+    .finally(onComplete);
+}
+
+export function patchUser(
+  userId: String,
+  filed: String,
+  value: any,
+  onSuccess: () => void,
+  onError: (err: any) => void,
+  onComplete: () => void,
+  ): void {
+  const token = liff.getAccessToken();
+  const requestOptions: RequestInit = {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token!
+    },
+    body: `{"${filed}":"${value}"}`
+  };
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/user/${userId}`;
+  let code: number;
+  fetch(url, requestOptions)
+    .then(res => {
+      code = res.status;
+      if (code !== 204) {
+        return res.json();
+      }
+      return null;
+    })
+    .then(res => {
+      if (code === 204) {
+        onSuccess();
+      } else {
+        throw new Error(res.error);
+      }
+    })
+    .catch(onError)
+    .finally(onComplete);
 }
 
 export function getUserList(
@@ -78,6 +118,37 @@ export function getUserList(
         } else {
           onSuccess(res.users);
         }
+      } else {
+        throw new Error(res.error);
+      }
+    })
+    .catch(onError)
+    .finally(onComplete);
+}
+
+export function getUser(
+  id: string,
+  onSuccess: (users: User) => void,
+  onError: (err: any) => void,
+  onComplete: () => void,
+  ): void {
+  const token = liff.getAccessToken();
+  const requestOptions: RequestInit = {
+    method: 'GET',
+    headers: {
+      "Authorization": token!
+    },
+  };
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/user/${id}`;
+  let code: number;
+  fetch(url, requestOptions)
+    .then(res => {
+      code = res.status;
+      return res.json();
+    })
+    .then(res => {
+      if (code === 200) {
+        onSuccess(res.user);
       } else {
         throw new Error(res.error);
       }
