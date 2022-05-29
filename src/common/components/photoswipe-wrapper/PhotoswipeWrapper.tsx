@@ -46,7 +46,11 @@ function PhotoswipeWrapper(props: IProps) {
           order: 19,
           isButton: true,
           html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M71.66667,14.33333l-7.16667,7.16667h-43v14.33333h7.95052l12.77962,109.33366v0.05599c0.939,7.07108 7.07882,12.44368 14.20736,12.44368h59.111c7.12853,0 13.26835,-5.37269 14.20736,-12.44368l0.014,-0.05599l12.77962,-109.33366h7.95052v-14.33333h-43l-7.16667,-7.16667zM43.89583,35.83333h84.20833l-12.55566,107.5h-59.111z"></path></g></g></svg>`,
-          onClick: (event: any, el: any, pswp: any) => props.onClickDeleteBtn(pswp.currSlide.data.alt, pswp)
+          onClick: (event: any, el: any, pswp: any) => {
+            if (props.onClickDeleteBtn) {
+              props.onClickDeleteBtn(pswp.currSlide.data.alt, pswp);
+            }
+          }
           });
       }
     });
@@ -112,35 +116,33 @@ function PhotoswipeWrapper(props: IProps) {
     );
   } else {
     return (
-      <div>
-        <Row className="pswp-gallery ps-1 pt-2" id={props.galleryID}>
-          {props.images.map((image, idx) => (
-            <Col key={props.galleryID + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
-              <a
-                href={image.contentUrl}
-                data-pswp-width={image.width}
-                data-pswp-height={image.height}
-                data-cropped="true"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
-              </a>
-            </Col>
-          ))}
-        </Row>
-      </div>
+      <Row className="pswp-gallery ps-1 pt-2" id={props.galleryID}>
+        {props.images.map((image, idx) => (
+          <Col key={props.galleryID + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
+            <a
+              href={image.contentUrl}
+              data-pswp-width={image.width}
+              data-pswp-height={image.height}
+              data-cropped="true"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
+            </a>
+          </Col>
+        ))}
+      </Row>
     );
   }
 }
 
 interface IProps {
-  showAsRanking: boolean;
-  isLoading: boolean;
   images: File[];
   galleryID: string;
-  showDeleteBtn: boolean;
-  onClickDeleteBtn: (id: string, pswp: any) => void
+  showAsRanking?: boolean;
+  isLoading?: boolean;
+  showDeleteBtn?: boolean;
+  onClickDeleteBtn?: (id: string, pswp: any) => void
 }
 
 export default PhotoswipeWrapper;

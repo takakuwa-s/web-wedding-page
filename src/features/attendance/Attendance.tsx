@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { RootState } from "../../app/store";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import AttendanceForm from "../attendance-form/AttendanceForm";
-import AttendanceConfirm from "../attendance-confirm/AttendanceConfirm";
-import AttendanceComplete from "../attendance-complete/AttendanceComplete";
+import AttendanceForm from "./AttendanceForm";
+import AttendanceConfirm from "./AttendanceConfirm";
+import AttendanceComplete from "./AttendanceComplete";
 import { updateUser } from "../user-detail/userSlice";
 import ErrorPage from "../error-page/ErrorPage";
 
@@ -37,9 +37,7 @@ function Attendance() {
                 setUser(u);
                 dispatch(updateUser(u));
               }}
-              onSaveError={err => {
-                setError(err);
-              }}
+              onSaveError={setError}
               onSaveComplete={() => setStatus(Status.COMPLETE)}
             />;
     case Status.COMPLETE:

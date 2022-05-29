@@ -3,12 +3,14 @@ import { User } from '../../common/dto/user';
 
 // Define a type for the slice state
 interface AdminUserState {
-  val: User[]
+  val: User[],
+  searchParam: string
 }
 
 // Define the initial state using that type
 const initialState: AdminUserState = {
   val: [],
+  searchParam: ",",
 }
 
 export const adminUserSlice = createSlice({
@@ -32,11 +34,13 @@ export const adminUserSlice = createSlice({
         return u;
       });
     },
-
+    updateSearchParam: (state, action: PayloadAction<string>) => {
+      state.searchParam = action.payload;
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateAdminUsers, patchAdminUsers } = adminUserSlice.actions
+export const { updateAdminUsers, patchAdminUsers, updateSearchParam } = adminUserSlice.actions
 
 export default adminUserSlice.reducer

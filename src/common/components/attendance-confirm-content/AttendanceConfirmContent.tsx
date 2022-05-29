@@ -4,44 +4,46 @@ import AttendanceConfirmItem from "../attendance-confirm-item/AttendanceConfirmI
 
 function AttendanceConfirmContent(props: IProps) {
   const { t } = useTranslation();
+  const { attendance, guestType, familyName, firstName, familyNameKana, firstNameKana,
+    phoneNumber, postalCode, address, allergy, message} = props.user;
 
   return (
     <>
       <AttendanceConfirmItem
         label={t("attendance.attendance.label")}
-        value={props.user.attendance ? t("attendance.attendance.attend") : t("attendance.attendance.decline")}
+        value={attendance ? t("attendance.attendance.attend") : t("attendance.attendance.decline")}
       />
       <AttendanceConfirmItem
         label={t("attendance.guestType.label")}
-        value={t(`attendance.guestType.${props.user.guestType.toLowerCase()}`)}
+        value={t(`attendance.guestType.${guestType.toLowerCase()}`)}
       />
       <AttendanceConfirmItem
         label={t("attendance.name.label")}
-        value={`${props.user.familyName} ${props.user.firstName}`}
+        value={`${familyName} ${firstName}`}
       />
       <AttendanceConfirmItem
         label={t("attendance.nameKana.label")}
-        value={`${props.user.familyNameKana} ${props.user.firstNameKana}`}
+        value={`${familyNameKana} ${firstNameKana}`}
       />
       <AttendanceConfirmItem
         label={t("attendance.phone.label")}
-        value={props.user.phoneNumber}
+        value={phoneNumber}
       />
       <AttendanceConfirmItem
         label={t("attendance.postalCode.label")}
-        value={props.user.postalCode}
+        value={postalCode}
       />
       <AttendanceConfirmItem
         label={t("attendance.address.label")}
-        value={props.user.address}
+        value={address}
       />
       <AttendanceConfirmItem
         label={t("attendance.allergy.label")}
-        value={props.user.allergy}
+        value={allergy}
       />
       <AttendanceConfirmItem
         label={t("attendance.message.label")}
-        value={props.user.message}
+        value={message}
         as="pre"
       />
     </>

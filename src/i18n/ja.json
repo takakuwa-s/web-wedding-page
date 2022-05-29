@@ -12,7 +12,10 @@
     "button": {
       "loading": "　Loading ... ",
       "close": "画面を閉じる",
-      "back": "戻る"
+      "back": "戻る",
+      "select": "select",
+      "cancel": "cancel",
+      "delete": "削除"
     }
   },
   "error": {
@@ -232,9 +235,9 @@
       "name": "名前",
       "nameKana": "かな",
       "isAdmin": "管理者",
-      "follow": "フォロー",
-      "registered": "回答済",
       "attendance": "出席",
+      "registered": "回答済",
+      "follow": "フォロー",
       "guestType": "ゲスト",
       "phone": "電話番号",
       "postalCode": "郵便番号",

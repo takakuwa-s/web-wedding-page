@@ -13,8 +13,9 @@ import AttendanceConfirmItem from "../../common/components/attendance-confirm-it
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import Form from "react-bootstrap/esm/Form";
 import FormCheckRadio from "../../common/components/form-check-radio/FormCheckRadio";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { patchAdminUsers } from "../admin-users/adminUsersSlice";
+import { RootState } from "../../app/store";
 
 function AdminUserDetail() {
   const { t } = useTranslation();
@@ -22,22 +23,32 @@ function AdminUserDetail() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const [user, setUser] = useState<User>(initUser());
+  const myself = useAppSelector((state: RootState) => state.user.val);
   const [isLoading, setIsLoading] = useState(false);
   const [isAttandanceUpdateLoading, setIsAttandanceUpdateLoading] = useState(false);
   const [isAdimnUpdateLoading, setIsAdimnUpdateLoading] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [alertVariant, setAlertVariant] = useState("danger");
+  const [alert, setAlert] = useState({
+    msg: "",
+    variant: "danger",
+  });
+
   useEffect(() => {
     setIsLoading(true);
     getUser(
       id!,
       u => {
         setUser(u);
-        setAlertMsg("");
+        setAlert({
+          msg: "",
+          variant: "success",
+        });
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUserDetail.alert.loadErr"));
+        setAlert({
+          msg: t("adminUserDetail.alert.loadErr"),
+          variant: "danger",
+        });
       },
       () => setIsLoading(false)
     );
@@ -55,13 +66,17 @@ function AdminUserDetail() {
       val,
       () => {
         dispatch(patchAdminUsers({id: user.id, updateIsAdmin: updateIsAdmin, val: val}));
-        setAlertVariant("success");
-        setAlertMsg(t("adminUserDetail.alert.updateSuccess"));
+        setAlert({
+          msg: t("adminUserDetail.alert.updateSuccess"),
+          variant: "success",
+        });
       },
       e => {
         console.error(e);
-        setAlertVariant("danger");
-        setAlertMsg(t("adminUserDetail.alert.updateErr"));
+        setAlert({
+          msg: t("adminUserDetail.alert.updateErr"),
+          variant: "danger",
+        });
       },
       () => {
         if (updateIsAdmin) {
@@ -103,33 +118,40 @@ function AdminUserDetail() {
           <h2 className="pt-5 text-center">{t("adminUserDetail.title")}</h2>
         </Col>
       </Row>
-      <ErrorAlert msg={alertMsg} variant={alertVariant} />
+      <ErrorAlert {...alert} />
       {isLoading ? <Loading /> : (
         <Form>
-          <Form.Group as={Row} className="my-3" controlId="formIsAdmin">
-            <Form.Label column xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }} className="text-center pt-0 my-1">
-              {t("adminUsers.userLabel.isAdmin")}
-            </Form.Label>
-            <Col xs={8} sm={6} className="my-1">
-              <Row>
-                <Col xs={12} md={6} lg={5} xl={4}>
-                  <FormCheckRadio 
-                    name="isAdmin"
-                    checks={isAdimnChecks}
-                  />
-                </Col>
-                <Col xs={12} md={4}>
-                  <SubmitButton
-                    className="mt-md-0 mt-3"
-                    buttonSize="sm"
-                    spinnerSize="sm"
-                    buttonText={t("adminUserDetail.button.update")}
-                    isLoading={isAdimnUpdateLoading}
-                    onClick={() => updateUser(true, user.isAdmin)}/>
-                </Col>
-              </Row>
-            </Col>
-          </Form.Group>
+          {user.id === myself.id ? (
+            <AttendanceConfirmItem
+              label={t("adminUsers.userLabel.isAdmin")}
+              value={user.isAdmin ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}
+            />
+          ) : (
+            <Form.Group as={Row} className="my-3" controlId="formIsAdmin">
+              <Form.Label column xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }} className="text-center pt-0 my-1">
+                {t("adminUsers.userLabel.isAdmin")}
+              </Form.Label>
+              <Col xs={8} sm={6} className="my-1">
+                <Row>
+                  <Col xs={12} md={6} lg={5} xl={4}>
+                    <FormCheckRadio 
+                      name="isAdmin"
+                      checks={isAdimnChecks}
+                    />
+                  </Col>
+                  <Col xs={12} md={4}>
+                    <SubmitButton
+                      className="mt-md-0 mt-3"
+                      buttonSize="sm"
+                      spinnerSize="sm"
+                      buttonText={t("adminUserDetail.button.update")}
+                      isLoading={isAdimnUpdateLoading}
+                      onClick={() => updateUser(true, user.isAdmin)}/>
+                  </Col>
+                </Row>
+              </Col>
+            </Form.Group>
+          )}
           <Form.Group as={Row} className="my-3" controlId="formAttendance">
             <Form.Label column xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }} className="text-center pt-0 my-1">
               {t("adminUsers.userLabel.attendance")}

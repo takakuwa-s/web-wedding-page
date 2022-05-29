@@ -17,12 +17,14 @@ enum PushMessageType {
 
 function AdminPushNotification() {
   const { t } = useTranslation();
-  const [alertMsg, setAlertMsg] = useState("");
-  const [alertVariant, setAlertVariant] = useState("danger");
   const [messageType, setMessageType] = useState(PushMessageType.INVITATION);
   const [msgChecked, setMsgChecked] = useState(false);
   const [isMulticastLoading, setIsMulticastLoading] = useState(false);
   const [isCheckLoading, setIsCheckLoading] = useState(false);
+  const [alert, setAlert] = useState({
+    msg: "",
+    variant: "danger",
+  });
 
   const checkSendingMsg = () => {
     setIsCheckLoading(true);
@@ -33,13 +35,17 @@ function AdminPushNotification() {
         },
       ])
       .then(() => {
-        setAlertVariant("success");
-        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
+        setAlert({
+          msg: t("adminPushNotification.alert.sendSuccess"),
+          variant: "success",
+        })
       })
       .catch(err => {
         console.log("error", err);
-        setAlertVariant("danger");
-        setAlertMsg(t("adminPushNotification.alert.sendErr"));
+        setAlert({
+          msg: t("adminPushNotification.alert.sendErr"),
+          variant: "danger",
+        })
       })
       .finally(() => setIsCheckLoading(false)
       );
@@ -51,13 +57,17 @@ function AdminPushNotification() {
       messageType,
       () => {
         setMsgChecked(false);
-        setAlertVariant("success");
-        setAlertMsg(t("adminPushNotification.alert.sendSuccess"));
+        setAlert({
+          msg: t("adminPushNotification.alert.sendSuccess"),
+          variant: "success",
+        })
       },
       (err: Error) => {
         console.log("error", err);
-        setAlertVariant("danger");
-        setAlertMsg(t("adminPushNotification.alert.sendErr"));
+        setAlert({
+          msg: t("adminPushNotification.alert.sendErr"),
+          variant: "danger",
+        })
       },
       () => setIsMulticastLoading(false)
     );
@@ -80,7 +90,7 @@ function AdminPushNotification() {
           <h2 className="pt-5 text-center">{t('adminPushNotification.title')}</h2>
         </Col>
       </Row>
-      <ErrorAlert msg={alertMsg} variant={alertVariant}/>
+      <ErrorAlert {...alert}/>
       <Row>
         <Col md={6} xl={4} className="mx-auto">
           <FormSelect onSelect={onSelect} options={options} />

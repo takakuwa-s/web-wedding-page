@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import FormCheckRadio from "../../common/components/form-check-radio/FormCheckRadio";
 import { GuestType, User } from "../../common/dto/user";
 import { initValidation } from "../../common/dto/validation";
-import './AttendanceForm.scss';
+import './Attendance.scss';
 
 function AttendanceForm(props: IProps) {
   const { t } = useTranslation();

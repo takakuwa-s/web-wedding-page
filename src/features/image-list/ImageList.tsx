@@ -1,31 +1,33 @@
-import './ImageList.scss';
 import { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
-import { fetchImageList, deleteImage } from "../../common/utils/fileApiCall";
+import { fetchFileList, deleteFile, deleteFileList } from "../../common/utils/fileApiCall";
 import BottomNavbar from "../../common/components/bottom-navbar/BottomNavbar";
-import PhotoswipeWrapper from "../../common/components/photoswipe-wrapper/PhotoswipeWrapper";
 import { File } from "../../common/dto/file";
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
-import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import { RootState } from '../../app/store';
 import { useAppSelector } from '../../app/hooks';
 import { useSearchParams } from 'react-router-dom';
-import liff from '@line/liff/dist/lib';
+import ImageListAll from './ImageListAll';
+import ImageListRank from './ImageListRank';
+import ImageListMy from './ImageListMy';
+
+enum Gallery {
+  ALL_GALLERY_ID = "ALL_GALLERY_ID",
+  MY_GALLERY_ID = "MY_GALLERY_ID",
+  RANK_GALLERY_ID = "RANK_GALLERY_ID",
+}
 
 function ImageList() {
   const FILE_LIMIT = 50;
   const RANK_FILE_LIMIT = 10;
-  const AllGalleryID = "all-gallery";
-  const MyGalleryID = "my-gallery";
-  const RankGalleryID = "rank-gallery";
   const allFiles = useAppSelector((state: RootState) => state.files.val);
   const [searchParams] = useSearchParams();
   const needReload = searchParams.get("reload");
   const { t } = useTranslation();
-  const [galleryID, setGalleryID] = useState(AllGalleryID);
+  const [galleryID, setGalleryID] = useState<Gallery>(Gallery.ALL_GALLERY_ID);
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [isAll, setIsAll] = useState(false);
@@ -35,7 +37,7 @@ function ImageList() {
   useEffect(() => {
     if (needReload) {
       setIsLoading(true);
-      fetchImageList(
+      fetchFileList(
         FILE_LIMIT,
         "",
         false,
@@ -58,11 +60,11 @@ function ImageList() {
 
   const reloadImage = () => {
     setIsReloading(true);
-    fetchImageList(
+    fetchFileList(
       FILE_LIMIT,
       images[images.length - 1].id,
-      galleryID === MyGalleryID,
-      galleryID === RankGalleryID,
+      galleryID === Gallery.MY_GALLERY_ID,
+      galleryID === Gallery.RANK_GALLERY_ID,
       f => {
         if (f.length < FILE_LIMIT) {
           setIsAll(true);
@@ -83,8 +85,25 @@ function ImageList() {
     const deletedList = images.filter(i => i.id !== id);
     setImages(deletedList);
     pswp.close();
-    deleteImage(
+    deleteFile(
       id,
+      () => {
+        setAlertMsg("");
+      },
+      e => {
+        console.error(e);
+        setImages(list);
+        setAlertMsg(t("imageList.alert.deleteErr"));
+      },
+      () => {});
+  };
+
+  const removeMultipleImages = (ids: string[]) => {
+    const list = images;
+    const deletedList = images.filter(f => !ids.includes(f.id));
+    setImages(deletedList);
+    deleteFileList(
+      ids,
       () => {
         setAlertMsg("");
       },
@@ -101,11 +120,11 @@ function ImageList() {
     setIsAll(false);
     setAlertMsg("");
     setGalleryID(eventKey);
-    fetchImageList(
-      eventKey === RankGalleryID ? RANK_FILE_LIMIT : FILE_LIMIT,
+    fetchFileList(
+      eventKey === Gallery.RANK_GALLERY_ID ? RANK_FILE_LIMIT : FILE_LIMIT,
       "",
       false,
-      eventKey === RankGalleryID,
+      eventKey === Gallery.RANK_GALLERY_ID,
       f => {
         if (f.length < FILE_LIMIT) {
           setIsAll(true);
@@ -122,18 +141,44 @@ function ImageList() {
 
   const navs = [
     {
-      id: AllGalleryID,
+      id: Gallery.ALL_GALLERY_ID,
       title: t("imageList.tab.all"),
     },
     {
-      id: MyGalleryID,
+      id: Gallery.MY_GALLERY_ID,
       title: t("imageList.tab.mine"),
     },
     {
-      id: RankGalleryID,
+      id: Gallery.RANK_GALLERY_ID,
       title: t("imageList.tab.rank"),
     },
   ];
+
+  const imageEl = {
+    ALL_GALLERY_ID: <ImageListAll
+                      images={images}
+                      isAll={isAll}
+                      isLoading={isLoading}
+                      isReloading={isReloading}
+                      galleryID={galleryID}
+                      reloadImage={reloadImage}
+                    />,
+    MY_GALLERY_ID: <ImageListMy
+                    images={images}
+                    isAll={isAll}
+                    isLoading={isLoading}
+                    isReloading={isReloading}
+                    galleryID={galleryID}
+                    reloadImage={reloadImage}
+                    removeImage={removeImage}
+                    removeMultipleImages={removeMultipleImages}
+                  />,
+    RANK_GALLERY_ID: <ImageListRank
+                      images={images}
+                      isLoading={isLoading}
+                      galleryID={galleryID}
+                    />
+  };
 
   return (
     <>
@@ -144,44 +189,7 @@ function ImageList() {
           </Col>
         </Row>
         <ErrorAlert msg={alertMsg} variant="danger" />
-        {galleryID === RankGalleryID && (
-          <Row className="py-3">
-            <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
-              <ol className="my-1">
-                <li>{t("imageList.rank.rules.faceScore")}</li>
-                <li>{t("imageList.rank.rules.faceHappinessLevel")}</li>
-                <li>{t("imageList.rank.rules.facePhotoBeauty")}</li>
-                <li>{t("imageList.rank.rules.bonus")}</li>
-                <li>{t("imageList.rank.rules.other")}</li>
-              </ol>
-            </Col>
-          </Row>
-        )}
-        {galleryID !== RankGalleryID && liff.getOS() === "ios" && (
-          <Row className="py-3">
-            <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
-              <p className="my-1">{t("imageList.iosSave")}</p>
-            </Col>
-          </Row>
-        )}
-        <Row>
-          <Col>
-            <PhotoswipeWrapper
-              showAsRanking={galleryID === RankGalleryID}
-              isLoading={isLoading}
-              galleryID={galleryID}
-              images={images}
-              showDeleteBtn={galleryID === MyGalleryID}
-              onClickDeleteBtn={removeImage}/>
-          </Col>
-        </Row>
-        {(galleryID === MyGalleryID || galleryID === AllGalleryID) &&
-          <ReloadButton 
-            isReloading={isReloading}
-            disableReload={isAll}
-            disableReloadBtnTxt={t("imageList.button.allLoaded")}
-            reloadBtnTxt={t("imageList.button.reload")}
-            onReloadButtonClicked={reloadImage} />}
+        {imageEl[galleryID]}
       </Container>
       <BottomNavbar navs={navs} onSelectNav={switchGallery}/>
     </>

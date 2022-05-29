@@ -16,32 +16,28 @@ import ReloadButton from "../../common/components/reload-button/ReloadButton";
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { User } from "../../common/dto/user";
 import { getUserList } from "../../common/utils/userApiCall";
-import { updateAdminUsers } from "./adminUsersSlice";
+import { updateAdminUsers, updateSearchParam } from "./adminUsersSlice";
 
 function AdminUsers() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const users = useAppSelector((state: RootState) => state.adminUsers.val);
+  const searchParam = useAppSelector((state: RootState) => state.adminUsers.searchParam);
   const [isCsVLoading, setIsCsVLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [isAll, setIsAll] = useState(false);
-  const [searchFlg, setSearchFlg] = useState("");
-  const [searchVal, setSearchVal] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const USER_LINIT = 50;
-
-  const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const arr = e.target.value.split(",");
-    setSearchFlg(arr[0]);
-    setSearchVal(!!arr[1]);
-  }
 
   const loadUsers = () => {
     setIsLoading(true);
     setIsAll(false);
+    const arr = searchParam.split(",");
+    const searchFlg = arr[0];
+    const searchVal = !!arr[1];
     getUserList(
       USER_LINIT,
       "",
@@ -65,6 +61,9 @@ function AdminUsers() {
 
   const reloadUsers = () => {
     setIsReloading(true);
+    const arr = searchParam.split(",");
+    const searchFlg = arr[0];
+    const searchVal = !!arr[1];
     getUserList(
       USER_LINIT,
       users[users.length - 1].id,
@@ -88,6 +87,9 @@ function AdminUsers() {
 
   const downloadCsv = () => {
     setIsCsVLoading(true);
+    const arr = searchParam.split(",");
+    const searchFlg = arr[0];
+    const searchVal = !!arr[1];
     getUserList(
       0,
       "",
@@ -133,7 +135,7 @@ function AdminUsers() {
       <ErrorAlert msg={alertMsg} variant="danger" />
       <Row className="pt-3 pb-3">
         <Col xs={6} sm={{offset:1, span:6}} md={{offset:2, span:5}} lg={{offset:3, span:4}} xl={{offset:4, span:3}}>
-          <FormSelect onSelect={onSelect} options={options} />
+          <FormSelect value={searchParam} onSelect={(e) => dispatch(updateSearchParam(e.target.value))} options={options} />
         </Col>
         <Col>
           <Button
@@ -160,9 +162,9 @@ function AdminUsers() {
                   <th>{t("adminUsers.userLabel.name")}</th>
                   <th>{t("adminUsers.userLabel.nameKana")}</th>
                   <th>{t("adminUsers.userLabel.isAdmin")}</th>
-                  <th>{t("adminUsers.userLabel.follow")}</th>
-                  <th>{t("adminUsers.userLabel.registered")}</th>
                   <th>{t("adminUsers.userLabel.attendance")}</th>
+                  <th>{t("adminUsers.userLabel.registered")}</th>
+                  <th>{t("adminUsers.userLabel.follow")}</th>
                   <th>{t("adminUsers.userLabel.guestType")}</th>
                   <th>{t("adminUsers.userLabel.phone")}</th>
                   <th>{t("adminUsers.userLabel.postalCode")}</th>
@@ -178,9 +180,9 @@ function AdminUsers() {
                     <td>{`${u.familyName} ${u.firstName}`}</td>
                     <td>{`${u.familyNameKana} ${u.firstNameKana}`}</td>
                     <td>{u.isAdmin ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
-                    <td>{u.follow ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
-                    <td>{u.registered ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.attendance ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
+                    <td>{u.registered ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
+                    <td>{u.follow ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{t(`attendance.guestType.${u.guestType.toLowerCase()}`)}</td>
                     <td>{u.phoneNumber}</td>
                     <td>{u.postalCode}</td>

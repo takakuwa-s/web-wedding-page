@@ -1,7 +1,7 @@
 import liff from "@line/liff/dist/lib";
 import { File } from "../dto/file";
 
-export function fetchImageList(
+export function fetchFileList(
   limit: number,
   startId: string,
   doFilterUser: boolean,
@@ -43,7 +43,7 @@ export function fetchImageList(
     .finally(onComplete);
 }
 
-export function deleteImage(
+export function deleteFile(
   id: string,
   onSuccess: () => void,
   onError: (e: any) => void,
@@ -57,6 +57,44 @@ export function deleteImage(
     }
   };
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/${id}`;
+  let code: number;
+  fetch(url, requestOptions)
+    .then(res => {
+      code = res.status;
+      if (code !== 204) {
+        return res.json();
+      }
+      return null;
+    })
+    .then(res => {
+      if (code === 204) {
+        onSuccess();
+      } else {
+        throw new Error(res.error);
+      }
+    })
+    .catch(onError)
+    .finally(onComplete);
+}
+
+export function deleteFileList(
+  ids: string[],
+  onSuccess: () => void,
+  onError: (e: any) => void,
+  onComplete: () => void
+  ): void {
+  const token = liff.getAccessToken();
+  const requestOptions: RequestInit = {
+    method: 'DELETE',
+    headers: {
+      "Authorization": token!
+    }
+  };
+  let param: string = `id=${ids[0]}`;
+  for (let i=1; i<ids.length; i++) {
+    param += `&id=${ids[i]}`;
+  }
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list?${param}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {

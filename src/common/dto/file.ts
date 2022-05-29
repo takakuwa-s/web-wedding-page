@@ -17,7 +17,3 @@ export interface File {
 	updatedAt: Date;
 	updater: string;
 }
-
-enum FileType {
-	image,video
-}
