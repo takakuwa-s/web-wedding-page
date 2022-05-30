@@ -1,20 +1,15 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import BottomNavbar from "../../common/components/bottom-navbar/BottomNavbar";
+import { AdminPage } from "../../common/dto/adminPage";
 import AdminPushNotification from "../admin-push-notification/AdminPushNotification";
 import AdminUsers from "../admin-users/AdminUsers";
-import ErrorPage from "../error-page/ErrorPage";
 
-enum AdminPage {
-  USERS = "USERS",
-  PUSH_NOTIFICATION = "PUSH_NOTIFICATION",
-}
-
-function Admin() {
+function Admin(props: IProps) {
   const { t } = useTranslation();
-  const [adminPage, setAdminPage] = useState<AdminPage>(AdminPage.USERS);
+  const navigate = useNavigate();
   const switchPage = (eventKey: any, event: any) => {
-    setAdminPage(eventKey);
+    navigate(`/admin/${eventKey.toLowerCase()}`);
   }
   const navs = [
     {
@@ -26,24 +21,20 @@ function Admin() {
       title: t("admin.tab.pushNotification"),
     },
   ];
-
-  let content: JSX.Element;
-  switch (adminPage) {
-    case AdminPage.USERS:
-      content = <AdminUsers />;
-      break;
-    case AdminPage.PUSH_NOTIFICATION:
-      content = <AdminPushNotification />;
-      break;
-    default:
-      return <ErrorPage err={{code: 500, message: `Unknown admin page: ${adminPage}`, descriptionKey: 'error.description.unknown'}}/>
-  }
+  const components = {
+    USERS: <AdminUsers />,
+    PUSH_NOTIFICATION: <AdminPushNotification />,
+  };
   return (
     <>
-      {content}
+      {components[props.adminPage]}
       <BottomNavbar navs={navs} onSelectNav={switchPage}/>
     </>
   );
+}
+
+interface IProps {
+  adminPage: AdminPage;
 }
 
 export default Admin;

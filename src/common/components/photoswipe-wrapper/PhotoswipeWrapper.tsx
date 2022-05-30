@@ -13,12 +13,14 @@ import rank1 from "./../../../resource/imagelist-ranking-1.png"
 import rank2 from "./../../../resource/imagelist-ranking-2.png"
 import rank3 from "./../../../resource/imagelist-ranking-3.png"
 import liff from '@line/liff/dist/lib';
+import { Gallery } from '../../dto/gallery';
 
 function PhotoswipeWrapper(props: IProps) {
   const { t } = useTranslation();
+  const galleryId = `${props.gallery}-GALLERY`
   useEffect(() => {
     const options: PhotoSwipeOptions = {
-      gallery: '#' + props.galleryID,
+      gallery: `#${galleryId}`,
       children: 'a',
       showHideAnimationType: 'zoom',
       pswpModule: () => import('photoswipe'),
@@ -59,17 +61,17 @@ function PhotoswipeWrapper(props: IProps) {
       lightbox.destroy();
       lightbox = null;
     };
-  }, [props]);
+  }, [props, galleryId]);
 
   if (props.isLoading) {
     return <Loading />;
   } else if (props.showAsRanking) {
     const rankImages = [rank1, rank2, rank3];
     return (
-      <Row className="pswp-gallery ps-1 pt-2 pb-4" id={props.galleryID}>
+      <Row className="pswp-gallery ps-1 pt-2 pb-4" id={galleryId}>
         <Col>
           {props.images.map((image, idx) => (
-            <Row key={props.galleryID + '-' + idx} className="pb-1">
+            <Row key={galleryId + '-' + idx} className="pb-1">
               <Col xs={1} md={2} lg={3} xxl={4} className="p-1 text-end">
                 {idx >= 0 && idx <= 2 ?
                   <img src={rankImages[idx]} alt={(idx+1).toString()} width={35}/> :
@@ -116,9 +118,9 @@ function PhotoswipeWrapper(props: IProps) {
     );
   } else {
     return (
-      <Row className="pswp-gallery ps-1 pt-2" id={props.galleryID}>
+      <Row className="pswp-gallery ps-1 pt-2" id={galleryId}>
         {props.images.map((image, idx) => (
-          <Col key={props.galleryID + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
+          <Col key={galleryId + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
             <a
               href={image.contentUrl}
               data-pswp-width={image.width}
@@ -138,7 +140,7 @@ function PhotoswipeWrapper(props: IProps) {
 
 interface IProps {
   images: File[];
-  galleryID: string;
+  gallery: Gallery;
   showAsRanking?: boolean;
   isLoading?: boolean;
   showDeleteBtn?: boolean;

@@ -13,6 +13,8 @@ import ErrorPage from '../features/error-page/ErrorPage';
 import { File } from "./../common/dto/file";
 import { updateFiles } from '../features/image-list/fileSlice';
 import AdminUserDetail from '../features/admin-user-detail/AdminUserDetail';
+import { Gallery } from '../common/dto/gallery';
+import { AdminPage } from '../common/dto/adminPage';
 
 function App(props: IProps) {
   const dispatch = useAppDispatch();
@@ -26,10 +28,17 @@ function App(props: IProps) {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="attendance" element={<Attendance />} />
-        <Route path="image/list" element={<ImageList />} />
+        <Route path="image/list/all" element={<ImageList gallery={Gallery.ALL} />} />
+        <Route path="image/list/my" element={<ImageList gallery={Gallery.MY} />} />
+        <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
         <Route path="user" element={<UserDetail />} />
-        {props.user.isAdmin && <Route path="admin" element={<Admin />} />}
-        {props.user.isAdmin && <Route path="admin/user/:id" element={<AdminUserDetail />} />}
+        {props.user.isAdmin && (
+          <>
+            <Route path="admin/users" element={<Admin adminPage={AdminPage.USERS} />} />
+            <Route path="admin/push_notification" element={<Admin  adminPage={AdminPage.PUSH_NOTIFICATION} />} />
+            <Route path="admin/user/:id" element={<AdminUserDetail />} />
+          </>
+        )}
         <Route path="*" element={<ErrorPage err={notFoundError}/>} />
       </Routes>
     </BrowserRouter>

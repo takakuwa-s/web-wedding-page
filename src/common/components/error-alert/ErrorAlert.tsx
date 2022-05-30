@@ -1,8 +1,9 @@
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Alert from 'react-bootstrap/esm/Alert';
+import React from 'react';
 
-function ErrorAlert(props: IProps) {
+const ErrorAlert = React.memo((props: IProps) => {
   const clz = props.msg ? 'pt-2' : '';
   return (
     <Row className={clz}>
@@ -13,10 +14,10 @@ function ErrorAlert(props: IProps) {
       </Col>
     </Row>
   );
-}
+});
 
 interface IProps {
-  msg: string;
+  msg?: string;
   variant: string;
 }
 

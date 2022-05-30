@@ -1,0 +1,4 @@
+export enum AdminPage {
+  USERS = "USERS",
+  PUSH_NOTIFICATION = "PUSH_NOTIFICATION",
+}

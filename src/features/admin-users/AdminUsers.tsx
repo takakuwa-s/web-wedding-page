@@ -1,5 +1,5 @@
 import liff from "@line/liff/dist/lib";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -29,7 +29,10 @@ function AdminUsers() {
   const [loaded, setLoaded] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [isAll, setIsAll] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState({
+    top: "",
+    reload: "",
+  });
   const USER_LINIT = 50;
 
   const loadUsers = () => {
@@ -49,12 +52,18 @@ function AdminUsers() {
           setIsAll(true);
         }
         dispatch(updateAdminUsers(u));
-        setAlertMsg("");
+        setAlertMsg({
+          top: "",
+          reload: "",
+        });
         setLoaded(true);
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUsers.alert.loadErr"));
+        setAlertMsg({
+          top: t("adminUsers.alert.loadErr"),
+          reload: "",
+        });
       },
       () => setIsLoading(false));
   };
@@ -76,11 +85,17 @@ function AdminUsers() {
         }
         const list = users.concat(u);
         dispatch(updateAdminUsers(list));
-        setAlertMsg("");
+        setAlertMsg({
+          top: "",
+          reload: "",
+        });
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUsers.alert.reloadErr"));
+        setAlertMsg({
+          top: "",
+          reload: t("adminUsers.alert.reloadErr"),
+        });
       },
       () => setIsReloading(false));
   };
@@ -97,7 +112,10 @@ function AdminUsers() {
       searchVal,
       true,
       b => {
-        setAlertMsg("");
+        setAlertMsg({
+          top: "",
+          reload: "",
+        });
         const url = URL.createObjectURL(b);
         const a = document.createElement("a");
         document.body.appendChild(a);
@@ -109,7 +127,10 @@ function AdminUsers() {
       },
       e => {
         console.error(e);
-        setAlertMsg(t("adminUsers.alert.loadErr"));
+        setAlertMsg({
+          top: t("adminUsers.alert.loadErr"),
+          reload: "",
+        });
       },
       () => setIsCsVLoading(false));
   };
@@ -125,6 +146,8 @@ function AdminUsers() {
     {value: "Follow,", label: t("adminUsers.sellect.unfollow")},
   ];
 
+  const onSelect = (e: ChangeEvent<HTMLSelectElement>) => dispatch(updateSearchParam(e.target.value));
+
   return (
     <Container fluid className="pb-5">
       <Row>
@@ -132,10 +155,10 @@ function AdminUsers() {
           <h2 className="pt-5 text-center">{t('adminUsers.title')}</h2>
         </Col>
       </Row>
-      <ErrorAlert msg={alertMsg} variant="danger" />
+      <ErrorAlert msg={alertMsg.top} variant="danger" />
       <Row className="pt-3 pb-3">
         <Col xs={6} sm={{offset:1, span:6}} md={{offset:2, span:5}} lg={{offset:3, span:4}} xl={{offset:4, span:3}}>
-          <FormSelect value={searchParam} onSelect={(e) => dispatch(updateSearchParam(e.target.value))} options={options} />
+          <FormSelect value={searchParam} onSelect={onSelect} options={options} />
         </Col>
         <Col>
           <Button
@@ -197,7 +220,8 @@ function AdminUsers() {
         </Row>
       )}
       {loaded && (
-        <ReloadButton 
+        <ReloadButton
+          alertMsg={alertMsg.reload}
           isReloading={isReloading}
           disableReload={isAll}
           disableReloadBtnTxt={t("adminUsers.button.allLoaded")}

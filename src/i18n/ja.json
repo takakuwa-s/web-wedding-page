@@ -144,11 +144,15 @@
     "back": "トップに戻る"
   },
   "imageList": {
-    "title": "Gallery",
+    "title": {
+      "all": "Gallery",
+      "my": "My Gallery",
+      "rank": "Photo Ranking"
+    },
     "iosSave": "iPhoneの場合、写真を開き長押しで保存できます",
     "tab": {
       "all": "All Photos",
-      "mine": "My Photos",
+      "my": "My Photos",
       "rank": "Photo Ranking"
     },
     "button": {
