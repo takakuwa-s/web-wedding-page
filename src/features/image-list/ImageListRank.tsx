@@ -24,6 +24,7 @@ function ImageListRank() {
       "",
       false,
       true,
+      true,
       f => setImages(f),
       e => {
         console.error(e);
@@ -37,7 +38,7 @@ function ImageListRank() {
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-5 text-center">{t('imageList.title.rank')}</h2>
+          <h2 className="pt-3 text-center">{t('imageList.title.rank')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg} variant="danger" />

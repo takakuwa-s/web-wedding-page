@@ -6,6 +6,7 @@ export function fetchFileList(
   startId: string,
   doFilterUser: boolean,
   orderByFaceScore: boolean,
+  uploaded: boolean | null,
   onSuccess: (files: File[]) => void,
   onError: (e: any) => void,
   onComplete: () => void
@@ -16,6 +17,9 @@ export function fetchFileList(
     headers: { "Authorization": token! }
   };
   let param = `?limit=${limit}`;
+  if (uploaded !== null) {
+    param += `&uploaded=${uploaded}`;
+  }
   if (startId) {
     param += `&startId=${startId}`;
   }

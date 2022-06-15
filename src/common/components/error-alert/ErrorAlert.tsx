@@ -8,7 +8,7 @@ const ErrorAlert = React.memo((props: IProps) => {
   return (
     <Row className={clz}>
       <Col>
-        <Alert show={!!props.msg} variant={props.variant} className="pb-0">
+        <Alert show={!!props.msg} variant={props.variant} className="pb-0 mb-1">
           <p>{props.msg}</p>
         </Alert>
       </Col>

@@ -149,6 +149,7 @@
       "my": "My Gallery",
       "rank": "Photo Ranking"
     },
+    "uploading": "uploading...",
     "iosSave": "iPhoneの場合、写真を開き長押しで保存できます",
     "tab": {
       "all": "All Photos",

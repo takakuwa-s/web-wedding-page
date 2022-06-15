@@ -5,10 +5,12 @@ import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
 import './CheckImages.scss';
 import { useState } from "react";
+import ProcessingImage from "../processing-image/ProcessingImage";
 
 interface CheckImage {
 	id: string;
 	thumbnailUrl: string;
+  uploaded: boolean;
   checked?: boolean;
 }
 
@@ -18,6 +20,7 @@ function CheckImages(props: IProps) {
       return {
         id: f.id,
         thumbnailUrl: f.thumbnailUrl,
+        uploaded: f.uploaded,
         checked: false
       };
     });
@@ -43,7 +46,11 @@ function CheckImages(props: IProps) {
       {checkImages.map((image, idx) => (
         <Col key={idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
           <div className="position-relative" onClick={() => onClickImage(image)}>
-            <Image className="square" thumbnail={image.checked} rounded src={image.thumbnailUrl} alt={image.id} />
+            {image.uploaded ? (
+              <Image className="square" thumbnail={image.checked} rounded src={image.thumbnailUrl} alt={image.id} />
+            ) : (
+              <ProcessingImage />
+            )}
             <Form.Check 
               type='checkbox'
               id={image.id}

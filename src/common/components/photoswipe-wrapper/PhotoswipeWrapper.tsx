@@ -14,6 +14,7 @@ import rank2 from "./../../../resource/imagelist-ranking-2.png"
 import rank3 from "./../../../resource/imagelist-ranking-3.png"
 import liff from '@line/liff/dist/lib';
 import { Gallery } from '../../dto/gallery';
+import ProcessingImage from '../processing-image/ProcessingImage';
 
 function PhotoswipeWrapper(props: IProps) {
   const { t } = useTranslation();
@@ -121,16 +122,20 @@ function PhotoswipeWrapper(props: IProps) {
       <Row className="pswp-gallery ps-1 pt-2" id={galleryId}>
         {props.images.map((image, idx) => (
           <Col key={galleryId + '-' + idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
-            <a
-              href={image.contentUrl}
-              data-pswp-width={image.width}
-              data-pswp-height={image.height}
-              data-cropped="true"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
-            </a>
+            {image.uploaded ? (
+              <a
+                href={image.contentUrl}
+                data-pswp-width={image.width}
+                data-pswp-height={image.height}
+                data-cropped="true"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Image className="square" rounded src={image.thumbnailUrl} alt={image.id} />
+              </a>
+            ) : (
+              <ProcessingImage />
+            )}
           </Col>
         ))}
       </Row>

@@ -19,10 +19,7 @@ function ImageListMy() {
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [isAll, setIsAll] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({
-    top: "",
-    reload: "",
-  });
+  const [alertMsg, setAlertMsg] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const FILE_LIMIT = 50;
 
@@ -31,8 +28,9 @@ function ImageListMy() {
     fetchFileList(
       FILE_LIMIT,
       "",
-      true,
       false,
+      false,
+      null,
       f => {
         if (f.length < FILE_LIMIT) {
           setIsAll(true);
@@ -41,10 +39,7 @@ function ImageListMy() {
       },
       e => {
         console.error(e);
-        setAlertMsg({
-          top: t("imageList.alert.loadErr"),
-          reload: "",
-        });
+        setAlertMsg(t("imageList.alert.loadErr"));
       },
       () => setIsLoading(false)
     );
@@ -57,23 +52,18 @@ function ImageListMy() {
       images[images.length - 1].id,
       true,
       false,
+      null,
       f => {
         if (f.length < FILE_LIMIT) {
           setIsAll(true);
         }
         const list = images.concat(f);
         setImages(list);
-        setAlertMsg({
-          top: "",
-          reload: "",
-        });
+        setAlertMsg("");
       },
       e => {
         console.error(e);
-        setAlertMsg({
-          top: "",
-          reload: t("imageList.alert.reloadErr"),
-        });
+        setAlertMsg(t("imageList.alert.reloadErr"));
       },
       () => setIsReloading(false)
     );
@@ -86,19 +76,11 @@ function ImageListMy() {
     pswp.close();
     deleteFile(
       id,
-      () => {
-        setAlertMsg({
-          top: "",
-          reload: "",
-        });
-      },
+      () => setAlertMsg(""),
       e => {
         console.error(e);
         setImages(list);
-        setAlertMsg({
-          top: t("imageList.alert.deleteErr"),
-          reload: "",
-        });
+        setAlertMsg(t("imageList.alert.deleteErr"));
       },
       () => {});
   };
@@ -110,19 +92,11 @@ function ImageListMy() {
     setImages(deletedList);
     deleteFileList(
       checkedFileIds,
-      () => {
-        setAlertMsg({
-          top: "",
-          reload: "",
-        });
-      },
+      () => setAlertMsg(""),
       e => {
         console.error(e);
         setImages(list);
-        setAlertMsg({
-          top: t("imageList.alert.deleteErr"),
-          reload: "",
-        });
+        setAlertMsg(t("imageList.alert.deleteErr"));
       },
       () => {});
     setCheckedFileIds([]);
@@ -130,10 +104,7 @@ function ImageListMy() {
 
   const enableMultiSelect = () => {
     setCheckedFileIds([]);
-    setAlertMsg({
-      top: "",
-      reload: "",
-    });
+    setAlertMsg("");
     setCanMultiSelect(!canMultiSelect)
   };
 
@@ -168,9 +139,9 @@ function ImageListMy() {
             )}
           </Col>
         </Row>
+        <ErrorAlert msg={alertMsg} variant="danger" />
       </div>
-      <div className="image-list-container">
-        <ErrorAlert msg={alertMsg.top} variant="danger" />
+      <div className={alertMsg ? 'image-list-container-with-alert' : 'image-list-container'}>
         {canMultiSelect ? (
           <CheckImages
             images={images}
@@ -186,8 +157,7 @@ function ImageListMy() {
           />
         )}
         {!canMultiSelect && (
-          <ReloadButton 
-            alertMsg={alertMsg.reload}
+          <ReloadButton
             isReloading={isReloading}
             disableReload={isAll}
             disableReloadBtnTxt={t("imageList.button.allLoaded")}

@@ -87,7 +87,7 @@ function AttendanceForm(props: IProps) {
     }
   }
 
-  const attendanceChecks = [
+  const attendanceRadioes = [
     {
       label: t("attendance.attendance.attend"),
       checked: user.attendance,
@@ -100,7 +100,7 @@ function AttendanceForm(props: IProps) {
     },
   ];
 
-  const guestTypeChecks = [
+  const guestTypeRadioes = [
     {
       label: t("attendance.guestType.groom"),
       checked: GuestType.GROOM === user.guestType,
@@ -136,7 +136,7 @@ function AttendanceForm(props: IProps) {
                   <FormCheckRadio 
                     name="attendance"
                     labelClassName="radio-label"
-                    checks={attendanceChecks}
+                    checks={attendanceRadioes}
                   />
                 </Col>
               )
@@ -150,7 +150,7 @@ function AttendanceForm(props: IProps) {
             <FormCheckRadio 
               name="guestType"
               labelClassName="radio-label"
-              checks={guestTypeChecks}
+              checks={guestTypeRadioes}
             />
           </Col>
         </Form.Group>

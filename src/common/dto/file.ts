@@ -6,7 +6,7 @@ export interface File {
 	width: number;
 	height: number;
 	mimeType: string;
-	isUploaded: boolean;
+	uploaded: boolean;
 	faceIds: string[];
 	faceCount: number
 	faceHappinessLevel: number

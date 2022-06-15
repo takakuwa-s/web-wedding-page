@@ -34,6 +34,7 @@ function ImageListAll(props: IProps) {
         "",
         false,
         false,
+        true,
         f => {
           if (f.length < FILE_LIMIT) {
             setIsAll(true);
@@ -59,6 +60,7 @@ function ImageListAll(props: IProps) {
       images[images.length - 1].id,
       false,
       false,
+      true,
       f => {
         if (f.length < FILE_LIMIT) {
           setIsAll(true);
@@ -89,7 +91,7 @@ function ImageListAll(props: IProps) {
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-5 text-center">{t('imageList.title.all')}</h2>
+          <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg.top} variant="danger" />
