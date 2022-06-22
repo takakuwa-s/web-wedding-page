@@ -1,22 +1,22 @@
 import { useTranslation } from "react-i18next";
 import BottomNavbar from "../../common/components/bottom-navbar/BottomNavbar";
-import { RootState } from '../../app/store';
-import { useAppSelector } from '../../app/hooks';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ImageListAll from './ImageListAll';
 import ImageListRank from './ImageListRank';
 import ImageListMy from './ImageListMy';
 import { Gallery } from "../../common/dto/gallery";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
+import InformationPanel from "../../common/components/information-panel/InformationPanel";
+import { updateAlertMsg } from "./fileSlice";
 
 function ImageList(props: IProps) {
   const { t } = useTranslation();
-  const allFiles = useAppSelector((state: RootState) => state.files.val);
-  const [searchParams] = useSearchParams();
-  const noLoad = searchParams.get("noLoad");
   const navigate = useNavigate();
-
-  const defalutImages = noLoad ? allFiles : [];
+  const dispatch = useAppDispatch();
+  const images = useAppSelector((state: RootState) => state.files.files);
   const switchGallery = (eventKey: any, event: any) => {
+    dispatch(updateAlertMsg(""));
     navigate(`/image/list/${eventKey.toLowerCase()}`);
   };
 
@@ -36,13 +36,15 @@ function ImageList(props: IProps) {
   ];
 
   const imageEl = {
-    ALL: <ImageListAll defalutImages={defalutImages} />,
+    ALL: <ImageListAll />,
     MY: <ImageListMy />,
     RANK: <ImageListRank />
   };
 
+  const imageMap = new Map(images.map(i => [i.id, i]));
   return (
     <>
+      <InformationPanel imageMap={imageMap}/>
       {imageEl[props.gallery]}
       <BottomNavbar navs={navs} onSelectNav={switchGallery}/>
     </>

@@ -3,18 +3,21 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import PhotoswipeWrapper from "../../common/components/photoswipe-wrapper/PhotoswipeWrapper";
-import { File } from "../../common/dto/file";
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import Container from 'react-bootstrap/esm/Container';
 import { useEffect, useState } from 'react';
 import { fetchFileList } from '../../common/utils/fileApiCall';
 import { Gallery } from '../../common/dto/gallery';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { RootState } from '../../app/store';
+import { updateFiles, updateFilesAndAlertMsg } from './fileSlice';
 
 function ImageListRank() {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: RootState) => state.user.val);
+  const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [isLoading, setIsLoading] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [images, setImages] = useState<File[]>([]);
   const FILE_LIMIT = 10;
 
   useEffect(() => {
@@ -25,14 +28,15 @@ function ImageListRank() {
       false,
       true,
       true,
-      f => setImages(f),
+      user.isAdmin,
+      f => dispatch(updateFiles(f)),
       e => {
         console.error(e);
-        setAlertMsg(t("imageList.alert.loadErr"));
+        dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
       },
       () => setIsLoading(false)
     );
-  }, [t]);
+  }, [t, user.isAdmin, dispatch]);
 
   return (
     <Container fluid className="pb-5">
@@ -45,11 +49,11 @@ function ImageListRank() {
       <Row className="py-3">
         <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
           <ol className="my-1">
-            <li>{t("imageList.rank.rules.faceScore")}</li>
-            <li>{t("imageList.rank.rules.faceHappinessLevel")}</li>
-            <li>{t("imageList.rank.rules.facePhotoBeauty")}</li>
-            <li>{t("imageList.rank.rules.bonus")}</li>
-            <li>{t("imageList.rank.rules.other")}</li>
+            <li>{t("imageList.rankRules.faceScore")}</li>
+            <li>{t("imageList.rankRules.faceHappinessLevel")}</li>
+            <li>{t("imageList.rankRules.facePhotoBeauty")}</li>
+            <li>{t("imageList.rankRules.bonus")}</li>
+            <li>{t("imageList.rankRules.other")}</li>
           </ol>
         </Col>
       </Row>
@@ -57,7 +61,8 @@ function ImageListRank() {
         showAsRanking
         isLoading={isLoading}
         gallery={Gallery.RANK}
-        images={images}/>
+        showInformation={user.isAdmin}
+        showDeleteBtn={user.isAdmin}/>
     </Container>
   );
 }

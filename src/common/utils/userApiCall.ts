@@ -12,7 +12,7 @@ export function saveUser(
     method: 'PUT',
     headers: {
       "Content-Type": "application/json",
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
     body: JSON.stringify(user)
   };
@@ -47,7 +47,7 @@ export function patchUser(
     method: 'PATCH',
     headers: {
       "Content-Type": "application/json",
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
     body: `{"${filed}":"${value}"}`
   };
@@ -86,7 +86,7 @@ export function getUserList(
   const requestOptions: RequestInit = {
     method: 'GET',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
   };
   let param = `?limit=${limit}`;
@@ -136,7 +136,7 @@ export function getUser(
   const requestOptions: RequestInit = {
     method: 'GET',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
   };
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/user/${id}`;

@@ -6,6 +6,8 @@ import Form from "react-bootstrap/esm/Form";
 import './CheckImages.scss';
 import { useState } from "react";
 import ProcessingImage from "../processing-image/ProcessingImage";
+import { useAppSelector } from "../../../app/hooks";
+import { RootState } from "../../../app/store";
 
 interface CheckImage {
 	id: string;
@@ -15,6 +17,7 @@ interface CheckImage {
 }
 
 function CheckImages(props: IProps) {
+  const images = useAppSelector((state: RootState) => state.files.files);
   const fileToImage = (files: File[]) => {
     return files.map(f => {
       return {
@@ -25,7 +28,7 @@ function CheckImages(props: IProps) {
       };
     });
   };
-  const [checkImages, setCheckImages] = useState<CheckImage[]>(fileToImage(props.images));
+  const [checkImages, setCheckImages] = useState<CheckImage[]>(fileToImage(images));
   const onClickImage = (image: CheckImage) => {
     const list = checkImages.map(i => {
       if (i.id === image.id) {
@@ -66,7 +69,6 @@ function CheckImages(props: IProps) {
 }
 
 interface IProps {
-  images: File[];
   onCheck: (ids: string[]) => void;
 }
 

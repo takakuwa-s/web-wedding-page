@@ -10,7 +10,7 @@ export function sendMessageToLineBot(
   const requestOptions: RequestInit = {
     method: 'POST',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
   };
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/line/message?messageKey=${messageKey}`;

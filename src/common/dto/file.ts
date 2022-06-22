@@ -15,5 +15,5 @@ export interface File {
 	createdAt: Date;
 	creater: string;
 	updatedAt: Date;
-	updater: string;
+	createrName?: string;
 }

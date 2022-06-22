@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import userSlice from '../features/user-detail/userSlice'
 import fileSlice from '../features/image-list/fileSlice'
 import adminUserSlice from '../features/admin-users/adminUsersSlice'
+import informationPanelSlice from '../common/components/information-panel/informationPanelSlice'
 
 const store = configureStore({
   reducer: {
     user: userSlice,
     files: fileSlice,
     adminUsers: adminUserSlice,
+    informationPanel: informationPanelSlice,
   },
 })
 

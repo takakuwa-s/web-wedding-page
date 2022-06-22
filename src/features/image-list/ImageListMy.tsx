@@ -3,24 +3,27 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import PhotoswipeWrapper from "../../common/components/photoswipe-wrapper/PhotoswipeWrapper";
-import { File } from "../../common/dto/file";
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import Button from 'react-bootstrap/esm/Button';
 import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import Container from "react-bootstrap/esm/Container";
-import { deleteFile, deleteFileList, fetchFileList } from "../../common/utils/fileApiCall";
+import { deleteFileList, fetchFileList } from "../../common/utils/fileApiCall";
 import { Gallery } from "../../common/dto/gallery";
 import CheckImages from "../../common/components/select-images/CheckImages";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
+import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from "./fileSlice";
 
 function ImageListMy() {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const images = useAppSelector((state: RootState) => state.files.files);
+  const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [canMultiSelect, setCanMultiSelect] = useState(false);
   const [checkedFileIds, setCheckedFileIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
-  const [isAll, setIsAll] = useState(false);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [images, setImages] = useState<File[]>([]);
+  const [disableReloading, setDisableReloading] = useState(false);
   const FILE_LIMIT = 50;
 
   useEffect(() => {
@@ -28,22 +31,24 @@ function ImageListMy() {
     fetchFileList(
       FILE_LIMIT,
       "",
-      false,
+      true,
       false,
       null,
+      false,
       f => {
         if (f.length < FILE_LIMIT) {
-          setIsAll(true);
+          setDisableReloading(true);
         }
-        setImages(f);
+        dispatch(updateFiles(f));
       },
       e => {
         console.error(e);
-        setAlertMsg(t("imageList.alert.loadErr"));
+        setDisableReloading(true);
+        dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
       },
       () => setIsLoading(false)
     );
-  }, [t]);
+  }, [t, dispatch]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -53,50 +58,33 @@ function ImageListMy() {
       true,
       false,
       null,
+      false,
       f => {
         if (f.length < FILE_LIMIT) {
-          setIsAll(true);
+          setDisableReloading(true);
         }
         const list = images.concat(f);
-        setImages(list);
-        setAlertMsg("");
+        dispatch(updateFiles(list));
       },
       e => {
         console.error(e);
-        setAlertMsg(t("imageList.alert.reloadErr"));
+        dispatch(updateAlertMsg("imageList.alert.reloadErr"));
       },
       () => setIsReloading(false)
     );
-  };
-
-  const removeImage = (id: string, pswp: any) => {
-    const list = images;
-    const deletedList = images.filter(i => i.id !== id);
-    setImages(deletedList);
-    pswp.close();
-    deleteFile(
-      id,
-      () => setAlertMsg(""),
-      e => {
-        console.error(e);
-        setImages(list);
-        setAlertMsg(t("imageList.alert.deleteErr"));
-      },
-      () => {});
   };
 
   const removeMultipleImages = () => {
     setCanMultiSelect(false);
     const list = images;
     const deletedList = images.filter(f => !checkedFileIds.includes(f.id));
-    setImages(deletedList);
+    dispatch(updateFiles(deletedList));
     deleteFileList(
       checkedFileIds,
-      () => setAlertMsg(""),
+      () => dispatch(updateAlertMsg("")),
       e => {
         console.error(e);
-        setImages(list);
-        setAlertMsg(t("imageList.alert.deleteErr"));
+        dispatch(updateFilesAndAlertMsg({files: list, alertMsg: t("imageList.alert.deleteErr")}));
       },
       () => {});
     setCheckedFileIds([]);
@@ -104,7 +92,7 @@ function ImageListMy() {
 
   const enableMultiSelect = () => {
     setCheckedFileIds([]);
-    setAlertMsg("");
+    dispatch(updateAlertMsg(""));
     setCanMultiSelect(!canMultiSelect)
   };
 
@@ -144,22 +132,20 @@ function ImageListMy() {
       <div className={alertMsg ? 'image-list-container-with-alert' : 'image-list-container'}>
         {canMultiSelect ? (
           <CheckImages
-            images={images}
             onCheck={setCheckedFileIds}
           />
         ) : (
           <PhotoswipeWrapper
             isLoading={isLoading}
             gallery={Gallery.MY}
-            images={images}
             showDeleteBtn
-            onClickDeleteBtn={removeImage}
+            showInformation
           />
         )}
         {!canMultiSelect && (
           <ReloadButton
             isReloading={isReloading}
-            disableReload={isAll}
+            disableReload={disableReloading}
             disableReloadBtnTxt={t("imageList.button.allLoaded")}
             reloadBtnTxt={t("imageList.button.reload")}
             onReloadButtonClicked={reloadImage} />

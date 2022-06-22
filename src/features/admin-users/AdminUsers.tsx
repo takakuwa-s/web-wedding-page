@@ -28,7 +28,7 @@ function AdminUsers() {
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
-  const [isAll, setIsAll] = useState(false);
+  const [disableReloading, setDisableReloading] = useState(false);
   const [alertMsg, setAlertMsg] = useState({
     top: "",
     reload: "",
@@ -37,7 +37,7 @@ function AdminUsers() {
 
   const loadUsers = () => {
     setIsLoading(true);
-    setIsAll(false);
+    setDisableReloading(false);
     const arr = searchParam.split(",");
     const searchFlg = arr[0];
     const searchVal = !!arr[1];
@@ -49,7 +49,7 @@ function AdminUsers() {
       false,
       u => {
         if (u.length < USER_LINIT) {
-          setIsAll(true);
+          setDisableReloading(true);
         }
         dispatch(updateAdminUsers(u));
         setAlertMsg({
@@ -60,6 +60,7 @@ function AdminUsers() {
       },
       e => {
         console.error(e);
+        setDisableReloading(true);
         setAlertMsg({
           top: t("adminUsers.alert.loadErr"),
           reload: "",
@@ -81,7 +82,7 @@ function AdminUsers() {
       false,
       u => {
         if (u.length < USER_LINIT) {
-          setIsAll(true);
+          setDisableReloading(true);
         }
         const list = users.concat(u);
         dispatch(updateAdminUsers(list));
@@ -223,7 +224,7 @@ function AdminUsers() {
         <ReloadButton
           alertMsg={alertMsg.reload}
           isReloading={isReloading}
-          disableReload={isAll}
+          disableReload={disableReloading}
           disableReloadBtnTxt={t("adminUsers.button.allLoaded")}
           reloadBtnTxt={t("adminUsers.button.reload")}
           onReloadButtonClicked={reloadUsers}/>

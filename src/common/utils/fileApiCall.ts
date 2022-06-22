@@ -7,6 +7,7 @@ export function fetchFileList(
   doFilterUser: boolean,
   orderByFaceScore: boolean,
   uploaded: boolean | null,
+  needCreaterName: boolean,
   onSuccess: (files: File[]) => void,
   onError: (e: any) => void,
   onComplete: () => void
@@ -14,9 +15,9 @@ export function fetchFileList(
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {
     method: 'GET',
-    headers: { "Authorization": token! }
+    headers: { "Authorization": `Bearer ${token!}` }
   };
-  let param = `?limit=${limit}`;
+  let param = `?limit=${limit}&needCreaterName=${needCreaterName}`;
   if (uploaded !== null) {
     param += `&uploaded=${uploaded}`;
   }
@@ -38,7 +39,8 @@ export function fetchFileList(
     })
     .then(res => {
       if (code === 200) {
-        onSuccess(res.files);
+        const f = res.files ? res.files : [];
+        onSuccess(f);
       } else {
         throw new Error(res.error);
       }
@@ -57,7 +59,7 @@ export function deleteFile(
   const requestOptions: RequestInit = {
     method: 'DELETE',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     }
   };
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/${id}`;
@@ -91,7 +93,7 @@ export function deleteFileList(
   const requestOptions: RequestInit = {
     method: 'DELETE',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     }
   };
   let param: string = `id=${ids[0]}`;

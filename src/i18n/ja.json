@@ -160,20 +160,20 @@
       "reload": "写真をさらに読み込む",
       "allLoaded": "未読込の写真はありません"
     },
-    "rank": {
-      "label": {
-        "faceCount": "人数",
-        "faceHappinessLevel": "幸福度",
-        "facePhotoBeauty": "綺麗さ",
-        "faceScore": "得点"
-      },
-      "rules": {
-        "faceScore": "得点は、顔の幸福度・写真の綺麗さ・ボーナスポイントの合計で100点満点になります",
-        "faceHappinessLevel": "幸福度は、AIが読み取った表情や笑顔の度合いから計算されます",
-        "facePhotoBeauty": "綺麗さは、写真のピント・光の当たり具合・ノイズなどから計算されます",
-        "bonus": "人数が多かったり、年齢・男女などの多様性があると、ボーナスポイントが加算されます",
-        "other": "人数が11人以上の場合は無効になります"
-      }
+    "label": {
+      "creater": "投稿者",
+      "createdAt": "日付",
+      "faceCount": "人数",
+      "faceHappinessLevel": "幸福度",
+      "facePhotoBeauty": "綺麗さ",
+      "faceScore": "得点"
+    },
+    "rankRules": {
+      "faceScore": "得点は、顔の幸福度・写真の綺麗さ・ボーナスポイントの合計で100点満点になります",
+      "faceHappinessLevel": "幸福度は、AIが読み取った表情や笑顔の度合いから計算されます",
+      "facePhotoBeauty": "綺麗さは、写真のピント・光の当たり具合・ノイズなどから計算されます",
+      "bonus": "人数が多かったり、年齢・男女などの多様性があると、ボーナスポイントが加算されます",
+      "other": "人数が11人以上の場合は無効になります"
     },
     "alert": {
       "loadErr": "画像の読み込みに失敗しました。",

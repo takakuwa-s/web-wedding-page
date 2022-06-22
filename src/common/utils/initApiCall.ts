@@ -5,7 +5,7 @@ export function callInitApi(): Promise<Response> {
   const requestOptions: RequestInit = {
     method: 'GET',
     headers: {
-      "Authorization": token!
+      "Authorization": `Bearer ${token!}`
     },
   };
   // TODO: use userId
