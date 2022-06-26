@@ -21,7 +21,7 @@ function ImageListAll() {
   const noLoad = searchParams.get("noLoad");
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.user.val);
-  const images = useAppSelector((state: RootState) => state.files.files);
+  const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
@@ -30,7 +30,11 @@ function ImageListAll() {
   const FILE_LIMIT = 50;
 
   useEffect(() => {
-    if (!noLoad) {
+    if (noLoad) {
+      if (files.length < 12) {
+        setDisableReloading(true);
+      }
+    } else {
       setIsLoading(true);
       fetchFileList(
         FILE_LIMIT,
@@ -53,13 +57,13 @@ function ImageListAll() {
         () => setIsLoading(false)
       );
     }
-  }, [t, user.isAdmin, dispatch, noLoad]);
+  }, [t, user.isAdmin, dispatch, noLoad, files.length]);
 
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
       FILE_LIMIT,
-      images[images.length - 1].id,
+      files[files.length - 1].id,
       false,
       false,
       true,
@@ -68,7 +72,7 @@ function ImageListAll() {
         if (f.length < FILE_LIMIT) {
           setDisableReloading(true);
         }
-        const list = images.concat(f);
+        const list = files.concat(f);
         dispatch(updateFiles(list));
       },
       e => {

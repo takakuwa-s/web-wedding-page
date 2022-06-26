@@ -5,8 +5,7 @@ import ImageListAll from './ImageListAll';
 import ImageListRank from './ImageListRank';
 import ImageListMy from './ImageListMy';
 import { Gallery } from "../../common/dto/gallery";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { RootState } from "../../app/store";
+import { useAppDispatch } from "../../app/hooks";
 import InformationPanel from "../../common/components/information-panel/InformationPanel";
 import { updateAlertMsg } from "./fileSlice";
 
@@ -14,7 +13,6 @@ function ImageList(props: IProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const images = useAppSelector((state: RootState) => state.files.files);
   const switchGallery = (eventKey: any, event: any) => {
     dispatch(updateAlertMsg(""));
     navigate(`/image/list/${eventKey.toLowerCase()}`);
@@ -41,10 +39,9 @@ function ImageList(props: IProps) {
     RANK: <ImageListRank />
   };
 
-  const imageMap = new Map(images.map(i => [i.id, i]));
   return (
     <>
-      <InformationPanel imageMap={imageMap}/>
+      <InformationPanel />
       {imageEl[props.gallery]}
       <BottomNavbar navs={navs} onSelectNav={switchGallery}/>
     </>

@@ -1,6 +1,18 @@
 import liff from "@line/liff/dist/lib";
 
-export function sendMessageToLineBot(
+export function sendMessageToChat(
+  messages: any[],
+  onSuccess: () => void,
+  onError: (e: any) => void,
+  onComplete: () => void
+  ): void {
+  liff.sendMessages(messages)
+  .then(onSuccess)
+  .catch(onError)
+  .finally(onComplete);
+}
+
+export function multicastMessageToLineBot(
   messageKey: string,
   onSuccess: () => void,
   onError: (e: any) => void,

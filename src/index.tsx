@@ -50,7 +50,7 @@ liff
   .then((res) => {
     if (initApiHttpStatusCode === 200) {
       const user = res.data.user;
-      const filse = res.data.files;
+      const filse = res.data.files ? res.data.files : [];
       if (!user.guestType) {
         user.guestType = GuestType.GROOM;
       }

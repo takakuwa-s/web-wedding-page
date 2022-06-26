@@ -1,4 +1,3 @@
-import liff from "@line/liff/dist/lib";
 import { ChangeEvent, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -8,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import FormSelect from "../../common/components/form-select/FormSelect";
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
-import { sendMessageToLineBot } from "../../common/utils/lineApiCall";
+import { multicastMessageToLineBot, sendMessageToChat } from "../../common/utils/lineApiCall";
 
 enum PushMessageType {
   INVITATION = "invitation",
@@ -28,32 +27,31 @@ function AdminPushNotification() {
 
   const checkSendingMsg = () => {
     setIsCheckLoading(true);
-    liff.sendMessages([
-        {
-          type: "text",
-          text: t(`adminPushNotification.checkMsgContent.${messageType}`),
-        },
-      ])
-      .then(() => {
+    sendMessageToChat(
+      [{
+        type: "text",
+        text: t(`adminPushNotification.checkMsgContent.${messageType}`)
+      }],
+      () => {
         setAlert({
           msg: t("adminPushNotification.alert.sendSuccess"),
           variant: "success",
         })
-      })
-      .catch(err => {
+      },
+      err => {
         console.log("error", err);
         setAlert({
           msg: t("adminPushNotification.alert.sendErr"),
           variant: "danger",
         })
-      })
-      .finally(() => setIsCheckLoading(false)
-      );
+      },
+      () => setIsCheckLoading(false)
+    );
   }
 
   const multicastMsg = () => {
     setIsMulticastLoading(true);
-    sendMessageToLineBot(
+    multicastMessageToLineBot(
       messageType,
       () => {
         setMsgChecked(false);

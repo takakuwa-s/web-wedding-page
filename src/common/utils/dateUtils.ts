@@ -14,3 +14,17 @@ export function formatDatetime(format: string, date: Date): string {
     .replace("mm", d.getMinutes().toString().padStart(2, '0'))
     .replace("ss", d.getSeconds().toString().padStart(2, '0'))
 }
+
+/**
+ * format mili second to mm:ss
+ * @param milisec 
+ * @returns 
+ */
+export function formatMilisec(milisec: number): string {
+  const sec = Math.floor(milisec / 1000);
+  const ss = sec % 60;
+  const mm = Math.floor(sec / 60) % 60;
+  return "mm:ss"
+    .replace("mm", mm.toString().padStart(2, '0'))
+    .replace("ss", ss.toString().padStart(2, '0'))
+}

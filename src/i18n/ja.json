@@ -150,7 +150,8 @@
       "rank": "Photo Ranking"
     },
     "uploading": "uploading...",
-    "iosSave": "iPhoneの場合、写真を開き長押しで保存できます",
+    "calculating": "処理中",
+    "iosSave": "iPhoneの場合、ダウンロードボタンを押すと、LINEチャットに写真・動画が転送されます。チャットから保存して下さい",
     "tab": {
       "all": "All Photos",
       "my": "My Photos",
@@ -166,7 +167,8 @@
       "faceCount": "人数",
       "faceHappinessLevel": "幸福度",
       "facePhotoBeauty": "綺麗さ",
-      "faceScore": "得点"
+      "faceScore": "得点",
+      "duration": "長さ"
     },
     "rankRules": {
       "faceScore": "得点は、顔の幸福度・写真の綺麗さ・ボーナスポイントの合計で100点満点になります",

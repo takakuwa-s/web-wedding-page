@@ -17,7 +17,7 @@ import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from "./fileSlice
 function ImageListMy() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const images = useAppSelector((state: RootState) => state.files.files);
+  const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [canMultiSelect, setCanMultiSelect] = useState(false);
   const [checkedFileIds, setCheckedFileIds] = useState<string[]>([]);
@@ -54,7 +54,7 @@ function ImageListMy() {
     setIsReloading(true);
     fetchFileList(
       FILE_LIMIT,
-      images[images.length - 1].id,
+      files[files.length - 1].id,
       true,
       false,
       null,
@@ -63,7 +63,7 @@ function ImageListMy() {
         if (f.length < FILE_LIMIT) {
           setDisableReloading(true);
         }
-        const list = images.concat(f);
+        const list = files.concat(f);
         dispatch(updateFiles(list));
       },
       e => {
@@ -76,8 +76,8 @@ function ImageListMy() {
 
   const removeMultipleImages = () => {
     setCanMultiSelect(false);
-    const list = images;
-    const deletedList = images.filter(f => !checkedFileIds.includes(f.id));
+    const list = files;
+    const deletedList = files.filter(f => !checkedFileIds.includes(f.id));
     dispatch(updateFiles(deletedList));
     deleteFileList(
       checkedFileIds,
@@ -109,6 +109,7 @@ function ImageListMy() {
             <Button
               type="button"
               size="sm"
+              disabled={!files.length}
               variant={canMultiSelect ? "outline-dark" : "outline-info" }
               onClick={enableMultiSelect}
             >{canMultiSelect ? t("common.button.cancel") : t("common.button.select")}

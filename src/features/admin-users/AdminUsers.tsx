@@ -122,6 +122,7 @@ function AdminUsers() {
         document.body.appendChild(a);
         a.download = `${t("adminUsers.csvName")}.csv`;
         a.href = url;
+        a.rel = 'noopener'
         a.click();
         a.remove();
         URL.revokeObjectURL(url);

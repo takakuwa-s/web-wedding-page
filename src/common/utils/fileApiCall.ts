@@ -28,7 +28,7 @@ export function fetchFileList(
     param += `&userId=${liff.getDecodedIDToken()?.sub}`;
   }
   if (orderByFaceScore) {
-    param += "&orderBy=FaceScore";
+    param += "&orderBy=FaceScore&fileType=image";
   }
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list${param}`;
   let code: number;
