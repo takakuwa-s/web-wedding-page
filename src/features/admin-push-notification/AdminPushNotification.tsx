@@ -11,7 +11,8 @@ import { multicastMessageToLineBot, sendMessageToChat } from "../../common/utils
 
 enum PushMessageType {
   INVITATION = "invitation",
-  REMINDER = "reminder"
+  REMINDER = "reminder",
+  SLIDE_SHOW = "slideshow"
 }
 
 function AdminPushNotification() {
@@ -79,6 +80,7 @@ function AdminPushNotification() {
   const options = [
     {value: PushMessageType.INVITATION, label: t("adminPushNotification.sellect.invitation")},
     {value: PushMessageType.REMINDER, label: t("adminPushNotification.sellect.reminder")},
+    {value: PushMessageType.SLIDE_SHOW, label: t("adminPushNotification.sellect.slideshow")},
   ];
 
   return (

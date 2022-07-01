@@ -35,8 +35,9 @@ function App(props: IProps) {
         {props.user.isAdmin && (
           <>
             <Route path="admin/users" element={<Admin adminPage={AdminPage.USERS} />} />
-            <Route path="admin/push_notification" element={<Admin  adminPage={AdminPage.PUSH_NOTIFICATION} />} />
             <Route path="admin/user/:id" element={<AdminUserDetail />} />
+            <Route path="admin/push_notification" element={<Admin  adminPage={AdminPage.PUSH_NOTIFICATION} />} />
+            <Route path="admin/slide_show" element={<Admin adminPage={AdminPage.SLIDE_SHOW} />} />
           </>
         )}
         <Route path="*" element={<ErrorPage err={notFoundError}/>} />

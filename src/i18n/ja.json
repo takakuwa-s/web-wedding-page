@@ -192,7 +192,8 @@
   "admin": {
     "tab": {
       "users": "ユーザー一覧",
-      "pushNotification": "メッセージ送信"
+      "pushNotification": "メッセージ送信",
+      "slideshow": "スライドショー"
     }
   },
   "adminPushNotification": {
@@ -200,7 +201,8 @@
     "psuhConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
     "sellect": {
       "invitation": "招待状送信",
-      "reminder": "前日メッセージ"
+      "reminder": "前日メッセージ",
+      "slideshow": "スライドショー"
     },
     "button": {
       "check": "メッセージ確認",
@@ -212,7 +214,8 @@
     },
     "checkMsgContent": {
       "invitation": "招待状送信内容確認",
-      "reminder": "前日メッセージ送信内容確認"
+      "reminder": "前日メッセージ送信内容確認",
+      "slideshow": "スライドショー確認"
     }
   },
   "adminUsers": {
@@ -276,6 +279,18 @@
         "true": "出席",
         "false": "欠席"
       }
+    }
+  },
+  "adminSlideShow": {
+    "title": "スライドショー",
+    "not_created": "スライドショーはまだ作成されていません。",
+    "alert": {
+      "loadErr": "動画の読み込みに失敗しました",
+      "createErr": "作成に失敗しました",
+      "createSuccess": "作成を開始しました"
+    },
+    "button": {
+      "create": "スライドショー作成"
     }
   }
 }
