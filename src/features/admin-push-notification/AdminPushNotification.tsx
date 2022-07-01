@@ -110,7 +110,7 @@ function AdminPushNotification() {
           <Form.Check 
             type="switch"
             id="msg-checl"
-            label={t("adminPushNotification.psuhConfirm")}
+            label={t("adminPushNotification.pushConfirm")}
             checked={msgChecked}
             onChange={e => setMsgChecked(e.target.checked)}
           />

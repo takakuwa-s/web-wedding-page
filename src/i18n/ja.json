@@ -198,7 +198,7 @@
   },
   "adminPushNotification": {
     "title": "メッセージ送信",
-    "psuhConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
+    "pushConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
     "sellect": {
       "invitation": "招待状送信",
       "reminder": "前日メッセージ",
@@ -283,14 +283,18 @@
   },
   "adminSlideShow": {
     "title": "スライドショー",
-    "not_created": "スライドショーはまだ作成されていません。",
     "alert": {
       "loadErr": "動画の読み込みに失敗しました",
       "createErr": "作成に失敗しました",
-      "createSuccess": "作成を開始しました"
+      "createSuccess": "作成を開始しました",
+      "deleteErr": "削除に失敗しました",
+      "updateErr": "更新に失敗しました"
     },
     "button": {
       "create": "スライドショー作成"
+    },
+    "label": {
+      "selected": "配信"
     }
   }
 }

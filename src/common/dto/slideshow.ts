@@ -4,6 +4,7 @@ export interface SlideShow {
 	contentUrl: string;
 	thumbnailUrl: string;
 	mimeType: string;
+	selected: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 }
