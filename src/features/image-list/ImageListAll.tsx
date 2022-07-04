@@ -30,11 +30,7 @@ function ImageListAll() {
   const FILE_LIMIT = 50;
 
   useEffect(() => {
-    if (noLoad) {
-      if (files.length < 12) {
-        setDisableReloading(true);
-      }
-    } else {
+    if (!noLoad) {
       setIsLoading(true);
       fetchFileList(
         FILE_LIMIT,
@@ -57,7 +53,7 @@ function ImageListAll() {
         () => setIsLoading(false)
       );
     }
-  }, [t, user.isAdmin, dispatch, noLoad, files.length]);
+  }, [t, user.isAdmin, dispatch, noLoad]);
 
   const reloadImage = () => {
     setIsReloading(true);

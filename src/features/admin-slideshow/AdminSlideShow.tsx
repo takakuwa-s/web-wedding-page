@@ -107,11 +107,11 @@ function AdminSlideShow() {
       {isVideoLoading ? (
         <Loading />
       ) : (
-        <Row className="pt-5">
+        <Row className="pt-1">
           <Col>
             {slideshows.map((s, i) => (
-              <Row className="py-1" key={i}>
-                <Col xs={8} sm={9} md={{offset: 1, span: 8}} xl={{offset: 2, span: 8}}>
+              <Row className="pt-4" key={i}>
+                <Col xs={8} sm={{offset: 1, span: 10}} md={{offset: 2, span: 8}} xl={{offset: 3, span: 6}}>
                   <video
                     controls
                     width="100%"
@@ -119,9 +119,9 @@ function AdminSlideShow() {
                     poster={s.thumbnailUrl}
                   />
                 </Col>
-                <Col>
-                  <Row className="pb-2">
-                    <Col>
+                <Col xs={4} sm={12}>
+                  <Row>
+                    <Col className="pb-3 pb-sm-0" xs={12} sm={{offset: 4, span: 2}} xl={{offset: 5, span: 1}}>
                       <Form.Check 
                         type="switch"
                         id="msg-checl"
@@ -130,9 +130,7 @@ function AdminSlideShow() {
                         onChange={e => onClickUpdate(s.id, e.target.checked)}
                       />
                     </Col>
-                  </Row>
-                  <Row>
-                    <Col>
+                    <Col xs={12} sm={2}>
                       <Button
                         size="sm"
                         variant="danger"
