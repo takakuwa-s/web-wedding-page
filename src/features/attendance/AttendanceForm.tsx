@@ -117,7 +117,7 @@ function AttendanceForm(props: IProps) {
     <Container fluid className="form-back-ground">
       <Row>
         <Col>
-          <h2 className="pt-5 text-center">{t("attendance.title")}</h2>
+          <h2 className="pt-5 text-center app-font-family form-title">{t("attendance.title")}</h2>
         </Col>
       </Row>
       <Form className="pt-2 pb-5">
@@ -291,7 +291,7 @@ function AttendanceForm(props: IProps) {
             <Form.Control
               type="text"
               as="textarea"
-              rows={4}
+              rows={6}
               value={user.message}
               onChange={(e) => setUser({ ...user, message: e.target.value })}
               placeholder={t("attendance.message.placeholder")} />

@@ -28,7 +28,7 @@
   },
   "nav" : {
     "top": "Top",
-    "image": "Image",
+    "image": "Gallery",
     "attendance": "Attendance",
     "user": "User",
     "admin": "Admin"
@@ -153,8 +153,8 @@
     "calculating": "処理中",
     "iosSave": "iPhoneの場合、ダウンロードボタンを押すと、LINEチャットに写真・動画が転送されます。チャットから保存して下さい",
     "tab": {
-      "all": "All Photos",
-      "my": "My Photos",
+      "all": "Gallery",
+      "my": "My Gallery",
       "rank": "Photo Ranking"
     },
     "button": {

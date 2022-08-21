@@ -9,7 +9,7 @@ import Col from "react-bootstrap/esm/Col";
 
 function SwipeWrapper(props: IProps) {
   return (
-    <Row className="py-3 swipe-wrapper-background">
+    <Row className="py-3 mx-0 swipe-wrapper-background">
       <Col>
         <Swiper
           effect={"coverflow"}

@@ -13,9 +13,9 @@ function Information() {
 
   return (
     <div className="information-back-ground">
-      <Container>
-        <Row className="pt-5 pb-3">
-          <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} className="information-content mx-auto py-3">
+      <Container fluid className="pb-5">
+        <Row className="pt-3 pb-3">
+          <Col xs={10} sm={9} md={8} lg={7} xl={6} className="information-content mx-auto py-3">
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
@@ -35,7 +35,7 @@ function Information() {
           </Col>
         </Row>
         <Row className="pt-3 pb-5">
-          <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} className="information-content mx-auto py-3">
+          <Col xs={10} sm={9} md={8} lg={7} xl={6} className="information-content mx-auto py-3">
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
