@@ -8,6 +8,21 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 
 function SwipeWrapper(props: IProps) {
+  const width = window.innerWidth;
+  let slidesPerView = 2.5;
+  if (width < 576) {
+    slidesPerView = 1.1;
+  } else if (width < 768) {
+    slidesPerView = 1.3;
+  } else if (width < 992) {
+    slidesPerView = 1.6;
+  } else if (width < 1200) {
+    slidesPerView = 1.9;
+  } else if (width < 1400) {
+    slidesPerView = 2.2;
+  }
+
+  console.log(slidesPerView);
   return (
     <Row className="py-3 mx-0 swipe-wrapper-background">
       <Col>
@@ -15,7 +30,7 @@ function SwipeWrapper(props: IProps) {
           effect={"coverflow"}
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView={1.6}
+          slidesPerView={slidesPerView}
           coverflowEffect={{
             rotate: 50,
             stretch: 0,

@@ -1,6 +1,5 @@
-import GreetingMessage from '../greeting-message/GreetingMessage';
-import Information from '../information/Information';
-import Top from '../top/Top';
+import Information from './Information';
+import Top from './Top';
 import SwipeWrapper from "../../common/components/swiper-wrapper/SwipeWrapper";
 import swiperPhoto1 from "../../resource/swiper-photo-1.jpg"
 import swiperPhoto2 from "../../resource/swiper-photo-2.jpg"
@@ -51,7 +50,6 @@ function Home() {
     <>
       <Top />
       <SwipeWrapper images={images}/>
-      <GreetingMessage />
       <Information />
     </>
   );

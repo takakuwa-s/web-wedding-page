@@ -65,3 +65,21 @@
     font-size: 6rem;
   }
 }
+
+.message-back-ground {
+  background: linear-gradient(#ffffff,#b2f1f1);
+}
+
+.information-content {
+  color: #333;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px  rgb(0 0 0 / 20%);
+}
+
+.information-back-ground {
+  background: linear-gradient(#ffffff, #b2f1f1, #137bdc);
+}
+
+.information-table {
+  border-color: #ddd!important;
+}

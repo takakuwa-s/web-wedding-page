@@ -48,8 +48,8 @@
     "schedule": {
       "title": "◇ 日程 ◇",
       "date": "2023年03月19日（日）",
-      "ceremony": "挙式 : 10:30",
-      "reception": "披露宴 : 12:00"
+      "ceremony": "挙式　 : 10:30　（受付 : 10:00）",
+      "reception": "披露宴 : 12:00　（受付 : 11:30）"
     },
     "venue": {
       "title": "◇ 会場 ◇",
@@ -57,9 +57,14 @@
       "link": "https://www.scapes.jp/",
       "phone": "046-877-5730",
       "address": "神奈川県三浦郡葉山町堀内922-2",
-      "postalCode": "〒240-0112"
+      "postalCode": "〒240-0112",
+      "note": "当日は、JR逗子駅から会場までのタクシーをご用意しております"
     },
-    "register": "招待状に回答する"
+    "register": {
+      "title": "◇ ご出欠 ◇",
+      "deadline": "お手数ではございますが、2月10日 までにご返信頂きますようお願い申し上げます",
+      "button": "招待状に回答する"
+    }
   },
   "attendance": {
     "title": "Attendance",

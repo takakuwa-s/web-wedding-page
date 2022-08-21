@@ -5,7 +5,7 @@ import Row from "react-bootstrap/esm/Row";
 import Table from "react-bootstrap/esm/Table";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import './Information.scss';
+import './Home.scss';
 
 function Information() {
   const { t } = useTranslation();
@@ -14,27 +14,28 @@ function Information() {
   return (
     <div className="information-back-ground">
       <Container fluid className="pb-5">
-        <Row className="pt-3 pb-3">
+        <Row className="py-4">
+          <Col className="px-0 mx-auto text-center" xs={10} sm={9} md={8} lg={7} xl={6} >
+            <pre className="p-3 mb-0 information-content">{t("greetingMessage.content")}</pre>
+          </Col>
+        </Row>
+        <Row className="py-4">
           <Col xs={10} sm={9} md={8} lg={7} xl={6} className="information-content mx-auto py-3">
             <Table size="sm" className="information-table">
               <tbody>
                 <tr>
                   <th className="text-center">{t("information.schedule.title")}</th>
                 </tr>
-                <tr>
-                  <td>{t("information.schedule.date")}</td>
-                </tr>
+                <tr><td>{t("information.schedule.date")}</td></tr>
                 <tr>
                   <td>{t("information.schedule.ceremony")}</td>
                 </tr>
-                <tr>
-                  <td>{t("information.schedule.reception")}</td>
-                </tr>
+                <tr><td>{t("information.schedule.reception")}</td></tr>
               </tbody>
             </Table>
           </Col>
         </Row>
-        <Row className="pt-3 pb-5">
+        <Row className="py-4">
           <Col xs={10} sm={9} md={8} lg={7} xl={6} className="information-content mx-auto py-3">
             <Table size="sm" className="information-table">
               <tbody>
@@ -66,18 +67,31 @@ function Information() {
                     </div>
                   </td>
                 </tr>
+                <tr>
+                  <td>{t("information.venue.note")}</td>
+                </tr>
               </tbody>
             </Table>
-            <Row className="pt-3 pb-3">
-              <Col className="text-center">
-                <Button
-                  variant="outline-info"
-                  size="lg"
-                  onClick={() => navigate("/attendance")}
-                >{t("information.register")}
-                </Button>
-              </Col>
-            </Row>
+          </Col>
+        </Row>
+        <Row className="pt-4 pb-5">
+          <Col xs={10} sm={9} md={8} lg={7} xl={6} className="information-content mx-auto py-3 text-center">
+            <Table size="sm" className="information-table">
+              <tbody>
+                <tr><th>{t("information.register.title")}</th></tr>
+                <tr><td>{t("information.register.deadline")}</td></tr>
+                <tr>
+                  <td>
+                  <Button
+                    variant="outline-info"
+                    size="lg"
+                    onClick={() => navigate("/attendance")}
+                  >{t("information.register.button")}
+                  </Button>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
         </Row>
       </Container>
