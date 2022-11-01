@@ -24,7 +24,7 @@ function SwipeWrapper(props: IProps) {
 
   console.log(slidesPerView);
   return (
-    <Row className="py-3 mx-0 swipe-wrapper-background">
+    <Row className="py-3 mx-0">
       <Col>
         <Swiper
           effect={"coverflow"}

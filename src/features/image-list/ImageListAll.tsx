@@ -83,7 +83,7 @@ function ImageListAll() {
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-3 text-center app-font-family">{t('imageList.title.all')}</h2>
+          <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg} variant="danger" />

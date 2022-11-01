@@ -14,3 +14,11 @@ export function callInitApi(): Promise<Response> {
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/init/${userId}`;
   return fetch(url, requestOptions);
 }
+
+export function callHealthApi(): void {
+  const requestOptions: RequestInit = {
+    method: 'GET'
+  };
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/health-check`;
+  fetch(url, requestOptions);
+}

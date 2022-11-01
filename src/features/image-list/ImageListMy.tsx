@@ -101,7 +101,7 @@ function ImageListMy() {
       <div className="fixed-top bg-white">
         <Row>
           <Col>
-            <h2 className="pt-3 text-center app-font-family">{t('imageList.title.my')}</h2>
+            <h2 className="pt-3 text-center">{t('imageList.title.my')}</h2>
           </Col>
         </Row>
         <Row className="pt-0 pb-1">

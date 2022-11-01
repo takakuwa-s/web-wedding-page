@@ -9,11 +9,14 @@ import { logEvent } from 'firebase/analytics';
 import { analytics } from './common/utils/firebase';
 import store from './app/store'
 import { Provider } from 'react-redux'
-import { callInitApi } from './common/utils/initApiCall';
+import { callHealthApi, callInitApi } from './common/utils/initApiCall';
 import { GuestType } from './common/dto/user';
 import ErrorPage from './features/error-page/ErrorPage';
 import Loading from './common/components/loading/Loading';
 import Container from 'react-bootstrap/esm/Container';
+
+// Activate the container
+callHealthApi();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

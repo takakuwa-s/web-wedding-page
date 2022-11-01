@@ -10,14 +10,13 @@ import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { multicastMessageToLineBot, sendMessageToChat } from "../../common/utils/lineApiCall";
 
 enum PushMessageType {
-  INVITATION = "invitation",
   REMINDER = "reminder",
   SLIDE_SHOW = "slideshow"
 }
 
 function AdminPushNotification() {
   const { t } = useTranslation();
-  const [messageType, setMessageType] = useState(PushMessageType.INVITATION);
+  const [messageType, setMessageType] = useState(PushMessageType.REMINDER);
   const [msgChecked, setMsgChecked] = useState(false);
   const [isMulticastLoading, setIsMulticastLoading] = useState(false);
   const [isCheckLoading, setIsCheckLoading] = useState(false);
@@ -78,7 +77,6 @@ function AdminPushNotification() {
   };
 
   const options = [
-    {value: PushMessageType.INVITATION, label: t("adminPushNotification.sellect.invitation")},
     {value: PushMessageType.REMINDER, label: t("adminPushNotification.sellect.reminder")},
     {value: PushMessageType.SLIDE_SHOW, label: t("adminPushNotification.sellect.slideshow")},
   ];

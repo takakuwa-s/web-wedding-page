@@ -29,7 +29,7 @@ function WeddingNavbar() {
             closeVariant="white"
             onHide={() => setShow(false)} />
           <Offcanvas.Body bsPrefix="offcanvas-body" className="text-center display-6 pt-0">
-            <Nav className="flex-grow-1 text-white app-font-family" onSelect={() => setShow(false)}>
+            <Nav className="flex-grow-1 text-white" onSelect={() => setShow(false)}>
               <Nav.Link as={Link} to="/" eventKey="top" className="pb-5 text-decoration-none text-white">{t('nav.top')}</Nav.Link>
               <Nav.Link as={Link} to="/image/list/all" eventKey="images" className="pb-5 text-decoration-none text-white">{t('nav.image')}</Nav.Link>
               <Nav.Link as={Link} to="/user" eventKey="user" className="pb-5 text-decoration-none text-white">{t('nav.user')}</Nav.Link>

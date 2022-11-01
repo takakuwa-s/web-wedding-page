@@ -1,3 +1,7 @@
+.home-back-ground {
+  background-color: #ffffff;
+}
+
 .top-back-ground {
   background-image: url("../../resource/top-background.jpg");
   background-size: cover;
@@ -14,7 +18,7 @@
 }
 
 .title {
-  color: #888;
+  color: #001230;
 }
 
 .title-adjust {
@@ -25,7 +29,7 @@
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
   .title-adjust {
-    padding-top: 42%;
+    padding-top: 40%;
     font-size: 4.5rem;
   }
 }
@@ -33,7 +37,7 @@
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) { 
   .title-adjust {
-    padding-top: 33%;
+    padding-top: 31%;
     font-size: 4.7rem;
   }
 }
@@ -41,7 +45,7 @@
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) { 
   .title-adjust {
-    padding-top: 28%;
+    padding-top: 24%;
     font-size: 4.7rem;
   }
 
@@ -53,7 +57,7 @@
 // X-Large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {
   .title-adjust {
-    padding-top: 25%;
+    padding-top: 13%;
     font-size: 5.1rem;
   }
 }
@@ -61,25 +65,30 @@
 // XX-Large devices (larger desktops, 1400px and up)
 @media (min-width: 1400px) {
   .title-adjust {
-    padding-top: 12%;
+    padding-top: 10%;
     font-size: 6rem;
   }
 }
 
-.message-back-ground {
-  background: linear-gradient(#ffffff,#b2f1f1);
+.greeting-header-img {
+  width: 100vw;
+}
+
+.information-title {
+  font-size: 2rem;
+  color: #333;
+}
+
+.information-font {
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .information-content {
-  color: #333;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 10px  rgb(0 0 0 / 20%);
 }
 
 .information-back-ground {
   background: linear-gradient(#ffffff, #b2f1f1, #137bdc);
-}
-
-.information-table {
-  border-color: #ddd!important;
 }

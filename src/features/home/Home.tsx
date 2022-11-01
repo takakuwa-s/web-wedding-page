@@ -9,6 +9,7 @@ import swiperPhoto5 from "../../resource/swiper-photo-5.jpg"
 import swiperPhoto6 from "../../resource/swiper-photo-6.jpg"
 import swiperPhoto7 from "../../resource/swiper-photo-7.jpg"
 import swiperPhoto8 from "../../resource/swiper-photo-8.jpg"
+import Greeting from './Greeting';
 
 function Home() {
   const images = [
@@ -47,11 +48,12 @@ function Home() {
   ];
 
   return (
-    <>
+    <div className="home-back-ground">
       <Top />
+      <Greeting />
       <SwipeWrapper images={images}/>
       <Information />
-    </>
+    </div>
   );
 }
 

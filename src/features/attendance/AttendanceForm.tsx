@@ -117,7 +117,7 @@ function AttendanceForm(props: IProps) {
     <Container fluid className="form-back-ground">
       <Row>
         <Col>
-          <h2 className="pt-5 text-center app-font-family form-title">{t("attendance.title")}</h2>
+          <h2 className="pt-5 text-center form-title">{t("attendance.title")}</h2>
         </Col>
       </Row>
       <Form className="pt-2 pb-5">

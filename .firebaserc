@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "wedding-343414"
+    "default": "wedding-dev-1df62",
+    "dev": "wedding-dev-1df62",
+    "prod": "wedding-343414"
   }
 }

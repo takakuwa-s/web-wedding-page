@@ -9,7 +9,7 @@ function BottomNavbar(props: IProps) {
         <Nav as="ul" fill defaultActiveKey={props.navs[0].id} className="mx-auto" onSelect={props.onSelectNav}>
         {props.navs.map((nav, index) => (
           <Nav.Item key={index} as="li">
-            <Nav.Link href="#" eventKey={nav.id} className="app-font-family" >{nav.title}</Nav.Link>
+            <Nav.Link href="#" eventKey={nav.id}>{nav.title}</Nav.Link>
           </Nav.Item>
         ))}
         </Nav>

@@ -46,23 +46,37 @@
   },
   "information": {
     "schedule": {
-      "title": "◇ 日程 ◇",
-      "date": "2023年03月19日（日）",
-      "ceremony": "挙式　 : 10:30　（受付 : 10:00）",
-      "reception": "披露宴 : 12:00　（受付 : 11:30）"
+      "title": "Date",
+      "date": "2023.03.19 Sun",
+      "weddingCeremony": {
+        "title": "- 挙式 -",
+        "time": "10:30（受付 / 10:00）"
+      },
+      "weddingBanquet": {
+        "title": "- 披露宴 -",
+        "time": "12:00（受付 / 11:30）"
+      }
     },
     "venue": {
-      "title": "◇ 会場 ◇",
+      "title": "Access",
       "name": "SCAPES THE SUITE",
       "link": "https://www.scapes.jp/",
       "phone": "046-877-5730",
       "address": "神奈川県三浦郡葉山町堀内922-2",
       "postalCode": "〒240-0112",
-      "note": "当日は、JR逗子駅から会場までのタクシーをご用意しております"
+      "note1": "当日はJR逗子駅から",
+      "note2": "無料でご利用頂ける",
+      "note3": "タクシーをご用意しております"
+    },
+    "note": {
+      "title": "Message",
+      "note": "コロナ対応しています。"
     },
     "register": {
-      "title": "◇ ご出欠 ◇",
-      "deadline": "お手数ではございますが、2月10日 までにご返信頂きますようお願い申し上げます",
+      "title": "Presence or Absence",
+      "deadline1": "お手数ではございますが、",
+      "deadline2": "2月10日 までにご返信頂きますよう",
+      "deadline3": "お願い申し上げます",
       "button": "招待状に回答する"
     }
   },
@@ -205,7 +219,6 @@
     "title": "メッセージ送信",
     "pushConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
     "sellect": {
-      "invitation": "招待状送信",
       "reminder": "前日メッセージ",
       "slideshow": "スライドショー"
     },
@@ -218,7 +231,6 @@
       "sendErr": "LINE botへのメッセージ送信に失敗しました。"
     },
     "checkMsgContent": {
-      "invitation": "招待状送信内容確認",
       "reminder": "前日メッセージ送信内容確認",
       "slideshow": "スライドショー確認"
     }
