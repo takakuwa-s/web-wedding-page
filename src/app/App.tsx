@@ -31,6 +31,7 @@ function App(props: IProps) {
         <Route path="image/list/all" element={<ImageList gallery={Gallery.ALL} />} />
         <Route path="image/list/my" element={<ImageList gallery={Gallery.MY} />} />
         <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
+        <Route path="image/list/couple" element={<ImageList gallery={Gallery.COUPLE} />} />
         <Route path="user" element={<UserDetail />} />
         {props.user.isAdmin && (
           <>

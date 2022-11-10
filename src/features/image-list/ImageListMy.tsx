@@ -9,14 +9,16 @@ import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import Container from "react-bootstrap/esm/Container";
 import { deleteFileList, fetchFileList } from "../../common/utils/fileApiCall";
 import { Gallery } from "../../common/dto/gallery";
-import CheckImages from "../../common/components/select-images/CheckImages";
+import CheckImages from "../../common/components/check-images/CheckImages";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from "./fileSlice";
+import { FileStatus } from "../../common/dto/file";
 
 function ImageListMy() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state: RootState) => state.user.val);
   const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [canMultiSelect, setCanMultiSelect] = useState(false);
@@ -33,7 +35,8 @@ function ImageListMy() {
       "",
       true,
       false,
-      null,
+      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
+      false,
       false,
       f => {
         if (f.length < FILE_LIMIT) {
@@ -57,7 +60,8 @@ function ImageListMy() {
       files[files.length - 1].id,
       true,
       false,
-      null,
+      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
+      false,
       false,
       f => {
         if (f.length < FILE_LIMIT) {
@@ -141,6 +145,7 @@ function ImageListMy() {
             gallery={Gallery.MY}
             showDeleteBtn
             showInformation
+            showPatchBtn={user.isAdmin}
           />
         )}
         {!canMultiSelect && (

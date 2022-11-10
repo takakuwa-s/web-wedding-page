@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ImageListAll from './ImageListAll';
 import ImageListRank from './ImageListRank';
 import ImageListMy from './ImageListMy';
+import ImageListCouple from "./ImageListCouple";
 import { Gallery } from "../../common/dto/gallery";
 import { useAppDispatch } from "../../app/hooks";
 import InformationPanel from "../../common/components/information-panel/InformationPanel";
@@ -31,12 +32,17 @@ function ImageList(props: IProps) {
       id: Gallery.RANK,
       title: t("imageList.tab.rank"),
     },
+    {
+      id: Gallery.COUPLE,
+      title: t("imageList.tab.couple")
+    },
   ];
 
   const imageEl = {
     ALL: <ImageListAll />,
     MY: <ImageListMy />,
-    RANK: <ImageListRank />
+    RANK: <ImageListRank />,
+    COUPLE: <ImageListCouple />
   };
 
   return (

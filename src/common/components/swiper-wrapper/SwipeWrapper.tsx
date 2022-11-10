@@ -21,8 +21,6 @@ function SwipeWrapper(props: IProps) {
   } else if (width < 1400) {
     slidesPerView = 2.2;
   }
-
-  console.log(slidesPerView);
   return (
     <Row className="py-3 mx-0">
       <Col>

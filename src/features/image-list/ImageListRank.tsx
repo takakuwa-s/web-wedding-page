@@ -11,6 +11,7 @@ import { Gallery } from '../../common/dto/gallery';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { updateFiles, updateFilesAndAlertMsg } from './fileSlice';
+import { FileStatus } from '../../common/dto/file';
 
 function ImageListRank() {
   const { t } = useTranslation();
@@ -27,8 +28,9 @@ function ImageListRank() {
       "",
       false,
       true,
-      true,
+      [FileStatus.OPEN],
       user.isAdmin,
+      false,
       f => dispatch(updateFiles(f)),
       e => {
         console.error(e);

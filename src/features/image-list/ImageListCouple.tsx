@@ -4,7 +4,6 @@ import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import PhotoswipeWrapper from "../../common/components/photoswipe-wrapper/PhotoswipeWrapper";
 import ReloadButton from '../../common/components/reload-button/ReloadButton';
-import liff from '@line/liff/dist/lib';
 import Container from 'react-bootstrap/esm/Container';
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import { fetchFileList } from '../../common/utils/fileApiCall';
@@ -13,13 +12,10 @@ import { Gallery } from '../../common/dto/gallery';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { updateFiles, updateFilesAndAlertMsg } from './fileSlice';
-import { useSearchParams } from 'react-router-dom';
 import { FileStatus } from '../../common/dto/file';
 
-function ImageListAll() {
+function ImageListCouple() {
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
-  const noLoad = searchParams.get("noLoad");
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.user.val);
   const files = useAppSelector((state: RootState) => state.files.files);
@@ -31,31 +27,29 @@ function ImageListAll() {
   const FILE_LIMIT = 50;
 
   useEffect(() => {
-    if (!noLoad) {
-      setIsLoading(true);
-      fetchFileList(
-        FILE_LIMIT,
-        "",
-        false,
-        false,
-        [FileStatus.OPEN, FileStatus.UPLOADED],
-        user.isAdmin,
-        false,
-        f => {
-          if (f.length < FILE_LIMIT) {
-            setDisableReloading(true);
-          }
-          dispatch(updateFiles(f));
-        },
-        e => {
-          console.error(e);
+    setIsLoading(true);
+    fetchFileList(
+      FILE_LIMIT,
+      "",
+      false,
+      false,
+      [FileStatus.OPEN],
+      false,
+      true,
+      f => {
+        if (f.length < FILE_LIMIT) {
           setDisableReloading(true);
-          dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
-        },
-        () => setIsLoading(false)
-      );
-    }
-  }, [t, user.isAdmin, dispatch, noLoad]);
+        }
+        dispatch(updateFiles(f));
+      },
+      e => {
+        console.error(e);
+        setDisableReloading(true);
+        dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
+      },
+      () => setIsLoading(false)
+    );
+  }, [t, dispatch]);
 
   const reloadImage = () => {
     setIsReloading(true);
@@ -64,9 +58,9 @@ function ImageListAll() {
       files[files.length - 1].id,
       false,
       false,
-      [FileStatus.OPEN, FileStatus.UPLOADED],
-      user.isAdmin,
+      [FileStatus.OPEN],
       false,
+      true,
       f => {
         if (f.length < FILE_LIMIT) {
           setDisableReloading(true);
@@ -86,21 +80,13 @@ function ImageListAll() {
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>
+          <h2 className="pt-3 text-center">{t('imageList.title.couple')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg} variant="danger" />
-      {liff.getOS() === "ios" && !alertMsg && (
-        <Row className="pt-3 pb-1">
-          <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
-            <p className="my-1">{t("imageList.iosSave")}</p>
-          </Col>
-        </Row>
-      )}
       <PhotoswipeWrapper
         isLoading={isLoading}
-        gallery={Gallery.ALL}
-        showInformation={user.isAdmin}
+        gallery={Gallery.COUPLE}
         showDeleteBtn={user.isAdmin}
         showPatchBtn={user.isAdmin}/>
       <ReloadButton
@@ -114,4 +100,4 @@ function ImageListAll() {
   );
 }
 
-export default ImageListAll;
+export default ImageListCouple;

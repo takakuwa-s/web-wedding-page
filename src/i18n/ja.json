@@ -93,7 +93,8 @@
     "guestType": {
       "label": "ゲスト様",
       "groom": "新郎側",
-      "bride": "新婦側"
+      "bride": "新婦側",
+      "": "未回答"
     },
     "name": {
       "label": "お名前",
@@ -166,15 +167,17 @@
     "title": {
       "all": "Gallery",
       "my": "My Gallery",
-      "rank": "Photo Ranking"
+      "rank": "Photo Ranking",
+      "couple": "Bride & Groom"
     },
     "uploading": "uploading...",
     "calculating": "処理中",
     "iosSave": "iPhoneの場合、ダウンロードボタンを押すと、LINEチャットに写真・動画が転送されます。チャットから保存して下さい",
     "tab": {
-      "all": "Gallery",
-      "my": "My Gallery",
-      "rank": "Photo Ranking"
+      "all": "ALL",
+      "my": "MINE",
+      "rank": "RANK",
+      "couple": "COUPLE"
     },
     "button": {
       "reload": "写真をさらに読み込む",
@@ -199,7 +202,8 @@
     "alert": {
       "loadErr": "画像の読み込みに失敗しました。",
       "reloadErr": "画像の再読み込みに失敗しました。",
-      "deleteErr": "画像の削除に失敗しました。"
+      "deleteErr": "画像の削除に失敗しました。",
+      "patchErr": "画像情報の更新に失敗しました。"
     }
   },
   "userDetail": {

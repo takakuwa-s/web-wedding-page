@@ -1,13 +1,14 @@
 import liff from "@line/liff/dist/lib";
-import { File } from "../dto/file";
+import { File, FileStatus } from "../dto/file";
 
 export function fetchFileList(
   limit: number,
   startId: string,
   doFilterUser: boolean,
   orderByFaceScore: boolean,
-  uploaded: boolean | null,
+  fileStatus: FileStatus[],
   needCreaterName: boolean,
+  forBrideAndGroom: boolean,
   onSuccess: (files: File[]) => void,
   onError: (e: any) => void,
   onComplete: () => void
@@ -18,8 +19,13 @@ export function fetchFileList(
     headers: { "Authorization": `Bearer ${token!}` }
   };
   let param = `?limit=${limit}&needCreaterName=${needCreaterName}`;
-  if (uploaded !== null) {
-    param += `&uploaded=${uploaded}`;
+  if (fileStatus !== null) {
+    for (let i=0; i<fileStatus.length; i++) {
+      param += `&fileStatus=${fileStatus[i]}`;
+    }
+  }
+  if (forBrideAndGroom !== null) {
+    param += `&forBrideAndGroom=${forBrideAndGroom}`;
   }
   if (startId) {
     param += `&startId=${startId}`;
@@ -49,8 +55,8 @@ export function fetchFileList(
     .finally(onComplete);
 }
 
-export function deleteFile(
-  id: string,
+export function deleteFileList(
+  ids: string[],
   onSuccess: () => void,
   onError: (e: any) => void,
   onComplete: () => void
@@ -62,7 +68,11 @@ export function deleteFile(
       "Authorization": `Bearer ${token!}`
     }
   };
-  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/${id}`;
+  let param: string = `id=${ids[0]}`;
+  for (let i=1; i<ids.length; i++) {
+    param += `&id=${ids[i]}`;
+  }
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list?${param}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {
@@ -83,24 +93,23 @@ export function deleteFile(
     .finally(onComplete);
 }
 
-export function deleteFileList(
-  ids: string[],
+export function patchFile(
+  id: string,
+  forBrideAndGroom: boolean,
   onSuccess: () => void,
   onError: (e: any) => void,
   onComplete: () => void
   ): void {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {
-    method: 'DELETE',
+    method: 'PATCH',
     headers: {
+      "Content-Type": "application/json",
       "Authorization": `Bearer ${token!}`
-    }
+    },
+    body: `{"forBrideAndGroom":${forBrideAndGroom}}`
   };
-  let param: string = `id=${ids[0]}`;
-  for (let i=1; i<ids.length; i++) {
-    param += `&id=${ids[i]}`;
-  }
-  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list?${param}`;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/${id}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {

@@ -1,48 +1,40 @@
 import Information from './Information';
 import Top from './Top';
 import SwipeWrapper from "../../common/components/swiper-wrapper/SwipeWrapper";
-import swiperPhoto1 from "../../resource/swiper-photo-1.jpg"
-import swiperPhoto2 from "../../resource/swiper-photo-2.jpg"
-import swiperPhoto3 from "../../resource/swiper-photo-3.jpg"
-import swiperPhoto4 from "../../resource/swiper-photo-4.jpg"
-import swiperPhoto5 from "../../resource/swiper-photo-5.jpg"
-import swiperPhoto6 from "../../resource/swiper-photo-6.jpg"
-import swiperPhoto7 from "../../resource/swiper-photo-7.jpg"
-import swiperPhoto8 from "../../resource/swiper-photo-8.jpg"
 import Greeting from './Greeting';
 
 function Home() {
   const images = [
     {
-      src: swiperPhoto1,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-1.jpg?alt=media&token=6a0fb3dd-01e4-40e9-a6ae-b8e41ad9c6e4",
       alt: "swiper photo 1"
     },
     {
-      src: swiperPhoto2,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-2.jpg?alt=media&token=2131cd51-aa66-489b-9e9a-42c6845a3c79",
       alt: "swiper photo 2"
     },
     {
-      src: swiperPhoto3,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-3.jpg?alt=media&token=99a2ec87-382e-41ff-aeef-5c8605eddcfa",
       alt: "swiper photo 3"
     },
     {
-      src: swiperPhoto4,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-4.jpg?alt=media&token=90943fde-ba7a-415a-9ded-185e05bee5fe",
       alt: "swiper photo 4"
     },
     {
-      src: swiperPhoto5,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-5.jpg?alt=media&token=4cc8f68f-e90b-46b1-a6b6-1e9f4cb28574",
       alt: "swiper photo 5"
     },
     {
-      src: swiperPhoto6,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-6.jpg?alt=media&token=0e529837-471e-4454-92f4-476de2d27936",
       alt: "swiper photo 6"
     },
     {
-      src: swiperPhoto7,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-7.jpg?alt=media&token=0f76a6bb-c27c-4292-b943-b5453d76fd5a",
       alt: "swiper photo 7"
     },
     {
-      src: swiperPhoto8,
+      src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-8.jpg?alt=media&token=bfe718f2-9df7-45eb-b412-4584e5f0ba23",
       alt: "swiper photo 8"
     },
   ];

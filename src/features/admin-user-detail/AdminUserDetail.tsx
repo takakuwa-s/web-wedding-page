@@ -226,7 +226,7 @@ function AdminUserDetail() {
             variant="outline-info"
             size="lg"
             disabled={isAttandanceUpdateLoading || isAdimnUpdateLoading}
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/admin/users")}
           >{t("common.button.back")}
           </Button>
         </Col>

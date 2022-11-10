@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../app/hooks';
 import Table from 'react-bootstrap/esm/Table';
 import { useTranslation } from 'react-i18next';
 import { formatDatetime, formatMilisec } from '../../utils/dateUtils';
+import { FileStatus } from '../../dto/file';
 
 function InformationPanel() {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ function InformationPanel() {
   const show = useAppSelector((state: RootState) => state.informationPanel.show);
   const files = useAppSelector((state: RootState) => state.files.files);
   const id = useAppSelector((state: RootState) => state.informationPanel.id);
-  const file = files.filter(f => f.id === id)[0];
+  const file = files.filter((f: { id: string; }) => f.id === id)[0];
   if (show && file) {
     return (
       <Row className="fixed-bottom information-panel">
@@ -28,25 +29,25 @@ function InformationPanel() {
               )}
               <tr>
                 <td>{t("imageList.label.createdAt")}</td>
-                <td>{formatDatetime("yyyy/MM/dd HH:mm:ss", file.createdAt)}</td>
+                <td>{formatDatetime("yyyy/MM/dd HH:mm:ss", file.updatedAt)}</td>
               </tr>
               {file.fileType === 'image' ? (
                 <>
                   <tr>
                     <td>{t("imageList.label.faceScore")}</td>
-                    <td>{file.calculated ? file.faceScore : t("imageList.calculating")}</td>
+                    <td>{file.fileStatus === FileStatus.OPEN ? file.faceScore : t("imageList.calculating")}</td>
                   </tr>
                   <tr>
                     <td>{t("imageList.label.faceHappinessLevel")}</td>
-                    <td>{file.calculated ? file.faceHappinessLevel : t("imageList.calculating")}</td>
+                    <td>{file.fileStatus === FileStatus.OPEN ? file.faceHappinessLevel : t("imageList.calculating")}</td>
                   </tr>
                   <tr>
                     <td>{t("imageList.label.facePhotoBeauty")}</td>
-                    <td>{file.calculated ? file.facePhotoBeauty : t("imageList.calculating")}</td>
+                    <td>{file.fileStatus === FileStatus.OPEN ? file.facePhotoBeauty : t("imageList.calculating")}</td>
                   </tr>
                   <tr>
                     <td>{t("imageList.label.faceCount")}</td>
-                    <td>{file.calculated ? file.faceCount : t("imageList.calculating")}</td>
+                    <td>{file.fileStatus === FileStatus.OPEN ? file.faceCount : t("imageList.calculating")}</td>
                   </tr>
                 </>
               ) : (

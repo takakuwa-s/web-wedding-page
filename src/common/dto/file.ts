@@ -8,15 +8,22 @@ export interface File {
 	width: number;
 	height: number;
 	mimeType: string;
-	uploaded: boolean;
-	calculated: boolean;
+	fileStatus: FileStatus;
 	faceIds: string[];
 	faceCount: number
 	faceHappinessLevel: number
 	facePhotoBeauty: number
 	faceScore : number;
+	forBrideAndGroom: boolean;
 	createdAt: Date;
 	creater: string;
 	updatedAt: Date;
 	createrName?: string;
+}
+
+export enum FileStatus {
+	NEW      = "new",
+	UPLOADED = "uploaded",
+	OPEN    = "open",
+	DELETED  = "deleted"
 }

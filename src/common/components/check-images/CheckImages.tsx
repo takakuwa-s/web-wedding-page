@@ -1,5 +1,5 @@
 import Col from "react-bootstrap/esm/Col";
-import { File } from "../../dto/file";
+import { File, FileStatus } from "../../dto/file";
 import Image from 'react-bootstrap/Image'
 import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
@@ -12,7 +12,7 @@ import { RootState } from "../../../app/store";
 interface CheckImage {
 	id: string;
 	thumbnailUrl: string;
-  uploaded: boolean;
+  fileStatus: FileStatus;
   checked?: boolean;
 }
 
@@ -23,7 +23,7 @@ function CheckImages(props: IProps) {
       return {
         id: f.id,
         thumbnailUrl: f.thumbnailUrl,
-        uploaded: f.uploaded,
+        fileStatus: f.fileStatus,
         checked: false
       };
     });
@@ -49,10 +49,10 @@ function CheckImages(props: IProps) {
       {checkImages.map((image, idx) => (
         <Col key={idx} xs={4} sm={3} md={2} xl={1} className="ps-0 pe-1 pb-1">
           <div className="position-relative" onClick={() => onClickImage(image)}>
-            {image.uploaded ? (
-              <Image className="square" thumbnail={image.checked} rounded src={image.thumbnailUrl} alt={image.id} />
-            ) : (
+            {image.fileStatus === FileStatus.NEW ? (
               <ProcessingImage />
+            ) : (
+              <Image className="square" thumbnail={image.checked} rounded src={image.thumbnailUrl} alt={image.id} />
             )}
             <Form.Check 
               type='checkbox'
