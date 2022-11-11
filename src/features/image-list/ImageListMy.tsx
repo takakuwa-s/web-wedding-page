@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from "./fileSlice";
 import { FileStatus } from "../../common/dto/file";
+import { CheckImage } from "../../common/dto/checkImage";
 
 function ImageListMy() {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ function ImageListMy() {
     fetchFileList(
       FILE_LIMIT,
       "",
-      true,
+      false,
       false,
       [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       false,
@@ -94,11 +95,16 @@ function ImageListMy() {
     setCheckedFileIds([]);
   }
 
-  const enableMultiSelect = () => {
+  const switchMultiSelect = () => {
     setCheckedFileIds([]);
     dispatch(updateAlertMsg(""));
     setCanMultiSelect(!canMultiSelect)
   };
+
+  const onCheckImages = (images: CheckImage[]) => {
+    const ids: string[] = images.map(i => i.id);
+    setCheckedFileIds(ids);
+  }
 
   return (
     <Container fluid className="pb-5">
@@ -109,17 +115,16 @@ function ImageListMy() {
           </Col>
         </Row>
         <Row className="pt-0 pb-1">
-          <Col xs={4} className="ps-4 text-start">
+          <Col className="ps-4">
             <Button
               type="button"
+              className="me-3"
               size="sm"
               disabled={!files.length}
               variant={canMultiSelect ? "outline-dark" : "outline-info" }
-              onClick={enableMultiSelect}
+              onClick={switchMultiSelect}
             >{canMultiSelect ? t("common.button.cancel") : t("common.button.select")}
             </Button>
-          </Col>
-          <Col xs={4} className="text-center">
             {canMultiSelect && (
               <Button
                 type="button"
@@ -136,9 +141,7 @@ function ImageListMy() {
       </div>
       <div className={alertMsg ? 'image-list-container-with-alert' : 'image-list-container'}>
         {canMultiSelect ? (
-          <CheckImages
-            onCheck={setCheckedFileIds}
-          />
+          <CheckImages onCheck={onCheckImages} />
         ) : (
           <PhotoswipeWrapper
             isLoading={isLoading}
@@ -146,6 +149,7 @@ function ImageListMy() {
             showDeleteBtn
             showInformation
             showPatchBtn={user.isAdmin}
+            allowSharing
           />
         )}
         {!canMultiSelect && (

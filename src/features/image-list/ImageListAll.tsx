@@ -12,9 +12,13 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { Gallery } from '../../common/dto/gallery';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
-import { updateFiles, updateFilesAndAlertMsg } from './fileSlice';
+import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from './fileSlice';
 import { useSearchParams } from 'react-router-dom';
 import { FileStatus } from '../../common/dto/file';
+import CheckImages from '../../common/components/check-images/CheckImages';
+import Button from 'react-bootstrap/esm/Button';
+import { CheckImage } from '../../common/dto/checkImage';
+import { shareMessageToChat } from '../../common/utils/lineApiCall';
 
 function ImageListAll() {
   const { t } = useTranslation();
@@ -24,6 +28,8 @@ function ImageListAll() {
   const user = useAppSelector((state: RootState) => state.user.val);
   const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
+  const [canMultiSelect, setCanMultiSelect] = useState(false);
+  const [checkImages, setCheckImages] = useState<CheckImage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [disableReloading, setDisableReloading] = useState(false);
@@ -82,34 +88,97 @@ function ImageListAll() {
     );
   };
 
+  const shareMultipleImages = () => {
+    // if (!liff.isApiAvailable('shareTargetPicker')) {
+    //   dispatch(updateAlertMsg(t("imageList.alert.unavailableShareMessageErr")));
+    //   return;
+    // }
+    if (checkImages.length > 5) {
+      dispatch(updateAlertMsg(t("imageList.alert.outnumberShareMessageErr")));
+      return;
+    }
+    const msg = checkImages
+      .map(c => {
+        return {
+          "type": c.fileType,
+          "originalContentUrl": c.contentUrl,
+          "previewImageUrl": c.thumbnailUrl
+        };
+      });
+    shareMessageToChat(
+      msg,
+      () => dispatch(updateAlertMsg("")),
+      e => {
+        console.error(e);
+        dispatch(updateAlertMsg(t("imageList.alert.shareMessageErr")));
+      },
+      () => setCanMultiSelect(false));
+  };
+
+  const switchMultiSelect = () => {
+    setCheckImages([]);
+    dispatch(updateAlertMsg(""));
+    setCanMultiSelect(!canMultiSelect)
+  };
+
   return (
     <Container fluid className="pb-5">
-      <Row>
-        <Col>
-          <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>
-        </Col>
-      </Row>
-      <ErrorAlert msg={alertMsg} variant="danger" />
-      {liff.getOS() === "ios" && !alertMsg && (
-        <Row className="pt-3 pb-1">
-          <Col xs={{span: 10, offset: 1}} lg={{span: 8, offset: 2}} xxl={{span: 6, offset: 3}} className="photo-explain-container px-1">
-            <p className="my-1">{t("imageList.iosSave")}</p>
+      <div className="fixed-top bg-white">
+        <Row>
+          <Col>
+            <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>
           </Col>
         </Row>
-      )}
-      <PhotoswipeWrapper
-        isLoading={isLoading}
-        gallery={Gallery.ALL}
-        showInformation={user.isAdmin}
-        showDeleteBtn={user.isAdmin}
-        showPatchBtn={user.isAdmin}/>
-      <ReloadButton
-        alertMsg={reloadAlertMsg}
-        isReloading={isReloading}
-        disableReload={disableReloading}
-        disableReloadBtnTxt={t("imageList.button.allLoaded")}
-        reloadBtnTxt={t("imageList.button.reload")}
-        onReloadButtonClicked={reloadImage} />
+        <Row className="pt-0 pb-1">
+          <Col className="ps-4 ">
+            <Button
+              type="button"
+              className="me-3"
+              size="sm"
+              disabled={!files.length}
+              variant={canMultiSelect ? "outline-dark" : "outline-info" }
+              onClick={switchMultiSelect}
+            >{canMultiSelect ? t("common.button.cancel") : t("common.button.select")}
+            </Button>
+            {canMultiSelect && (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline-info"
+                disabled={checkImages.length === 0}
+                onClick={shareMultipleImages}
+              >{t("common.button.share")}
+              </Button>
+            )}
+            {liff.getOS() === "ios" && !canMultiSelect && !alertMsg && (
+              <span className="photo-explain-container m-3 p-1">{t("imageList.iosSave")}</span>
+            )}
+          </Col>
+        </Row>
+        <ErrorAlert msg={alertMsg} variant="danger" />
+      </div>
+      <div className={alertMsg ? 'image-list-container-with-alert' : 'image-list-container'}>
+        {canMultiSelect ? (
+          <CheckImages onCheck={setCheckImages} />
+        ) : (
+          <PhotoswipeWrapper
+            isLoading={isLoading}
+            gallery={Gallery.ALL}
+            showInformation={user.isAdmin}
+            showDeleteBtn={user.isAdmin}
+            showPatchBtn={user.isAdmin}
+            allowSharing/>
+        )}
+        {!canMultiSelect && (
+          <ReloadButton
+            alertMsg={reloadAlertMsg}
+            isReloading={isReloading}
+            disableReload={disableReloading}
+            disableReloadBtnTxt={t("imageList.button.allLoaded")}
+            reloadBtnTxt={t("imageList.button.reload")}
+            onReloadButtonClicked={reloadImage} />
+        )}
+      </div>
     </Container>
   );
 }

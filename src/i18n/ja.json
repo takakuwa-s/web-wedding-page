@@ -15,7 +15,8 @@
       "back": "戻る",
       "select": "select",
       "cancel": "cancel",
-      "delete": "削除"
+      "delete": "削除",
+      "share": "共有"
     }
   },
   "error": {
@@ -172,7 +173,7 @@
     },
     "uploading": "uploading...",
     "calculating": "処理中",
-    "iosSave": "iPhoneの場合、ダウンロードボタンを押すと、LINEチャットに写真・動画が転送されます。チャットから保存して下さい",
+    "iosSave": "写真を拡大後長押しでも保存できます",
     "tab": {
       "all": "ALL",
       "my": "MINE",
@@ -203,7 +204,10 @@
       "loadErr": "画像の読み込みに失敗しました。",
       "reloadErr": "画像の再読み込みに失敗しました。",
       "deleteErr": "画像の削除に失敗しました。",
-      "patchErr": "画像情報の更新に失敗しました。"
+      "patchErr": "画像情報の更新に失敗しました。",
+      "shareMessageErr": "共有に失敗しました",
+      "unavailableShareMessageErr": "ご使用のLINEのversionでは利用できません",
+      "outnumberShareMessageErr": "一度に共有できるのは5枚までです"
     }
   },
   "userDetail": {

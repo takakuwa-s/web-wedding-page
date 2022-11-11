@@ -8,13 +8,7 @@ import { useState } from "react";
 import ProcessingImage from "../processing-image/ProcessingImage";
 import { useAppSelector } from "../../../app/hooks";
 import { RootState } from "../../../app/store";
-
-interface CheckImage {
-	id: string;
-	thumbnailUrl: string;
-  fileStatus: FileStatus;
-  checked?: boolean;
-}
+import { CheckImage } from "../../dto/checkImage";
 
 function CheckImages(props: IProps) {
   const images = useAppSelector((state: RootState) => state.files.files);
@@ -22,7 +16,9 @@ function CheckImages(props: IProps) {
     return files.map(f => {
       return {
         id: f.id,
+        fileType: f.fileType,
         thumbnailUrl: f.thumbnailUrl,
+        contentUrl: f.contentUrl,
         fileStatus: f.fileStatus,
         checked: false
       };
@@ -38,10 +34,9 @@ function CheckImages(props: IProps) {
     });
     setCheckImages(list);
 
-    const ids: string[] = checkImages
-      .filter(i => i.checked)
-      .map(i => i.id);
-    props.onCheck(ids);
+    const images: CheckImage[] = checkImages
+      .filter(i => i.checked);
+    props.onCheck(images);
   }
 
   return (
@@ -69,7 +64,7 @@ function CheckImages(props: IProps) {
 }
 
 interface IProps {
-  onCheck: (ids: string[]) => void;
+  onCheck: (images: CheckImage[]) => void;
 }
 
 export default CheckImages;

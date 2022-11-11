@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from '../../../features/image-list/fileSlice';
 import { deleteFileList, patchFile } from '../../utils/fileApiCall';
 import { RootState } from '../../../app/store';
-import { sendMessageToChat, shareMessageToChat } from '../../utils/lineApiCall';
+import { shareMessageToChat } from '../../utils/lineApiCall';
 import { formatMilisec } from '../../utils/dateUtils';
 import { FileStatus } from '../../dto/file';
 
@@ -62,22 +62,21 @@ function PhotoswipeWrapper(props: IProps) {
         () => { });
     };
 
-    const createLineImageMsg = (pswp: any) => {
+    const shareMessage = (pswp: any) => {
       const c = pswp.currSlide.content;
-      if (c.type === 'image') {
-        return [{
-          "type": "image",
+      shareMessageToChat(
+        [{
+          "type": c.type,
           "originalContentUrl": c.data.src,
           "previewImageUrl": c.data.msrc
-        }];
-      } else {
-        return [{
-          "type": "video",
-          "originalContentUrl": c.data.src,
-          "previewImageUrl": c.data.msrc
-        }];
-      }
-    }
+        }],
+        () => dispatch(updateAlertMsg("")),
+        e => {
+          console.error(e);
+          dispatch(updateAlertMsg(t("imageList.alert.shareMessageErr")));
+        },
+        () => {});
+    };
 
     const options: PhotoSwipeOptions = {
       gallery: `#${galleryId}`,
@@ -94,15 +93,13 @@ function PhotoswipeWrapper(props: IProps) {
     };
     let lightbox: any = new PhotoSwipeLightbox(options);
     lightbox.on('uiRegister', () => {
-      if (liff.isApiAvailable('shareTargetPicker')) {
+      if (props.allowSharing && liff.isApiAvailable('shareTargetPicker')) {
         lightbox.pswp.ui.registerElement({
           name: 'share-button',
           order: 18,
           isButton: true,
           html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24" style=" fill:white;"><path d="M 16.707031 2.2929688 L 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 L 6 18 L 8 18 L 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 L 16.707031 11.707031 L 21.414062 7 L 16.707031 2.2929688 z M 2 8 L 2 9 L 2 19 C 2 20.64497 3.3550302 22 5 22 L 19 22 C 20.64497 22 22 20.64497 22 19 L 22 18 L 22 17 L 20 17 L 20 18 L 20 19 C 20 19.56503 19.56503 20 19 20 L 5 20 C 4.4349698 20 4 19.56503 4 19 L 4 9 L 4 8 L 2 8 z"></path></svg>`,
-          onClick: (event: any, el: any, pswp: any) => {
-            shareMessageToChat(createLineImageMsg(pswp), () => {}, e => {console.error(e);}, () => {});
-          }
+          onClick: (event: any, el: any, pswp: any) => shareMessage(pswp)
         });
       }
       lightbox.pswp.ui.registerElement({
@@ -128,39 +125,10 @@ function PhotoswipeWrapper(props: IProps) {
             el.appendChild(svg);
           });
           if (liff.getOS() === 'ios') {
-            sendMessageToChat(
-              createLineImageMsg(pswp),
-              () => {
-                el.removeChild(el.firstChild!);
-                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                svg.setAttribute("x", "0px")
-                svg.setAttribute("y", "0px")
-                svg.setAttribute("width", "24")
-                svg.setAttribute("height", "24")
-                svg.setAttribute("viewBox", "0 0 50 50")
-                svg.setAttribute("style", "fill:#00ff00;")
-                const path = document.createElementNS('http://www.w3.org/2000/svg', "path");
-                path.setAttribute("d", "M 41.9375 8.625 C 41.273438 8.648438 40.664063 9 40.3125 9.5625 L 21.5 38.34375 L 9.3125 27.8125 C 8.789063 27.269531 8.003906 27.066406 7.28125 27.292969 C 6.5625 27.515625 6.027344 28.125 5.902344 28.867188 C 5.777344 29.613281 6.078125 30.363281 6.6875 30.8125 L 20.625 42.875 C 21.0625 43.246094 21.640625 43.410156 22.207031 43.328125 C 22.777344 43.242188 23.28125 42.917969 23.59375 42.4375 L 43.6875 11.75 C 44.117188 11.121094 44.152344 10.308594 43.78125 9.644531 C 43.410156 8.984375 42.695313 8.589844 41.9375 8.625 Z")
-                svg.appendChild(path);
-                el.appendChild(svg);
-              },
-              e => {
-                el.removeChild(el.firstChild!);
-                const done = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                done.setAttribute("x", "0px")
-                done.setAttribute("y", "0px")
-                done.setAttribute("width", "24")
-                done.setAttribute("height", "24")
-                done.setAttribute("viewBox", "0 0 32 32")
-                done.setAttribute("style", "fill:#ff0000;")
-                const path = document.createElementNS('http://www.w3.org/2000/svg', "path");
-                path.setAttribute("d", "M 16 3 C 8.832031 3 3 8.832031 3 16 C 3 23.167969 8.832031 29 16 29 C 23.167969 29 29 23.167969 29 16 C 29 8.832031 23.167969 3 16 3 Z M 16 5 C 22.085938 5 27 9.914063 27 16 C 27 18.726563 26.011719 21.207031 24.375 23.125 L 9.03125 7.46875 C 10.925781 5.917969 13.351563 5 16 5 Z M 7.625 8.875 L 22.96875 24.53125 C 21.074219 26.082031 18.648438 27 16 27 C 9.914063 27 5 22.085938 5 16 C 5 13.273438 5.988281 10.792969 7.625 8.875 Z")
-                done.appendChild(path);
-                el.appendChild(done);
-                console.error(e);
-              },
-              () => { }
-            );
+            liff.openWindow({
+              url: pswp.currSlide.content.data.src,
+              external: true,
+            });
           } else {
             const a = document.createElement("a");
             document.body.appendChild(a);
@@ -178,9 +146,7 @@ function PhotoswipeWrapper(props: IProps) {
           order: 1,
           isButton: true,
           html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M71.66667,14.33333l-7.16667,7.16667h-43v14.33333h7.95052l12.77962,109.33366v0.05599c0.939,7.07108 7.07882,12.44368 14.20736,12.44368h59.111c7.12853,0 13.26835,-5.37269 14.20736,-12.44368l0.014,-0.05599l12.77962,-109.33366h7.95052v-14.33333h-43l-7.16667,-7.16667zM43.89583,35.83333h84.20833l-12.55566,107.5h-59.111z"></path></g></g></svg>`,
-          onClick: (event: any, el: any, pswp: any) => {
-            removeImage(pswp.currSlide.data.alt, pswp);
-          }
+          onClick: (event: any, el: any, pswp: any) => removeImage(pswp.currSlide.data.alt, pswp)
         });
       }
       if (props.showInformation) {
@@ -204,9 +170,7 @@ function PhotoswipeWrapper(props: IProps) {
           order: 3,
           isButton: true,
           html: svg,
-          onClick: (event: any, el: any, pswp: any) => {
-            patchImage(pswp.currSlide.data.alt, pswp);
-          }
+          onClick: (event: any, el: any, pswp: any) => patchImage(pswp.currSlide.data.alt, pswp)
         });
       }
     });
@@ -336,6 +300,7 @@ interface IProps {
   showDeleteBtn?: boolean;
   showPatchBtn?: boolean;
   showInformation?: boolean;
+  allowSharing?: boolean;
 }
 
 export default PhotoswipeWrapper;

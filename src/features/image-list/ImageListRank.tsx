@@ -64,7 +64,8 @@ function ImageListRank() {
         isLoading={isLoading}
         gallery={Gallery.RANK}
         showInformation={user.isAdmin}
-        showDeleteBtn={user.isAdmin}/>
+        showDeleteBtn={user.isAdmin}
+        allowSharing/>
     </Container>
   );
 }
