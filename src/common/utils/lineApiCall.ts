@@ -12,6 +12,18 @@ export function sendMessageToChat(
   .finally(onComplete);
 }
 
+export function shareMessageToChat(
+  messages: any[],
+  onSuccess: () => void,
+  onError: (e: any) => void,
+  onComplete: () => void
+  ): void {
+  liff.shareTargetPicker(messages)
+  .then(onSuccess)
+  .catch(onError)
+  .finally(onComplete);
+}
+
 export function multicastMessageToLineBot(
   messageKey: string,
   onSuccess: () => void,

@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from '../../../features/image-list/fileSlice';
 import { deleteFileList, patchFile } from '../../utils/fileApiCall';
 import { RootState } from '../../../app/store';
-import { sendMessageToChat } from '../../utils/lineApiCall';
+import { sendMessageToChat, shareMessageToChat } from '../../utils/lineApiCall';
 import { formatMilisec } from '../../utils/dateUtils';
 import { FileStatus } from '../../dto/file';
 
@@ -62,10 +62,29 @@ function PhotoswipeWrapper(props: IProps) {
         () => { });
     };
 
+    const createLineImageMsg = (pswp: any) => {
+      const c = pswp.currSlide.content;
+      if (c.type === 'image') {
+        return [{
+          "type": "image",
+          "originalContentUrl": c.data.src,
+          "previewImageUrl": c.data.msrc
+        }];
+      } else {
+        return [{
+          "type": "video",
+          "originalContentUrl": c.data.src,
+          "previewImageUrl": c.data.msrc
+        }];
+      }
+    }
+
     const options: PhotoSwipeOptions = {
       gallery: `#${galleryId}`,
       children: 'a',
       showHideAnimationType: 'zoom',
+      zoom: false,
+      counter: false,
       tapAction: () => {
         if (props.showInformation) {
           dispatch(setShow(false));
@@ -75,12 +94,23 @@ function PhotoswipeWrapper(props: IProps) {
     };
     let lightbox: any = new PhotoSwipeLightbox(options);
     lightbox.on('uiRegister', () => {
+      if (liff.isApiAvailable('shareTargetPicker')) {
+        lightbox.pswp.ui.registerElement({
+          name: 'share-button',
+          order: 18,
+          isButton: true,
+          html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24" style=" fill:white;"><path d="M 16.707031 2.2929688 L 15.292969 3.7070312 L 17.585938 6 L 17 6 C 10.936593 6 6 10.936593 6 17 L 6 18 L 8 18 L 8 17 C 8 12.017407 12.017407 8 17 8 L 17.585938 8 L 15.292969 10.292969 L 16.707031 11.707031 L 21.414062 7 L 16.707031 2.2929688 z M 2 8 L 2 9 L 2 19 C 2 20.64497 3.3550302 22 5 22 L 19 22 C 20.64497 22 22 20.64497 22 19 L 22 18 L 22 17 L 20 17 L 20 18 L 20 19 C 20 19.56503 19.56503 20 19 20 L 5 20 C 4.4349698 20 4 19.56503 4 19 L 4 9 L 4 8 L 2 8 z"></path></svg>`,
+          onClick: (event: any, el: any, pswp: any) => {
+            shareMessageToChat(createLineImageMsg(pswp), () => {}, e => {console.error(e);}, () => {});
+          }
+        });
+      }
       lightbox.pswp.ui.registerElement({
         name: 'download-button',
-        order: 9,
+        order: 19,
         className: "download-btn",
         isButton: true,
-        html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" /></svg>',
+        html: '<svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" /></svg>',
         onClick: (event: any, el: HTMLElement, pswp: any) => {
           el.setAttribute('disabled', '');
           lightbox.on('change', (e: any) => {
@@ -97,24 +127,9 @@ function PhotoswipeWrapper(props: IProps) {
             svg.appendChild(path);
             el.appendChild(svg);
           });
-          const c = pswp.currSlide.content;
           if (liff.getOS() === 'ios') {
-            let m: any[];
-            if (c.type === 'image') {
-              m = [{
-                "type": "image",
-                "originalContentUrl": c.data.src,
-                "previewImageUrl": c.data.msrc
-              }];
-            } else {
-              m = [{
-                "type": "video",
-                "originalContentUrl": c.data.src,
-                "previewImageUrl": c.data.msrc
-              }];
-            }
             sendMessageToChat(
-              m,
+              createLineImageMsg(pswp),
               () => {
                 el.removeChild(el.firstChild!);
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -150,7 +165,7 @@ function PhotoswipeWrapper(props: IProps) {
             const a = document.createElement("a");
             document.body.appendChild(a);
             a.setAttribute('download', '');
-            a.href = c.data.src;
+            a.href = pswp.currSlide.content.data.src;
             a.rel = 'noopener'
             a.click();
             a.remove();
@@ -160,9 +175,9 @@ function PhotoswipeWrapper(props: IProps) {
       if (props.showDeleteBtn) {
         lightbox.pswp.ui.registerElement({
           name: 'delete-button',
-          order: 19,
+          order: 1,
           isButton: true,
-          html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M71.66667,14.33333l-7.16667,7.16667h-43v14.33333h7.95052l12.77962,109.33366v0.05599c0.939,7.07108 7.07882,12.44368 14.20736,12.44368h59.111c7.12853,0 13.26835,-5.37269 14.20736,-12.44368l0.014,-0.05599l12.77962,-109.33366h7.95052v-14.33333h-43l-7.16667,-7.16667zM43.89583,35.83333h84.20833l-12.55566,107.5h-59.111z"></path></g></g></svg>`,
+          html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M71.66667,14.33333l-7.16667,7.16667h-43v14.33333h7.95052l12.77962,109.33366v0.05599c0.939,7.07108 7.07882,12.44368 14.20736,12.44368h59.111c7.12853,0 13.26835,-5.37269 14.20736,-12.44368l0.014,-0.05599l12.77962,-109.33366h7.95052v-14.33333h-43l-7.16667,-7.16667zM43.89583,35.83333h84.20833l-12.55566,107.5h-59.111z"></path></g></g></svg>`,
           onClick: (event: any, el: any, pswp: any) => {
             removeImage(pswp.currSlide.data.alt, pswp);
           }
@@ -171,12 +186,9 @@ function PhotoswipeWrapper(props: IProps) {
       if (props.showInformation) {
         lightbox.pswp.ui.registerElement({
           name: 'information-panel',
-          order: 18,
+          order: 2,
           isButton: true,
-          html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-          width="24" height="24"
-          viewBox="0 0 50 50"
-          style=" fill:white;"><path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z"></path></svg>`,
+          html: `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" style=" fill:white;"><path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 25 11 A 3 3 0 0 0 22 14 A 3 3 0 0 0 25 17 A 3 3 0 0 0 28 14 A 3 3 0 0 0 25 11 z M 21 21 L 21 23 L 22 23 L 23 23 L 23 36 L 22 36 L 21 36 L 21 38 L 22 38 L 23 38 L 27 38 L 28 38 L 29 38 L 29 36 L 28 36 L 27 36 L 27 21 L 26 21 L 22 21 L 21 21 z"></path></svg>`,
           onClick: (event: any, el: any, pswp: any) => {
             dispatch(switchShow());
             dispatch(setId(pswp.currSlide.data.alt));
@@ -185,11 +197,11 @@ function PhotoswipeWrapper(props: IProps) {
       }
       if (props.showPatchBtn) {
         const svg = props.gallery === Gallery.COUPLE ?
-          `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style=" fill:#fff;"><path d="M 12 0 L 8 4 L 12 8 L 12 5 C 15.859 5 19 8.14 19 12 C 19 12.88 18.82925 13.720094 18.53125 14.496094 L 20.046875 16.009766 C 20.651875 14.800766 21 13.442 21 12 C 21 7.038 16.963 3 12 3 L 12 0 z M 3.7070312 2.2929688 L 2.2929688 3.7070312 L 20.292969 21.707031 L 21.707031 20.292969 L 3.7070312 2.2929688 z M 3.953125 7.9902344 C 3.348125 9.1992344 3 10.558 3 12 C 3 16.962 7.037 21 12 21 L 12 24 L 16 20 L 12 16 L 12 19 C 8.141 19 5 15.86 5 12 C 5 11.12 5.17075 10.279906 5.46875 9.5039062 L 3.953125 7.9902344 z"></path></svg>` :
-          `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 24 24" style=" fill:#fff;"><path d="M 12 0 L 8 4 L 12 8 L 12 5 C 15.859 5 19 8.14 19 12 C 19 12.88 18.82925 13.720094 18.53125 14.496094 L 20.046875 16.009766 C 20.651875 14.800766 21 13.442 21 12 C 21 7.038 16.963 3 12 3 L 12 0 z M 3.953125 7.9902344 C 3.348125 9.1992344 3 10.558 3 12 C 3 16.962 7.037 21 12 21 L 12 24 L 16 20 L 12 16 L 12 19 C 8.141 19 5 15.86 5 12 C 5 11.12 5.17075 10.279906 5.46875 9.5039062 L 3.953125 7.9902344 z"></path></svg>`;
+          `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24" style=" fill:#fff;"><path d="M 12 0 L 8 4 L 12 8 L 12 5 C 15.859 5 19 8.14 19 12 C 19 12.88 18.82925 13.720094 18.53125 14.496094 L 20.046875 16.009766 C 20.651875 14.800766 21 13.442 21 12 C 21 7.038 16.963 3 12 3 L 12 0 z M 3.7070312 2.2929688 L 2.2929688 3.7070312 L 20.292969 21.707031 L 21.707031 20.292969 L 3.7070312 2.2929688 z M 3.953125 7.9902344 C 3.348125 9.1992344 3 10.558 3 12 C 3 16.962 7.037 21 12 21 L 12 24 L 16 20 L 12 16 L 12 19 C 8.141 19 5 15.86 5 12 C 5 11.12 5.17075 10.279906 5.46875 9.5039062 L 3.953125 7.9902344 z"></path></svg>` :
+          `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24" style=" fill:#fff;"><path d="M 12 0 L 8 4 L 12 8 L 12 5 C 15.859 5 19 8.14 19 12 C 19 12.88 18.82925 13.720094 18.53125 14.496094 L 20.046875 16.009766 C 20.651875 14.800766 21 13.442 21 12 C 21 7.038 16.963 3 12 3 L 12 0 z M 3.953125 7.9902344 C 3.348125 9.1992344 3 10.558 3 12 C 3 16.962 7.037 21 12 21 L 12 24 L 16 20 L 12 16 L 12 19 C 8.141 19 5 15.86 5 12 C 5 11.12 5.17075 10.279906 5.46875 9.5039062 L 3.953125 7.9902344 z"></path></svg>`;
         lightbox.pswp.ui.registerElement({
           name: 'patch-button',
-          order: 17,
+          order: 3,
           isButton: true,
           html: svg,
           onClick: (event: any, el: any, pswp: any) => {
