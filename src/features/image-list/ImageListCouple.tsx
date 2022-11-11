@@ -7,7 +7,7 @@ import ReloadButton from '../../common/components/reload-button/ReloadButton';
 import Container from 'react-bootstrap/esm/Container';
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
 import { fetchFileList } from '../../common/utils/fileApiCall';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { Gallery } from '../../common/dto/gallery';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
@@ -70,7 +70,7 @@ function ImageListCouple() {
       },
       e => {
         console.error(e);
-        setReloadAlertMsg(t("imageList.alert.reloadErr"));
+        setReloadAlertMsg(t("imageList.alert.reloadErr") as SetStateAction<string>);
       },
       () => setIsReloading(false)
     );
