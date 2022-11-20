@@ -10,7 +10,7 @@ import { FileStatus } from '../../dto/file';
 
 function InformationPanel() {
   const { t } = useTranslation();
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
   const show = useAppSelector((state: RootState) => state.informationPanel.show);
   const files = useAppSelector((state: RootState) => state.files.files);
   const id = useAppSelector((state: RootState) => state.informationPanel.id);

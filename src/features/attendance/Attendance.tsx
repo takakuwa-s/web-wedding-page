@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RootState } from "../../app/store";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import AttendanceForm from "./AttendanceForm";
@@ -15,10 +15,13 @@ enum Status {
 
 function Attendance() {
   const dispatch = useAppDispatch();
-  const initialUser = useAppSelector((state: RootState) => state.user.val);
-  const [status, setStatus] = useState(Status.FORM);
+  const initialUser = useAppSelector((state: RootState) => state.user.user);
   const [user, setUser] = useState(initialUser);
+  const [status, setStatus] = useState(Status.FORM);
   const [err, setError] = useState<Error>();
+  useEffect(() => {
+    setUser(initialUser);
+  }, [initialUser]);
 
   switch (status) {
     case Status.FORM:
@@ -34,7 +37,7 @@ function Attendance() {
               user={user}
               onBackButtonClicked={() => setStatus(Status.FORM)}
               onSaveSuccess={u => {
-                setUser(u);
+                // setUser(u);
                 dispatch(updateUser(u));
               }}
               onSaveError={setError}

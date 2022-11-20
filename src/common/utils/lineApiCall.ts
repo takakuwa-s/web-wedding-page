@@ -16,7 +16,7 @@ export function shareMessageToChat(
   messages: any[],
   onSuccess: () => void,
   onError: (e: any) => void,
-  onComplete: () => void
+  onComplete: () => void = () => {}
   ): void {
   liff.shareTargetPicker(messages)
   .then(onSuccess)

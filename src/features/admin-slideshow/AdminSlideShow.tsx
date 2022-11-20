@@ -67,8 +67,7 @@ function AdminSlideShow() {
         console.error(e);
         setSlideshows(list);
         setAlert({msg: t('adminSlideShow.alert.deleteErr'), variant: "danger"});
-      },
-      () => {}
+      }
     )
   };
 
@@ -91,8 +90,7 @@ function AdminSlideShow() {
         console.error(e);
         setSlideshows(list);
         setAlert({msg: t('adminSlideShow.alert.updateErr'), variant: "danger"});
-      },
-      () => {}
+      }
     )
   };
 

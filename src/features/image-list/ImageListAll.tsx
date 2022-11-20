@@ -13,19 +13,17 @@ import { Gallery } from '../../common/dto/gallery';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from './fileSlice';
-import { useSearchParams } from 'react-router-dom';
 import { FileStatus } from '../../common/dto/file';
 import CheckImages from '../../common/components/check-images/CheckImages';
 import Button from 'react-bootstrap/esm/Button';
 import { CheckImage } from '../../common/dto/checkImage';
 import { shareMessageToChat } from '../../common/utils/lineApiCall';
+import { downloadFile, generateZipDownloadUrl } from '../../common/utils/fileDownloadUtils';
 
 function ImageListAll() {
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
-  const noLoad = searchParams.get("noLoad");
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
   const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [canMultiSelect, setCanMultiSelect] = useState(false);
@@ -37,40 +35,40 @@ function ImageListAll() {
   const FILE_LIMIT = 50;
 
   useEffect(() => {
-    if (!noLoad) {
-      setIsLoading(true);
-      fetchFileList(
-        FILE_LIMIT,
-        "",
-        false,
-        false,
-        [FileStatus.OPEN, FileStatus.UPLOADED],
-        user.isAdmin,
-        false,
-        f => {
-          if (f.length < FILE_LIMIT) {
-            setDisableReloading(true);
-          }
-          dispatch(updateFiles(f));
-        },
-        e => {
-          console.error(e);
+    setIsLoading(true);
+    fetchFileList(
+      [],
+      [FileStatus.OPEN, FileStatus.UPLOADED],
+      FILE_LIMIT,
+      "",
+      false,
+      false,
+      user.isAdmin,
+      false,
+      f => {
+        if (f.length < FILE_LIMIT) {
           setDisableReloading(true);
-          dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
-        },
-        () => setIsLoading(false)
-      );
-    }
-  }, [t, user.isAdmin, dispatch, noLoad]);
+        }
+        dispatch(updateFiles(f));
+      },
+      e => {
+        console.error(e);
+        setDisableReloading(true);
+        dispatch(updateFilesAndAlertMsg({files: [], alertMsg: t("imageList.alert.loadErr")}));
+      },
+      () => setIsLoading(false)
+    );
+  }, [t, user.isAdmin, dispatch]);
 
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN, FileStatus.UPLOADED],
       FILE_LIMIT,
       files[files.length - 1].id,
       false,
       false,
-      [FileStatus.OPEN, FileStatus.UPLOADED],
       user.isAdmin,
       false,
       f => {
@@ -89,10 +87,10 @@ function ImageListAll() {
   };
 
   const shareMultipleImages = () => {
-    // if (!liff.isApiAvailable('shareTargetPicker')) {
-    //   dispatch(updateAlertMsg(t("imageList.alert.unavailableShareMessageErr")));
-    //   return;
-    // }
+    if (!liff.isApiAvailable('shareTargetPicker')) {
+      dispatch(updateAlertMsg(t("error.description.unavailableSendMessageErr")));
+      return;
+    }
     if (checkImages.length > 5) {
       dispatch(updateAlertMsg(t("imageList.alert.outnumberShareMessageErr")));
       return;
@@ -113,6 +111,31 @@ function ImageListAll() {
         dispatch(updateAlertMsg(t("imageList.alert.shareMessageErr")));
       },
       () => setCanMultiSelect(false));
+  };
+
+  const downloadMultipleImages = async () => {
+    if (liff.isInClient()) {
+      let url: string = window.location.protocol + '//' + window.location.host + '/image/buik_download?';
+      checkImages.map(c => c.id).forEach(id => url += `id=${id}&`);
+      url += `expire=${new Date().getTime() + 60000}`
+      console.log(url);
+      liff.openWindow({
+        url: url,
+        external: true,
+      });
+      return;
+    }
+    const folderName = t("imageList.bulkDownloadFolderName");
+    generateZipDownloadUrl(checkImages, folderName)
+    .then((url: string) => {
+      downloadFile(url, folderName + '.zip');
+      URL.revokeObjectURL(url);
+    }).catch(e => {
+      console.error(e);
+      dispatch(updateAlertMsg(t("imageList.alert.bulkDownloadErr")));
+    }).finally(() => {
+      setCanMultiSelect(false);
+    });
   };
 
   const switchMultiSelect = () => {
@@ -141,14 +164,25 @@ function ImageListAll() {
             >{canMultiSelect ? t("common.button.cancel") : t("common.button.select")}
             </Button>
             {canMultiSelect && (
-              <Button
-                type="button"
-                size="sm"
-                variant="outline-info"
-                disabled={checkImages.length === 0}
-                onClick={shareMultipleImages}
-              >{t("common.button.share")}
-              </Button>
+              <>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline-info"
+                  disabled={checkImages.length === 0}
+                  onClick={shareMultipleImages}
+                >{t("imageList.button.share")}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  className='mx-2'
+                  variant="outline-info"
+                  disabled={checkImages.length === 0}
+                  onClick={downloadMultipleImages}
+                >{t("imageList.button.bulkDownload")}
+                </Button>
+              </>
             )}
             {liff.getOS() === "ios" && !canMultiSelect && !alertMsg && (
               <span className="photo-explain-container m-3 p-1">{t("imageList.iosSave")}</span>

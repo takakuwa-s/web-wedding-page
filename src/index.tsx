@@ -5,12 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import "./i18n/configs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import liff from '@line/liff/dist/lib';
+// import LIFFInspectorPlugin from '@line/liff-inspector';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from './common/utils/firebase';
 import store from './app/store'
 import { Provider } from 'react-redux'
-import { callInitApi } from './common/utils/initApiCall';
-import { GuestType } from './common/dto/user';
 import ErrorPage from './features/error-page/ErrorPage';
 import Loading from './common/components/loading/Loading';
 import Container from 'react-bootstrap/esm/Container';
@@ -27,8 +26,9 @@ root.render(
 );
 
 let element: JSX.Element;
-let initApiHttpStatusCode: number;
-let errDescriptionKey: string = "error.description.liff";
+let errDescriptionKey: string = 'error.description.init';
+
+// liff.use(new LIFFInspectorPlugin());
 liff
   .init({
     liffId: process.env.REACT_APP_LIFF_ID || '',
@@ -36,28 +36,11 @@ liff
   })
   .then(() => {
     if (liff.isLoggedIn()) {
-      return callInitApi();
+      element = <App/>;
     } else {
       logEvent(analytics, "liff login error on LINEs in-app browser");
       errDescriptionKey = "error.description.unknown";
       throw new Error("Not logged in after liff.init()");
-    }
-  })
-  .then((res: Response) => {
-    initApiHttpStatusCode = res.status;
-    return res.json();
-  })
-  .then((res) => {
-    if (initApiHttpStatusCode === 200) {
-      const user = res.data.user;
-      const filse = res.data.files ? res.data.files : [];
-      if (!user.guestType) {
-        user.guestType = GuestType.GROOM;
-      }
-      element = <App user={user} files={filse}/>;
-    } else {
-      errDescriptionKey = "error.description.init";
-      throw new Error(res.error);
     }
   })
   .catch((e) => {

@@ -129,8 +129,8 @@ export function getUserList(
 export function getUser(
   id: string,
   onSuccess: (users: User) => void,
-  onError: (err: any) => void,
-  onComplete: () => void,
+  onError: (err: any) => void = e => console.error(e),
+  onComplete: () => void = () => {},
   ): void {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {

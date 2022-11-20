@@ -16,6 +16,8 @@ function CheckImages(props: IProps) {
     return files.map(f => {
       return {
         id: f.id,
+        name: f.name,
+        mimeType: f.mimeType,
         fileType: f.fileType,
         thumbnailUrl: f.thumbnailUrl,
         contentUrl: f.contentUrl,

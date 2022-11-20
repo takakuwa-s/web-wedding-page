@@ -19,7 +19,7 @@ import { CheckImage } from "../../common/dto/checkImage";
 function ImageListMy() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
   const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [canMultiSelect, setCanMultiSelect] = useState(false);
@@ -32,11 +32,12 @@ function ImageListMy() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       FILE_LIMIT,
       "",
+      true,
       false,
-      false,
-      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       false,
       false,
       f => {
@@ -57,11 +58,12 @@ function ImageListMy() {
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       FILE_LIMIT,
       files[files.length - 1].id,
       true,
       false,
-      [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       false,
       false,
       f => {
@@ -90,8 +92,7 @@ function ImageListMy() {
       e => {
         console.error(e);
         dispatch(updateFilesAndAlertMsg({files: list, alertMsg: t("imageList.alert.deleteErr")}));
-      },
-      () => {});
+      });
     setCheckedFileIds([]);
   }
 

@@ -23,7 +23,7 @@ function AdminUserDetail() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const [user, setUser] = useState<User>(initUser());
-  const myself = useAppSelector((state: RootState) => state.user.val);
+  const myself = useAppSelector((state: RootState) => state.user.user);
   const [isLoading, setIsLoading] = useState(false);
   const [isAttandanceUpdateLoading, setIsAttandanceUpdateLoading] = useState(false);
   const [isAdimnUpdateLoading, setIsAdimnUpdateLoading] = useState(false);

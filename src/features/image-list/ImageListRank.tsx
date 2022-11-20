@@ -16,7 +16,7 @@ import { FileStatus } from '../../common/dto/file';
 function ImageListRank() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [isLoading, setIsLoading] = useState(false);
   const FILE_LIMIT = 10;
@@ -24,11 +24,12 @@ function ImageListRank() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN],
       FILE_LIMIT,
       "",
       false,
       true,
-      [FileStatus.OPEN],
       user.isAdmin,
       false,
       f => dispatch(updateFiles(f)),

@@ -3,12 +3,14 @@ import { initUser, User } from '../../common/dto/user'
 
 // Define a type for the slice state
 interface UserState {
-  val: User
+  user: User
+  fetched: boolean
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
-  val: initUser(),
+  user: initUser(),
+  fetched: false,
 }
 
 export const userSlice = createSlice({
@@ -18,12 +20,16 @@ export const userSlice = createSlice({
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     updateUser: (state, action: PayloadAction<User>) => {
-      state.val = action.payload;
+      state.user = action.payload;
+    },
+    updateUserAndFetched: (state, action: PayloadAction<UserState>) => {
+      state.user = action.payload.user;
+      state.fetched = action.payload.fetched;
     },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { updateUser } = userSlice.actions
+export const { updateUser, updateUserAndFetched } = userSlice.actions
 
 export default userSlice.reducer

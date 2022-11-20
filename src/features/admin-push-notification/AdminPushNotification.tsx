@@ -1,3 +1,4 @@
+import liff from "@line/liff/dist/lib";
 import { ChangeEvent, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -26,6 +27,13 @@ function AdminPushNotification() {
   });
 
   const checkSendingMsg = () => {
+    if (!liff.isApiAvailable('shareTargetPicker')) {
+      setAlert({
+        msg: t("error.description.unavailableSendMessageErr"),
+        variant: "danger",
+      })
+      return;
+    }
     setIsCheckLoading(true);
     sendMessageToChat(
       [{

@@ -14,10 +14,10 @@ import { RootState } from '../../app/store';
 import { updateFiles, updateFilesAndAlertMsg } from './fileSlice';
 import { FileStatus } from '../../common/dto/file';
 
-function ImageListCouple() {
+function ImageListMemory() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
   const files = useAppSelector((state: RootState) => state.files.files);
   const alertMsg = useAppSelector((state: RootState) => state.files.alertMsg);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,11 +29,12 @@ function ImageListCouple() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN],
       FILE_LIMIT,
       "",
       false,
       false,
-      [FileStatus.OPEN],
       false,
       true,
       f => {
@@ -54,11 +55,12 @@ function ImageListCouple() {
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
+      [],
+      [FileStatus.OPEN],
       FILE_LIMIT,
       files[files.length - 1].id,
       false,
       false,
-      [FileStatus.OPEN],
       false,
       true,
       f => {
@@ -80,13 +82,13 @@ function ImageListCouple() {
     <Container fluid className="pb-5">
       <Row>
         <Col>
-          <h2 className="pt-3 text-center">{t('imageList.title.couple')}</h2>
+          <h2 className="pt-3 text-center">{t('imageList.title.memory')}</h2>
         </Col>
       </Row>
       <ErrorAlert msg={alertMsg} variant="danger" />
       <PhotoswipeWrapper
         isLoading={isLoading}
-        gallery={Gallery.COUPLE}
+        gallery={Gallery.MEMORY}
         showDeleteBtn={user.isAdmin}
         showPatchBtn={user.isAdmin}/>
       <ReloadButton
@@ -100,4 +102,4 @@ function ImageListCouple() {
   );
 }
 
-export default ImageListCouple;
+export default ImageListMemory;

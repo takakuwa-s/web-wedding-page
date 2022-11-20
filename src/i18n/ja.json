@@ -15,16 +15,16 @@
       "back": "戻る",
       "select": "select",
       "cancel": "cancel",
-      "delete": "削除",
-      "share": "共有"
+      "delete": "削除"
     }
   },
   "error": {
     "description" : {
       "unknown" : "不明なエラーが発生しました。",
-      "liff" : "LINEアプリの初期設定に失敗しました。インターネットの接続をご確認下さい。",
       "notFound" : "該当するページが見つかりません。",
-      "init" : "初期化に失敗しました"
+      "forbidden" : "該当するページへのアクセス権がありません。",
+      "init" : "アプリの初期化に失敗しました",
+      "unavailableSendMessageErr": "LINEのversionが低いか、メッセージの代理送信に同意していないため、利用できません"
     }
   },
   "nav" : {
@@ -169,20 +169,24 @@
       "all": "Gallery",
       "my": "My Gallery",
       "rank": "Photo Ranking",
-      "couple": "Bride & Groom"
+      "memory": "Bride & Groom",
+      "bulkDownload": "一括ダウンロード"
     },
     "uploading": "uploading...",
     "calculating": "処理中",
     "iosSave": "写真を拡大後長押しでも保存できます",
+    "bulkDownloadFolderName": "wedding_photo_20220319",
     "tab": {
       "all": "ALL",
       "my": "MINE",
       "rank": "RANK",
-      "couple": "COUPLE"
+      "memory": "MEMORY"
     },
     "button": {
       "reload": "写真をさらに読み込む",
-      "allLoaded": "未読込の写真はありません"
+      "allLoaded": "未読込の写真はありません",
+      "share": "共有",
+      "bulkDownload": "まとめて保存"
     },
     "label": {
       "creater": "投稿者",
@@ -206,8 +210,10 @@
       "deleteErr": "画像の削除に失敗しました。",
       "patchErr": "画像情報の更新に失敗しました。",
       "shareMessageErr": "共有に失敗しました",
-      "unavailableShareMessageErr": "ご使用のLINEのversionでは利用できません",
-      "outnumberShareMessageErr": "一度に共有できるのは5枚までです"
+      "outnumberShareMessageErr": "一度に共有できるのは5枚までです",
+      "bulkDownloadErr": "一括ダウンロードに失敗しました",
+      "bulkDownloadBadRequest": "不正なURLです",
+      "bulkDownloadExpired": "期限切れです"
     }
   },
   "userDetail": {

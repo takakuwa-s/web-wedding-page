@@ -64,7 +64,7 @@ export function deleteSlideShow(
   id: string,
   onSuccess: () => void,
   onError: (e: any) => void,
-  onComplete: () => void
+  onComplete: () => void = () => {}
   ): void {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {
@@ -99,7 +99,7 @@ export function updateSlideShow(
   selected: boolean,
   onSuccess: () => void,
   onError: (e: any) => void,
-  onComplete: () => void
+  onComplete: () => void = () => {}
   ): void {
   const token = liff.getAccessToken();
   const requestOptions: RequestInit = {

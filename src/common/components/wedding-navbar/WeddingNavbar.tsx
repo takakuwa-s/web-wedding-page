@@ -12,7 +12,11 @@ import './WeddingNavbar.scss';
 function WeddingNavbar() {
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
-  const user = useAppSelector((state: RootState) => state.user.val);
+  const user = useAppSelector((state: RootState) => state.user.user);
+  if (window.location.pathname === '/image/buik_download') {
+    return <></>;
+  }
+
   return (
     <Navbar bg="bg-transparent" variant="light" expand={false} className="fixed-top nav-zindex">
       <Container fluid className="justify-content-end">
