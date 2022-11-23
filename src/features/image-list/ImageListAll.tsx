@@ -37,7 +37,6 @@ function ImageListAll() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN, FileStatus.UPLOADED],
       FILE_LIMIT,
       "",
@@ -63,7 +62,6 @@ function ImageListAll() {
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN, FileStatus.UPLOADED],
       FILE_LIMIT,
       files[files.length - 1].id,
@@ -118,6 +116,7 @@ function ImageListAll() {
       let url: string = window.location.protocol + '//' + window.location.host + '/image/buik_download?';
       checkImages.map(c => c.id).forEach(id => url += `id=${id}&`);
       url += `expire=${new Date().getTime() + 60000}`
+      url += `&token=${liff.getAccessToken()}`
       console.log(url);
       liff.openWindow({
         url: url,

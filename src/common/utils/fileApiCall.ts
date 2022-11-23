@@ -2,7 +2,6 @@ import liff from "@line/liff/dist/lib";
 import { File, FileStatus } from "../dto/file";
 
 export function fetchFileList(
-  ids: string[],
   fileStatus: FileStatus[],
   limit: number,
   startId: string,
@@ -20,11 +19,6 @@ export function fetchFileList(
     headers: { "Authorization": `Bearer ${token!}` }
   };
   let param = `?limit=${limit}&needCreaterName=${needCreaterName}`;
-  if (ids) {
-    for (let i=0; i<ids.length; i++) {
-      param += `&id=${ids[i]}`;
-    }
-  }
   if (fileStatus) {
     for (let i=0; i<fileStatus.length; i++) {
       param += `&fileStatus=${fileStatus[i]}`;
@@ -42,6 +36,36 @@ export function fetchFileList(
   if (orderByFaceScore) {
     param += "&orderBy=FaceScore&fileType=image";
   }
+  return callFileListApi(requestOptions, param, onSuccess, onError, onComplete);
+}
+
+export function fetchFileListByIds(
+  ids: string[],
+  token: string,
+  onSuccess: (files: File[]) => void,
+  onError: (e: any) => void,
+  onComplete: () => void = () => {}
+  ): void {
+  const requestOptions: RequestInit = {
+    method: 'GET',
+    headers: { "Authorization": `Bearer ${token!}` }
+  };
+  let param = '?limit=0&needCreaterName=false';
+  if (ids) {
+    for (let i=0; i<ids.length; i++) {
+      param += `&id=${ids[i]}`;
+    }
+  }
+  return callFileListApi(requestOptions, param, onSuccess, onError, onComplete);
+}
+
+function callFileListApi(
+  requestOptions: RequestInit,
+  param: string,
+  onSuccess: (files: File[]) => void,
+  onError: (e: any) => void,
+  onComplete: () => void = () => {}
+  ): void {
   const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/file/list${param}`;
   let code: number;
   fetch(url, requestOptions)

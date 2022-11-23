@@ -41,7 +41,7 @@ function Information() {
           <div className="ratio ratio-16x9">
             <iframe
               title="google-map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3257.239493456054!2d139.56944946524771!3d35.275171330291045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60184701ae0f8b25%3A0xe7c641a4b74e326e!2z44K544Kx44O844OX44K5IOOCtiDjgrnjgqPjg7zjg4gg772cIFNDQVBFUyBUSEUgU1VJVEU!5e0!3m2!1sja!2sjp!4v1651220681624!5m2!1sja!2sjp"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6514.479761471579!2d139.5744359!3d35.2751617!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60184701ae0f8b25%3A0xe7c641a4b74e326e!2z44K544Kx44O844OX44K5IOOCtiDjgrnjgqPjg7zjg4g!5e0!3m2!1sja!2ssg!4v1669013869917!5m2!1sja!2ssg"
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade">

@@ -24,7 +24,6 @@ function ImageListRank() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN],
       FILE_LIMIT,
       "",

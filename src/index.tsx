@@ -4,8 +4,8 @@ import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import "./i18n/configs";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import liff from '@line/liff/dist/lib';
-// import LIFFInspectorPlugin from '@line/liff-inspector';
+import liff from '@line/liff';
+import LIFFInspectorPlugin from '@line/liff-inspector';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from './common/utils/firebase';
 import store from './app/store'
@@ -25,30 +25,27 @@ root.render(
   </div>
 );
 
+if (process.env.REACT_APP_ENV === 'dev') {
+  liff.use(new LIFFInspectorPlugin());
+}
 let element: JSX.Element;
-let errDescriptionKey: string = 'error.description.init';
-
-// liff.use(new LIFFInspectorPlugin());
 liff
   .init({
     liffId: process.env.REACT_APP_LIFF_ID || '',
-    withLoginOnExternalBrowser: true
+    withLoginOnExternalBrowser: false
   })
   .then(() => {
-    if (liff.isLoggedIn()) {
-      element = <App/>;
-    } else {
-      logEvent(analytics, "liff login error on LINEs in-app browser");
-      errDescriptionKey = "error.description.unknown";
-      throw new Error("Not logged in after liff.init()");
+    if (window.location.pathname !== '/image/buik_download' && !liff.isLoggedIn()) {
+      liff.login();
     }
+    element = <App/>;
   })
   .catch((e) => {
     logEvent(analytics, 'init error occurs');
     element = <ErrorPage err={{
       code: 500,
       message: e.message,
-      descriptionKey: errDescriptionKey
+      descriptionKey: 'error.description.init'
     }}/>;
   }).finally(() => {
     root.render(

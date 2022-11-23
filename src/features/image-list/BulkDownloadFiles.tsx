@@ -4,7 +4,7 @@ import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import Container from 'react-bootstrap/esm/Container';
 import ErrorAlert from '../../common/components/error-alert/ErrorAlert';
-import { fetchFileList } from '../../common/utils/fileApiCall';
+import { fetchFileListByIds } from '../../common/utils/fileApiCall';
 import { File } from "../../common/dto/file";
 import { SetStateAction, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -16,6 +16,7 @@ function BulkDownloadFiles() {
   const [searchParams] = useSearchParams();
   const ids = searchParams.getAll("id");
   const expire = Number(searchParams.get("expire"));
+  const token = searchParams.get("token");
   const [fetched, setFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [alertMsg, setAlertMsg] = useState("");
@@ -36,16 +37,10 @@ function BulkDownloadFiles() {
 
     if (!fetched) {
       if (expire && (new Date().getTime() < expire)) {
-        if (ids.length > 0) {
-          fetchFileList(
+        if (ids.length > 0 && token) {
+          fetchFileListByIds(
             ids,
-            [],
-            0,
-            "",
-            false,
-            false,
-            false,
-            false,
+            token,
             f => {
               setFetched(true);
               downloadMultipleImages(f);
@@ -65,7 +60,7 @@ function BulkDownloadFiles() {
         setAlertMsg(t("imageList.alert.bulkDownloadExpired") as SetStateAction<string>);
       }
     }
-  }, [t, ids, fetched, expire]);
+  }, [t, fetched, ids, expire, token]);
 
   return (
     <Container fluid>

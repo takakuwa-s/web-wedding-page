@@ -29,7 +29,6 @@ function ImageListMemory() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN],
       FILE_LIMIT,
       "",
@@ -55,7 +54,6 @@ function ImageListMemory() {
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN],
       FILE_LIMIT,
       files[files.length - 1].id,

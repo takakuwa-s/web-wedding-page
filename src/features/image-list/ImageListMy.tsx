@@ -32,7 +32,6 @@ function ImageListMy() {
   useEffect(() => {
     setIsLoading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       FILE_LIMIT,
       "",
@@ -58,7 +57,6 @@ function ImageListMy() {
   const reloadImage = () => {
     setIsReloading(true);
     fetchFileList(
-      [],
       [FileStatus.OPEN, FileStatus.UPLOADED, FileStatus.NEW],
       FILE_LIMIT,
       files[files.length - 1].id,

@@ -8,16 +8,10 @@
 
 ## dev
 ```bash.sh
-  npm run build-dev
-  firebase use dev
-  firebase target
-  firebase deploy
+  ./deploy dev
 ```
 
 ## prod
 ```bash.sh
-  npm run build
-  firebase use prod
-  firebase target
-  firebase deploy
+  ./deploy prod
 ```
