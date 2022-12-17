@@ -35,8 +35,8 @@ export function saveUser(
 }
 
 export function patchUser(
-  userId: String,
-  filed: String,
+  userId: string,
+  filed: string,
   value: any,
   onSuccess: () => void,
   onError: (err: any) => void,
@@ -128,7 +128,7 @@ export function getUserList(
 
 export function getUser(
   id: string,
-  onSuccess: (users: User) => void,
+  onSuccess: (user: User) => void,
   onError: (err: any) => void = e => console.error(e),
   onComplete: () => void = () => {},
   ): void {

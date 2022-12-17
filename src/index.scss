@@ -14,10 +14,23 @@ code {
   cursor: pointer;
 }
 
+.my-7 {
+  margin-top: 5rem!important;
+  margin-bottom: 5rem!important;
+}
+
 .mt-6 {
   margin-top: 5rem!important;
 }
 
 .mt-7 {
   margin-top: 7rem!important;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .my-7 {
+    margin-top: 7rem!important;
+    margin-bottom: 7rem!important;
+  }  
 }

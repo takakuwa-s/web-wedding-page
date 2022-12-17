@@ -25,8 +25,7 @@ function AdminUserDetail() {
   const [user, setUser] = useState<User>(initUser());
   const myself = useAppSelector((state: RootState) => state.user.user);
   const [isLoading, setIsLoading] = useState(false);
-  const [isAttandanceUpdateLoading, setIsAttandanceUpdateLoading] = useState(false);
-  const [isAdimnUpdateLoading, setIsAdimnUpdateLoading] = useState(false);
+  const [isUpdateLoading, setUpdateLoading] = useState(false);
   const [alert, setAlert] = useState({
     msg: "",
     variant: "danger",
@@ -54,18 +53,14 @@ function AdminUserDetail() {
     );
   }, [t, id]);
 
-  const updateUser = (updateIsAdmin: boolean, val: boolean) => {
-    if (updateIsAdmin) {
-      setIsAdimnUpdateLoading(true);
-    } else {
-      setIsAttandanceUpdateLoading(true);
-    }
+  const updateUser = (field: string, val: boolean | string) => {
+    setUpdateLoading(true);
     patchUser(
       user.id,
-      updateIsAdmin ? "isAdmin" : "attendance",
+      field,
       val,
       () => {
-        dispatch(patchAdminUsers({id: user.id, updateIsAdmin: updateIsAdmin, val: val}));
+        dispatch(patchAdminUsers({id: user.id, field: field, val: val}));
         setAlert({
           msg: t("adminUserDetail.alert.updateSuccess"),
           variant: "success",
@@ -78,13 +73,7 @@ function AdminUserDetail() {
           variant: "danger",
         });
       },
-      () => {
-        if (updateIsAdmin) {
-          setIsAdimnUpdateLoading(false);
-        } else {
-          setIsAttandanceUpdateLoading(false);
-        }
-      }
+      () => setUpdateLoading(false)
     );
   };
 
@@ -145,8 +134,8 @@ function AdminUserDetail() {
                       buttonSize="sm"
                       spinnerSize="sm"
                       buttonText={t("adminUserDetail.button.update")}
-                      isLoading={isAdimnUpdateLoading}
-                      onClick={() => updateUser(true, user.isAdmin)}/>
+                      isLoading={isUpdateLoading}
+                      onClick={() => updateUser("isAdmin", user.isAdmin)}/>
                   </Col>
                 </Row>
               </Col>
@@ -170,12 +159,16 @@ function AdminUserDetail() {
                     buttonSize="sm"
                     spinnerSize="sm"
                     buttonText={t("adminUserDetail.button.update")}
-                    isLoading={isAttandanceUpdateLoading}
-                    onClick={() => updateUser(false, user.attendance)}/>
+                    isLoading={isUpdateLoading}
+                    onClick={() => updateUser("attendance", user.attendance)}/>
                 </Col>
               </Row>
             </Col>
           </Form.Group>
+          <AttendanceConfirmItem
+            label={t("adminUsers.userLabel.lineName")}
+            value={user.lineName}
+          />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.name")}
             value={`${user.familyName} ${user.firstName}`}
@@ -209,6 +202,10 @@ function AdminUserDetail() {
             value={user.address}
           />
           <AttendanceConfirmItem
+            label={t("adminUsers.userLabel.taxiUse")}
+            value={user.taxiUse ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}
+          />
+          <AttendanceConfirmItem
             label={t("adminUsers.userLabel.allergy")}
             value={user.allergy}
           />
@@ -217,6 +214,31 @@ function AdminUserDetail() {
             value={user.message}
             as="pre"
           />
+          <Form.Group as={Row} className="my-3" controlId="formNote">
+            <Form.Label column xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }} className="text-center pt-0 my-1">
+              {t("adminUsers.userLabel.note")}
+            </Form.Label>
+            <Col xs={8} sm={6} className="my-1">
+              <Row>
+                <Col xs={12} md={6} lg={5} xl={4}>
+                  <Form.Control
+                    type="text"
+                    value={user.note}
+                    onChange={(e) => setUser({ ...user, note: e.target.value })}
+                    required />
+                </Col>
+                <Col xs={12} md={4}>
+                  <SubmitButton
+                    className="mt-md-0 mt-3"
+                    buttonSize="sm"
+                    spinnerSize="sm"
+                    buttonText={t("adminUserDetail.button.update")}
+                    isLoading={isUpdateLoading}
+                    onClick={() => updateUser("note", user.note)}/>
+                </Col>
+              </Row>
+            </Col>
+          </Form.Group>
         </Form>
       )}
       <Row className="pb-5">
@@ -225,7 +247,7 @@ function AdminUserDetail() {
             type="button"
             variant="outline-info"
             size="lg"
-            disabled={isAttandanceUpdateLoading || isAdimnUpdateLoading}
+            disabled={isUpdateLoading}
             onClick={() => navigate("/admin/users")}
           >{t("common.button.back")}
           </Button>

@@ -15,6 +15,7 @@ import { RootState } from "../../app/store";
 import { updateAlertMsg, updateFiles, updateFilesAndAlertMsg } from "./fileSlice";
 import { FileStatus } from "../../common/dto/file";
 import { CheckImage } from "../../common/dto/checkImage";
+import AddFileButton from "../../common/components/add-file-button/AddFileButton";
 
 function ImageListMy() {
   const { t } = useTranslation();
@@ -160,6 +161,7 @@ function ImageListMy() {
             onReloadButtonClicked={reloadImage} />
         )}
       </div>
+      <AddFileButton/>
     </Container>
   );
 }

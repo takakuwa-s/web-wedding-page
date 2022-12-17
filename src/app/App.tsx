@@ -16,22 +16,34 @@ import { AdminPage } from '../common/dto/adminPage';
 import BulkDownloadFiles from '../features/image-list/BulkDownloadFiles';
 import { RootState } from './store';
 import { getUser } from '../common/utils/userApiCall';
+import liff from '@line/liff/dist/lib';
+import { Config } from '../common/dto/config';
+import { getConfig } from '../common/utils/configApiCall';
+import { updateConfigAndFetched } from './configSlice';
 
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.user.user);
-  const fetched = useAppSelector((state: RootState) => state.user.fetched);
-  if (!fetched) {
-    // TODO: use userId
-    // const userId = liff.getDecodedIDToken()?.sub;
-    const userId = "U544c7c84c496d89b3f56b034b75f8dae";
-    getUser(userId,
+  const userFetched = useAppSelector((state: RootState) => state.user.fetched);
+  const config = useAppSelector((state: RootState) => state.config.config);
+  const configFetched = useAppSelector((state: RootState) => state.config.fetched);
+  if (!userFetched) {
+    let userId = liff.getDecodedIDToken()?.sub;
+    if (process.env.REACT_APP_ENV === 'local') {
+      userId = "U544c7c84c496d89b3f56b034b75f8dae";
+    }
+    getUser(userId!,
       (u: User) => {
         if (!u.guestType) {
           u.guestType = GuestType.GROOM;
         }
         dispatch(updateUserAndFetched({user: u, fetched: true}));
     });
+  }
+  if (!configFetched) {
+    getConfig((c: Config) => {
+      dispatch(updateConfigAndFetched({config: c, fetched: true}));
+    })
   }
 
   const notFoundError: error = {code: 404, message: 'Not Found', descriptionKey: 'error.description.notFound'};
@@ -41,12 +53,16 @@ function App() {
       <WeddingNavbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="attendance" element={<Attendance />} />
-        <Route path="image/list/all" element={<ImageList gallery={Gallery.ALL} />} />
-        <Route path="image/list/my" element={<ImageList gallery={Gallery.MY} />} />
-        <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
-        <Route path="image/list/memory" element={<ImageList gallery={Gallery.MEMORY} />} />
-        <Route path="image/buik_download" element={<BulkDownloadFiles />}  />
+        {config.attendanceFeatureAvailable && <Route path="attendance" element={<Attendance />} />}
+        {config.fileFeatureAvailable && (
+          <>
+          <Route path="image/list/all" element={<ImageList gallery={Gallery.ALL} />} />
+          <Route path="image/list/my" element={<ImageList gallery={Gallery.MY} />} />
+          <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
+          <Route path="image/list/memory" element={<ImageList gallery={Gallery.MEMORY} />} />
+          <Route path="image/buik_download" element={<BulkDownloadFiles />}  />
+          </>
+        )}
         <Route path="user" element={<UserDetail />} />
         {user.isAdmin ? (
           <>

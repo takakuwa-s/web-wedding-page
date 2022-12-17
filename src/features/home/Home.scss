@@ -22,8 +22,33 @@
 }
 
 .title-adjust {
-  padding-top: 58%;
+  padding-top: 48%;
   font-size: 4.2rem;
+}
+
+.greeting-img {
+  position: absolute;
+  left: -30px;
+  width: 110%;
+}
+
+.greeting-img-header {
+  top: -100px;
+}
+
+.greeting-img-footer {
+  bottom: -100px;
+}
+
+//  X=Small devices (landscape phones, 440px and up)
+@media (min-width: 440px) {
+  .greeting-img-header {
+    top: -130px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -130px;
+  }
 }
 
 // Small devices (landscape phones, 576px and up)
@@ -32,6 +57,19 @@
     padding-top: 40%;
     font-size: 4.5rem;
   }
+
+  .greeting-img {
+    left: 0px;
+    width: 100%;
+  }
+
+  .greeting-img-header {
+    top: -140px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -140px;
+  }
 }
 
 // Medium devices (tablets, 768px and up)
@@ -39,6 +77,14 @@
   .title-adjust {
     padding-top: 31%;
     font-size: 4.7rem;
+  }
+
+  .greeting-img-header {
+    top: -160px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -160px;
   }
 }
 
@@ -52,6 +98,14 @@
   .top-back-ground-adjust {
     background-position: bottom;
   }
+
+  .greeting-img-header {
+    top: -180px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -180px;
+  }
 }
 
 // X-Large devices (large desktops, 1200px and up)
@@ -59,6 +113,14 @@
   .title-adjust {
     padding-top: 13%;
     font-size: 5.1rem;
+  }
+
+  .greeting-img-header {
+    top: -190px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -190px;
   }
 }
 
@@ -68,10 +130,14 @@
     padding-top: 10%;
     font-size: 6rem;
   }
-}
 
-.greeting-header-img {
-  width: 100vw;
+  .greeting-img-header {
+    top: -250px;
+  }
+  
+  .greeting-img-footer {
+    bottom: -250px;
+  }
 }
 
 .information-title {
@@ -91,4 +157,13 @@
 
 .information-back-ground {
   background: linear-gradient(#ffffff, #b2f1f1, #137bdc);
+}
+
+.taxi-info {
+  font-size: 1.1rem;
+}
+
+.signature {
+  width: 5.7rem;
+  border: none;
 }

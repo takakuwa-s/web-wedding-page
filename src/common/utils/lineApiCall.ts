@@ -4,7 +4,7 @@ export function sendMessageToChat(
   messages: any[],
   onSuccess: () => void,
   onError: (e: any) => void,
-  onComplete: () => void
+  onComplete: () => void = () => {}
   ): void {
   liff.sendMessages(messages)
   .then(onSuccess)

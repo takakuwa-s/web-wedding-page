@@ -14,6 +14,7 @@ function UserDetail() {
   const navigate = useNavigate();
   const user = useAppSelector((state: RootState) => state.user.user);
   const fetched = useAppSelector((state: RootState) => state.user.fetched);
+  const config = useAppSelector((state: RootState) => state.config.config);
   let content;
   if (fetched) {
     if (user.registered) {
@@ -22,13 +23,23 @@ function UserDetail() {
           <AttendanceConfirmContent user={user}/>
           <Row className="pt-3 pb-5">
             <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-              <Button
-                type="button"
-                size="lg"
-                variant="outline-info"
-                onClick={() => navigate("/attendance", { state: {user: user}})}
-              >{t("userDetail.edit")}
-              </Button>
+              {config.attendanceFeatureAvailable ? (
+                <Button
+                  type="button"
+                  size="lg"
+                  variant="outline-info"
+                  onClick={() => navigate("/attendance", { state: {user: user}})}
+                >{t("userDetail.edit")}
+                </Button>
+              ) : (
+                <Button
+                  variant="outline-dark"
+                  aria-disabled
+                  size="lg"
+                >{t("information.register.buttonDisabled")}
+                </Button>
+              )
+              }
             </Col>
           </Row>
         </>;

@@ -19,6 +19,7 @@ import Button from 'react-bootstrap/esm/Button';
 import { CheckImage } from '../../common/dto/checkImage';
 import { shareMessageToChat } from '../../common/utils/lineApiCall';
 import { downloadFile, generateZipDownloadUrl } from '../../common/utils/fileDownloadUtils';
+import AddFileButton from '../../common/components/add-file-button/AddFileButton';
 
 function ImageListAll() {
   const { t } = useTranslation();
@@ -122,6 +123,7 @@ function ImageListAll() {
         url: url,
         external: true,
       });
+      setCanMultiSelect(false);
       return;
     }
     const folderName = t("imageList.bulkDownloadFolderName");
@@ -212,6 +214,7 @@ function ImageListAll() {
             onReloadButtonClicked={reloadImage} />
         )}
       </div>
+      <AddFileButton/>
     </Container>
   );
 }

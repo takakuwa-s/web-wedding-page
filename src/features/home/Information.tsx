@@ -4,12 +4,14 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import './Home.scss';
 
 function Information() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const config = useAppSelector((state: RootState) => state.config.config);
   return (
     <Container className="mb-5 text-center information-font">
       <Row className="mt-6 mb-3">
@@ -18,8 +20,8 @@ function Information() {
         </Col>
       </Row>
       <div className="schedule-content-font">
-        <Row className="my-4">
-          <Col xs={{span:8,offset:2}} sm={{span:8,offset:2}} md={{span:6,offset:3}} xl={{span:4,offset:4}}>
+        <Row className="my-4 mx-auto">
+          <Col>
             <h3 className="my-5">{t("information.schedule.date")}</h3>
             <h3>{t("information.schedule.weddingCeremony.title")}</h3>
             <p>{t("information.schedule.weddingCeremony.time")}</p>
@@ -57,20 +59,9 @@ function Information() {
             <a href={"tel:" + t("information.venue.phone")}>{t("information.venue.phone")}</a>
           </p>
           <hr className="mt-5"/>
-          <p className="my-0">{t("information.venue.note1")}</p>
-          <p className="my-0">{t("information.venue.note2")}</p>
-          <p className="mt-0">{t("information.venue.note3")}</p>
-          <hr />
-        </Col>
-      </Row>
-      <Row className="mt-7 mb-3">
-        <Col>
-          <h2 className="information-title">{t("information.note.title")}</h2>
-        </Col>
-      </Row>
-      <Row className="mt-2 mb-0">
-        <Col>
-          <p className="my-2">{t("information.note.note")}</p>
+          <pre className="mb-5 taxi-info">{t("information.venue.note1")}</pre>
+          <pre className="taxi-info">{t("information.venue.note2")}</pre>
+          <hr/>
         </Col>
       </Row>
       <Row className="mt-7 mb-3">
@@ -87,12 +78,22 @@ function Information() {
       </Row>
       <Row>
         <Col className="my-4">
-          <Button
-            variant="outline-info"
-            size="lg"
-            onClick={() => navigate("/attendance")}
-          >{t("information.register.button")}
-          </Button>
+          {config.attendanceFeatureAvailable ? (
+            <Button
+              variant="outline-info"
+              size="lg"
+              onClick={() => navigate("/attendance")}
+            >{t("information.register.button")}
+            </Button>
+          ) : (
+            <Button
+              variant="outline-dark"
+              aria-disabled
+              size="lg"
+            >{t("information.register.buttonDisabled")}
+            </Button>
+          )
+          }
         </Col>
       </Row>
       <footer>

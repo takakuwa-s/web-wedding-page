@@ -1,14 +1,5 @@
 {
   "common": {
-    "dayOfWeek" : {
-      "0" : "日",
-      "1" : "月",
-      "2" : "火",
-      "3" : "水",
-      "4" : "木",
-      "5" : "金",
-      "6" : "土"     
-    },
     "button": {
       "loading": "　Loading ... ",
       "close": "画面を閉じる",
@@ -38,12 +29,7 @@
     "title": "Wedding Invitation"
   },
   "greetingMessage": {
-    "content": "謹啓\n\n早春の候 皆様におかれましては\n益々ご清祥のことと\nお慶び申し上げます\n\nこのたび 私たちは\n結婚式を挙げることとなりました\nおいそがしいことと存じますが\nぜひご参列いただき\n日頃お世話になっております\n皆様と一緒に\n喜びのひとときを過ごさせていただければ\n幸いに存じます\n\n式後ささやかではございますが\n小宴を催したく存じますので\nぜひご出席賜りますよう\nお願い申し上げます\n\n謹白"
-  },
-  "cowntdown": {
-    "title": "Cowntdown",
-    "targetDate" : "yyyy年MM月dd日（WWW）まで",
-    "daysLeft" : "dd日 HH:mm:ss"
+    "content": "謹啓\n\n早春の候 皆様におかれましては\n益々ご清祥のこととお慶び申し上げます\n\nこのたび \n私たちは結婚式を挙げることとなりました\nお忙しいことと存じますが ぜひご参列いただき\n日頃お世話になっております 皆様と一緒に\n喜びのひとときを過ごさせていただければ\n幸いに存じます\n\n式後ささやかではございますが\n小宴を催したく存じますので\nぜひご出席賜りますようお願い申し上げます\n\n謹白\n2023年 1月 吉日"
   },
   "information": {
     "schedule": {
@@ -55,7 +41,7 @@
       },
       "weddingBanquet": {
         "title": "- 披露宴 -",
-        "time": "12:00（受付 / 11:30）"
+        "time": "11:30"
       }
     },
     "venue": {
@@ -65,20 +51,16 @@
       "phone": "046-877-5730",
       "address": "神奈川県三浦郡葉山町堀内922-2",
       "postalCode": "〒240-0112",
-      "note1": "当日はJR逗子駅から",
-      "note2": "無料でご利用頂ける",
-      "note3": "タクシーをご用意しております"
-    },
-    "note": {
-      "title": "Message",
-      "note": "コロナ対応しています。"
+      "note1": "会場までの無料送迎タクシーを\n往復ご用意しております",
+      "note2": "午前9時40分に\nJR逗子駅（東口）交番前ロータリーに\nタクシーを手配しますので\nご利用の有無をご回答下さい"
     },
     "register": {
       "title": "Presence or Absence",
-      "deadline1": "お手数ではございますが、",
-      "deadline2": "2月10日 までにご返信頂きますよう",
-      "deadline3": "お願い申し上げます",
-      "button": "招待状に回答する"
+      "deadline1": "誠に勝手ながら",
+      "deadline2": "2月1日(水)までに",
+      "deadline3": "ご返信頂ければ幸いに存じます",
+      "button": "招待状に回答する",
+      "buttonDisabled": "回答期限が過ぎています"
     }
   },
   "attendance": {
@@ -95,6 +77,7 @@
       "label": "ゲスト様",
       "groom": "新郎側",
       "bride": "新婦側",
+      "common": "共通",
       "": "未回答"
     },
     "name": {
@@ -134,6 +117,11 @@
       "placeholder": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
       "feedback": "入力してください"
     },
+    "taxiUse": {
+      "label": "タクシーのご利用",
+      "false": "不要",
+      "true": " 要"
+    },
     "allergy": {
       "label": "アレルギー",
       "placeholder": "卵・牛乳・小麦など、アレルギーのある場合"
@@ -160,7 +148,7 @@
       "title": "エラー",
       "comment1": "申し訳ございません。",
       "comment2": "不明なエラーのため、ご回答の登録ができませんでした。",
-      "comment3": "お手数おかけ致しますが、新郎新婦にまでお問い合わせください。"
+      "comment3": "お手数おかけ致しますが、時間を置いてから再度お試しください"
     },
     "back": "トップに戻る"
   },
@@ -176,6 +164,7 @@
     "calculating": "処理中",
     "iosSave": "写真を拡大後長押しでも保存できます",
     "bulkDownloadFolderName": "wedding_photo_20220319",
+    "addFiles": "写真共有",
     "tab": {
       "all": "ALL",
       "my": "MINE",
@@ -213,7 +202,8 @@
       "outnumberShareMessageErr": "一度に共有できるのは5枚までです",
       "bulkDownloadErr": "一括ダウンロードに失敗しました",
       "bulkDownloadBadRequest": "不正なURLです",
-      "bulkDownloadExpired": "期限切れです"
+      "bulkDownloadExpired": "期限切れです",
+      "addFileError": "不明なエラーが発生しました"
     }
   },
   "userDetail": {
@@ -254,7 +244,8 @@
     "csvName": "ユーザー一覧",
     "alert": {
       "loadErr": "ユーザーの読み込みに失敗しました",
-      "reloadErr": "ユーザーの再読み込みに失敗しました"
+      "reloadErr": "ユーザーの再読み込みに失敗しました",
+      "unavailableDownload": "LINEブラウザではダウンロードできません。ChromeやSafariなどの他のブラウザでお試し下さい"
     },
     "button": {
       "search": "検索",
@@ -273,6 +264,7 @@
       "unfollow": "bot未フォロー"
     },
     "userLabel": {
+      "lineName": "LINE名",
       "name": "名前",
       "nameKana": "かな",
       "isAdmin": "管理者",
@@ -283,8 +275,10 @@
       "phone": "電話番号",
       "postalCode": "郵便番号",
       "address": "住所",
+      "taxiUse": "タクシー利用",
       "allergy": "アレルギー",
-      "message": "メッセージ"
+      "message": "メッセージ",
+      "note": "管理メモ"
     },
     "boolAnswer": {
       "true": "○",

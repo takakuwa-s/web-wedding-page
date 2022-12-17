@@ -119,6 +119,24 @@ function AttendanceForm(props: IProps) {
       checked: GuestType.BRIDE === user.guestType,
       onChange: () => setUser({ ...user, guestType: GuestType.BRIDE }),
     },
+    {
+      label: t("attendance.guestType.common"),
+      checked: GuestType.COMMON === user.guestType,
+      onChange: () => setUser({ ...user, guestType: GuestType.COMMON }),
+    },
+  ];
+
+  const taxiUseRadioes = [
+    {
+      label: t("attendance.taxiUse.true"),
+      checked: user.taxiUse,
+      onChange: () => setUser({ ...user, taxiUse: true }),
+    },
+    {
+      label: t("attendance.taxiUse.false"),
+      checked: !user.taxiUse,
+      onChange: () => setUser({ ...user, taxiUse: false }),
+    },
   ];
 
   return (
@@ -278,6 +296,18 @@ function AttendanceForm(props: IProps) {
                 isValid={addressValidation.isValid}
                 required />
               <Form.Control.Feedback type="invalid">{t("attendance.address.feedback")}</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="my-3" controlId="formTaxiUse">
+            <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
+              {t("attendance.taxiUse.label")}<span className="required">*</span>
+            </Form.Label>
+            <Col sm={8} className="py-2">
+              <FormCheckRadio 
+                name="taxiUse"
+                labelClassName="radio-label"
+                checks={taxiUseRadioes}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="my-3" controlId="formAllergy">

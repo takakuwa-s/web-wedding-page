@@ -5,8 +5,8 @@ import AttendanceConfirmItem from "../attendance-confirm-item/AttendanceConfirmI
 function AttendanceConfirmContent(props: IProps) {
   const { t } = useTranslation();
   const { attendance, guestType, familyName, firstName, familyNameKana, firstNameKana,
-    phoneNumber, postalCode, address, allergy, message} = props.user;
-
+    phoneNumber, postalCode, address, taxiUse, allergy, message} = props.user;
+  console.log(taxiUse);
   return (
     <>
       <AttendanceConfirmItem
@@ -36,6 +36,10 @@ function AttendanceConfirmContent(props: IProps) {
       <AttendanceConfirmItem
         label={t("attendance.address.label")}
         value={address}
+      />
+      <AttendanceConfirmItem
+        label={t("attendance.taxiUse.label")}
+        value={taxiUse ? t("attendance.taxiUse.true") : t("attendance.taxiUse.false")}
       />
       <AttendanceConfirmItem
         label={t("attendance.allergy.label")}

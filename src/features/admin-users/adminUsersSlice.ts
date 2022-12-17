@@ -22,14 +22,10 @@ export const adminUserSlice = createSlice({
     updateAdminUsers: (state, action: PayloadAction<User[]>) => {
       state.val = action.payload;
     },
-    patchAdminUsers: (state, action: PayloadAction<{id: string, updateIsAdmin: boolean, val: boolean}>) => {
+    patchAdminUsers: (state, action: PayloadAction<{id: string, field: string, val: any}>) => {
       state.val = state.val.map(u => {
         if (u.id === action.payload.id) {
-          if (action.payload.updateIsAdmin) {
-            u.isAdmin = action.payload.val;
-          } else {
-            u.attendance = action.payload.val;
-          }
+          u[action.payload.field] = action.payload.val;
         }
         return u;
       });

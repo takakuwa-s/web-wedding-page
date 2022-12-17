@@ -1,5 +1,5 @@
 import liff from "@line/liff/dist/lib";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -15,6 +15,7 @@ import Loading from "../../common/components/loading/Loading";
 import ReloadButton from "../../common/components/reload-button/ReloadButton";
 import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { User } from "../../common/dto/user";
+import { downloadFile } from "../../common/utils/fileDownloadUtils";
 import { getUserList } from "../../common/utils/userApiCall";
 import { updateAdminUsers, updateSearchParam } from "./adminUsersSlice";
 
@@ -34,6 +35,7 @@ function AdminUsers() {
     reload: "",
   });
   const USER_LINIT = 50;
+  useEffect(() => function cleanup() {dispatch(updateAdminUsers([]))}, [dispatch]);
 
   const loadUsers = () => {
     setIsLoading(true);
@@ -102,6 +104,13 @@ function AdminUsers() {
   };
 
   const downloadCsv = () => {
+    if (liff.isInClient()) {
+      setAlertMsg({
+        top: t("adminUsers.alert.unavailableDownload"),
+        reload: "",
+      });
+      return;
+    }
     setIsCsVLoading(true);
     const arr = searchParam.split(",");
     const searchFlg = arr[0];
@@ -118,13 +127,7 @@ function AdminUsers() {
           reload: "",
         });
         const url = URL.createObjectURL(b);
-        const a = document.createElement("a");
-        document.body.appendChild(a);
-        a.download = `${t("adminUsers.csvName")}.csv`;
-        a.href = url;
-        a.rel = 'noopener'
-        a.click();
-        a.remove();
+        downloadFile(url, `${t("adminUsers.csvName")}.csv`);
         URL.revokeObjectURL(url);
       },
       e => {
@@ -170,7 +173,6 @@ function AdminUsers() {
           >{t("adminUsers.button.search")}
           </Button>
           <SubmitButton
-            disabled={liff.getOS() === "ios"}
             spinnerSize="sm"
             isLoading={isCsVLoading}
             buttonText={t("adminUsers.button.csv")}
@@ -184,6 +186,7 @@ function AdminUsers() {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>{t("adminUsers.userLabel.lineName")}</th>
                   <th>{t("adminUsers.userLabel.name")}</th>
                   <th>{t("adminUsers.userLabel.nameKana")}</th>
                   <th>{t("adminUsers.userLabel.isAdmin")}</th>
@@ -194,14 +197,17 @@ function AdminUsers() {
                   <th>{t("adminUsers.userLabel.phone")}</th>
                   <th>{t("adminUsers.userLabel.postalCode")}</th>
                   <th>{t("adminUsers.userLabel.address")}</th>
+                  <th>{t("adminUsers.userLabel.taxiUse")}</th>
                   <th>{t("adminUsers.userLabel.allergy")}</th>
                   <th>{t("adminUsers.userLabel.message")}</th>
+                  <th>{t("adminUsers.userLabel.note")}</th>
                 </tr>
               </thead>
               <tbody className="cursor-pointer">
                 {users.map((u: User, idx) => (
                   <tr key={idx} onClick={() => navigate(`/admin/user/${u.id}`)}>
                     <td>{idx + 1}</td>
+                    <td>{u.lineName}</td>
                     <td>{`${u.familyName} ${u.firstName}`}</td>
                     <td>{`${u.familyNameKana} ${u.firstNameKana}`}</td>
                     <td>{u.isAdmin ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
@@ -212,8 +218,10 @@ function AdminUsers() {
                     <td>{u.phoneNumber}</td>
                     <td>{u.postalCode}</td>
                     <td>{u.address}</td>
+                    <td>{u.taxiUse ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.allergy}</td>
                     <td>{u.message}</td>
+                    <td>{u.note}</td>
                   </tr>
                 ))}
               </tbody>

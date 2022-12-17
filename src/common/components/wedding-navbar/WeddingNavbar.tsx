@@ -13,6 +13,8 @@ function WeddingNavbar() {
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const user = useAppSelector((state: RootState) => state.user.user);
+  const config = useAppSelector((state: RootState) => state.config.config);
+  const configFetched = useAppSelector((state: RootState) => state.config.fetched);
   if (window.location.pathname === '/image/buik_download') {
     return <></>;
   }
@@ -35,9 +37,9 @@ function WeddingNavbar() {
           <Offcanvas.Body bsPrefix="offcanvas-body" className="text-center display-6 pt-0">
             <Nav className="flex-grow-1 text-white" onSelect={() => setShow(false)}>
               <Nav.Link as={Link} to="/" eventKey="top" className="pb-5 text-decoration-none text-white">{t('nav.top')}</Nav.Link>
-              <Nav.Link as={Link} to="/image/list/all" eventKey="images" className="pb-5 text-decoration-none text-white">{t('nav.image')}</Nav.Link>
+              {configFetched && config.fileFeatureAvailable && <Nav.Link as={Link} to="/image/list/all" eventKey="images" className="pb-5 text-decoration-none text-white">{t('nav.image')}</Nav.Link>}
               <Nav.Link as={Link} to="/user" eventKey="user" className="pb-5 text-decoration-none text-white">{t('nav.user')}</Nav.Link>
-              <Nav.Link as={Link} to="/attendance" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.attendance')}</Nav.Link>
+              {configFetched && config.attendanceFeatureAvailable && <Nav.Link as={Link} to="/attendance" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.attendance')}</Nav.Link>}
               {user.isAdmin && <Nav.Link as={Link} to="/admin/users" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.admin')}</Nav.Link>}
             </Nav>
           </Offcanvas.Body>

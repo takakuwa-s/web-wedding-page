@@ -3,6 +3,7 @@ import userSlice from '../features/user-detail/userSlice'
 import fileSlice from '../features/image-list/fileSlice'
 import adminUserSlice from '../features/admin-users/adminUsersSlice'
 import informationPanelSlice from '../common/components/information-panel/informationPanelSlice'
+import configSlice from './configSlice'
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     files: fileSlice,
     adminUsers: adminUserSlice,
     informationPanel: informationPanelSlice,
+    config: configSlice,
   },
 })
 

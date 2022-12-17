@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
-import "./i18n/configs";
+import "./i18n/i18n-configs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import liff from '@line/liff';
 import LIFFInspectorPlugin from '@line/liff-inspector';
@@ -25,7 +25,8 @@ root.render(
   </div>
 );
 
-if (process.env.REACT_APP_ENV === 'dev') {
+const env = process.env.REACT_APP_ENV;
+if (env === 'dev') {
   liff.use(new LIFFInspectorPlugin());
 }
 let element: JSX.Element;
@@ -35,7 +36,7 @@ liff
     withLoginOnExternalBrowser: false
   })
   .then(() => {
-    if (window.location.pathname !== '/image/buik_download' && !liff.isLoggedIn()) {
+    if (window.location.pathname !== '/image/buik_download' && !liff.isLoggedIn() && env !== 'local') {
       liff.login();
     }
     element = <App/>;
