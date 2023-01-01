@@ -55,7 +55,7 @@
       "note2": "午前9時40分に\nJR逗子駅（東口）交番前ロータリーに\nタクシーを手配しますので\nご利用の有無をご回答下さい"
     },
     "register": {
-      "title": "Presence or Absence",
+      "title": "Wedding Attendance",
       "deadline1": "誠に勝手ながら",
       "deadline2": "2月1日(水)までに",
       "deadline3": "ご返信頂ければ幸いに存じます",
@@ -68,10 +68,10 @@
     "back": "トップに戻る",
     "alert": "情報の取得に失敗しました。",
     "attendance": {
-      "label": "ご出席",
+      "label": "ご出欠",
       "attend": "ご出席",
       "decline": "ご欠席",
-      "alert": "ご出席の変更に関しては、新郎新婦に直接ご連絡をお願い致します"
+      "alert": "ご出欠の変更に関しては、新郎新婦に直接ご連絡をお願い致します"
     },
     "guestType": {
       "label": "ゲスト様",

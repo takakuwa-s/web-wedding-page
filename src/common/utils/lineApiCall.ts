@@ -26,6 +26,7 @@ export function shareMessageToChat(
 
 export function multicastMessageToLineBot(
   messageKey: string,
+  flag: string,
   onSuccess: () => void,
   onError: (e: any) => void,
   onComplete: () => void
@@ -37,7 +38,7 @@ export function multicastMessageToLineBot(
       "Authorization": `Bearer ${token!}`
     },
   };
-  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/line/message?messageKey=${messageKey}`;
+  const url: string = `${process.env.REACT_APP_BACKEND_BASE_URL!}/api/line/message?messageKey=${messageKey}&flag=${flag}`;
   let code: number;
   fetch(url, requestOptions)
     .then(res => {

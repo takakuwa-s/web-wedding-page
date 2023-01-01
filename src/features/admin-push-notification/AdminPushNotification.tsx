@@ -18,6 +18,7 @@ enum PushMessageType {
 function AdminPushNotification() {
   const { t } = useTranslation();
   const [messageType, setMessageType] = useState(PushMessageType.REMINDER);
+  const [targetUsers, setTargetUsers] = useState("IsAdmin");
   const [msgChecked, setMsgChecked] = useState(false);
   const [isMulticastLoading, setIsMulticastLoading] = useState(false);
   const [isCheckLoading, setIsCheckLoading] = useState(false);
@@ -61,6 +62,7 @@ function AdminPushNotification() {
     setIsMulticastLoading(true);
     multicastMessageToLineBot(
       messageType,
+      targetUsers,
       () => {
         setMsgChecked(false);
         setAlert({
@@ -79,14 +81,26 @@ function AdminPushNotification() {
     );
   }
 
-  const onSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+  const onSelectMessage = (e: ChangeEvent<HTMLSelectElement>) => {
     setMessageType(e.target.value as PushMessageType)
     setMsgChecked(false);
   };
 
-  const options = [
+  const messageOptions = [
     {value: PushMessageType.REMINDER, label: t("adminPushNotification.sellect.reminder")},
     {value: PushMessageType.SLIDE_SHOW, label: t("adminPushNotification.sellect.slideshow")},
+  ];
+
+  const onSelectTargetUsers = (e: ChangeEvent<HTMLSelectElement>) => {
+    setTargetUsers(e.target.value)
+    setMsgChecked(false);
+  };
+
+  const targetUsersOptions = [
+    {value: "IsAdmin", label: t("adminUsers.sellect.admin")},
+    {value: "Follow", label: t("adminUsers.sellect.follow")},
+    {value: "Attendance", label: t("adminUsers.sellect.participant")},
+    {value: "Registered", label: t("adminUsers.sellect.registered")}
   ];
 
   return (
@@ -99,10 +113,15 @@ function AdminPushNotification() {
       <ErrorAlert {...alert}/>
       <Row>
         <Col md={6} xl={4} className="mx-auto">
-          <FormSelect onSelect={onSelect} options={options} />
+          <FormSelect onSelect={onSelectMessage} options={messageOptions} />
         </Col>
       </Row>
-      <Row className="py-5">
+      <Row className="mt-3">
+        <Col md={6} xl={4} className="mx-auto">
+          <FormSelect onSelect={onSelectTargetUsers} options={targetUsersOptions} />
+        </Col>
+      </Row>
+      <Row className="my-5">
         <Col md={6} xl={4} className="d-grid gap-2 mx-auto">
           <SubmitButton
             buttonSize="lg"
