@@ -66,7 +66,7 @@
   "attendance": {
     "title": "Attendance",
     "back": "トップに戻る",
-    "alert": "情報の取得に失敗しました。",
+    "inputAlert": "入力エラーがあります",
     "attendance": {
       "label": "ご出欠",
       "attend": "ご出席",

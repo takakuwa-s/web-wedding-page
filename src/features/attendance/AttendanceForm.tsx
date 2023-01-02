@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
+import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import FormCheckRadio from "../../common/components/form-check-radio/FormCheckRadio";
 import Loading from "../../common/components/loading/Loading";
 import { GuestType, User } from "../../common/dto/user";
@@ -18,6 +19,7 @@ function AttendanceForm(props: IProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const fetched = useAppSelector((state: RootState) => state.user.fetched);
+  const [alertMsg, setAlertMsg] = useState("");
   const [user, setUser] = useState(props.user);
   const [familyNameValidation, setFamilyNameValidation] = useState(initValidation());
   const [firstNameValidation, setFirstNameValidation] = useState(initValidation());
@@ -28,6 +30,12 @@ function AttendanceForm(props: IProps) {
   const [addressValidation, setAddressValidation] = useState(initValidation());
 
   useEffect(() => {
+    const option : any = {
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    };
+    window.scrollTo(option);
     setUser(props.user);
   }, [props.user]);
 
@@ -92,6 +100,8 @@ function AttendanceForm(props: IProps) {
       setFamilyNameKanaValidation(familyNameKanaValidation);
       setFirstNameKanaValidation(firstNameKanaValidation);
       setAddressValidation(addressValidation);
+      setAlertMsg(t("attendance.inputAlert") as SetStateAction<string>);
+      window.scrollTo(0,0);
     }
   }
 
@@ -146,7 +156,10 @@ function AttendanceForm(props: IProps) {
           <h2 className="pt-5 text-center form-title">{t("attendance.title")}</h2>
         </Col>
       </Row>
-      {fetched ? (
+      <ErrorAlert msg={alertMsg} variant="danger" />
+      {!fetched ? (
+        <Loading />
+      ) : (
         <Form className="pt-2 pb-5">
           <Form.Group as={Row} className="my-3" controlId="formAttendance">
             <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
@@ -359,8 +372,6 @@ function AttendanceForm(props: IProps) {
             </Col>
           </Row>
         </Form>
-      ) : (
-        <Loading />
       )}
     </Container>
   );
