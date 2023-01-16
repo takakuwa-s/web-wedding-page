@@ -11,14 +11,15 @@ import SubmitButton from "../../common/components/submit-button/SubmitButton";
 import { multicastMessageToLineBot, sendMessageToChat } from "../../common/utils/lineApiCall";
 
 enum PushMessageType {
+  INVITATION_REMINDER = "invitation_reminder",
   REMINDER = "reminder",
   SLIDE_SHOW = "slideshow"
 }
 
 function AdminPushNotification() {
   const { t } = useTranslation();
-  const [messageType, setMessageType] = useState(PushMessageType.REMINDER);
-  const [targetUsers, setTargetUsers] = useState("IsAdmin");
+  const [messageType, setMessageType] = useState(PushMessageType.INVITATION_REMINDER);
+  const [targetUsers, setTargetUsers] = useState("IsAdmin,t");
   const [msgChecked, setMsgChecked] = useState(false);
   const [isMulticastLoading, setIsMulticastLoading] = useState(false);
   const [isCheckLoading, setIsCheckLoading] = useState(false);
@@ -60,9 +61,13 @@ function AdminPushNotification() {
 
   const multicastMsg = () => {
     setIsMulticastLoading(true);
+    const arr: string[] = targetUsers.split(',');
+    const falg: string = arr[0];
+    const val: boolean = !!arr[1];;
     multicastMessageToLineBot(
       messageType,
-      targetUsers,
+      falg,
+      val,
       () => {
         setMsgChecked(false);
         setAlert({
@@ -87,6 +92,7 @@ function AdminPushNotification() {
   };
 
   const messageOptions = [
+    {value: PushMessageType.INVITATION_REMINDER, label: t("adminPushNotification.sellect.invitation_reminder")},
     {value: PushMessageType.REMINDER, label: t("adminPushNotification.sellect.reminder")},
     {value: PushMessageType.SLIDE_SHOW, label: t("adminPushNotification.sellect.slideshow")},
   ];
@@ -97,10 +103,12 @@ function AdminPushNotification() {
   };
 
   const targetUsersOptions = [
-    {value: "IsAdmin", label: t("adminUsers.sellect.admin")},
-    {value: "Follow", label: t("adminUsers.sellect.follow")},
-    {value: "Attendance", label: t("adminUsers.sellect.participant")},
-    {value: "Registered", label: t("adminUsers.sellect.registered")}
+    {value: "IsAdmin,t", label: t("adminUsers.sellect.admin")},
+    {value: "Follow,t", label: t("adminUsers.sellect.follow")},
+    {value: "Attendance,t", label: t("adminUsers.sellect.participant")},
+    {value: "Attendance,", label: t("adminUsers.sellect.absentee")},
+    {value: "Registered,t", label: t("adminUsers.sellect.registered")},
+    {value: "Registered,", label: t("adminUsers.sellect.notRegistered")}
   ];
 
   return (

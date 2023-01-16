@@ -2,8 +2,18 @@ import Information from './Information';
 import Top from './Top';
 import SwipeWrapper from "../../common/components/swiper-wrapper/SwipeWrapper";
 import Greeting from './Greeting';
+import { useEffect } from 'react';
 
 function Home() {
+  useEffect(() => {
+    const option : any = {
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    };
+    window.scrollTo(option);
+  }, []);
+
   const images = [
     {
       src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-1.jpg?alt=media&token=6a0fb3dd-01e4-40e9-a6ae-b8e41ad9c6e4",

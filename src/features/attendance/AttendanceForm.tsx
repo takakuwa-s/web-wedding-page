@@ -43,9 +43,11 @@ function AttendanceForm(props: IProps) {
     fetch("https://zipcloud.ibsnet.co.jp/api/search?zipcode=" + postalCode)
       .then(res => res.json())
       .then((res) => {
-        const address = res.results[0].address1 + res.results[0].address2 + res.results[0].address3;
-        setUser({ ...user, address: address });
-        setAddressValidation(validateStr(address));
+        if (res.results) {
+          const address = res.results[0].address1 + res.results[0].address2 + res.results[0].address3;
+          setUser({ ...user, address: address });
+          setAddressValidation(validateStr(address));
+        }
       }, (error) => console.log(error))
   };
 
@@ -105,6 +107,7 @@ function AttendanceForm(props: IProps) {
     }
   }
 
+  
   const attendanceRadioes = [
     {
       label: t("attendance.attendance.attend"),
@@ -302,6 +305,7 @@ function AttendanceForm(props: IProps) {
               <Form.Control
                 type="text"
                 value={user.address}
+                disabled={!user.postalCode || postalCodeValidation.isInvalid}
                 onChange={(e) => setUser({ ...user, address: e.target.value })}
                 onBlur={(e) => setAddressValidation(validateStr(e.target.value))}
                 placeholder={t("attendance.address.placeholder")}

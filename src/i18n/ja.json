@@ -223,6 +223,7 @@
     "title": "メッセージ送信",
     "pushConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
     "sellect": {
+      "invitation_reminder": "招待状回答リマインド",
       "reminder": "前日メッセージ",
       "slideshow": "スライドショー"
     },
@@ -235,6 +236,7 @@
       "sendErr": "LINE botへのメッセージ送信に失敗しました。"
     },
     "checkMsgContent": {
+      "invitation_reminder": "招待状回答リマインド確認",
       "reminder": "前日メッセージ送信内容確認",
       "slideshow": "スライドショー確認"
     }

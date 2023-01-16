@@ -6,7 +6,6 @@ function AttendanceConfirmContent(props: IProps) {
   const { t } = useTranslation();
   const { attendance, guestType, familyName, firstName, familyNameKana, firstNameKana,
     phoneNumber, postalCode, address, taxiUse, allergy, message} = props.user;
-  console.log(taxiUse);
   return (
     <>
       <AttendanceConfirmItem

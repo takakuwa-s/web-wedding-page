@@ -34,7 +34,7 @@ function AdminUsers() {
     top: "",
     reload: "",
   });
-  const USER_LINIT = 50;
+  const USER_LINIT = 100;
   useEffect(() => function cleanup() {dispatch(updateAdminUsers([]))}, [dispatch]);
 
   const loadUsers = () => {
