@@ -165,6 +165,7 @@
     "iosSave": "写真を拡大後長押しでも保存できます",
     "bulkDownloadFolderName": "wedding_photo_20220319",
     "addFiles": "写真共有",
+    "bulkDownloadHelpDescription": "画像・動画を一括でダウンロードし、カメラロールへ保存する方法を、以下の動画にて説明しています",
     "tab": {
       "all": "ALL",
       "my": "MINE",
@@ -175,7 +176,8 @@
       "reload": "写真をさらに読み込む",
       "allLoaded": "未読込の写真はありません",
       "share": "共有",
-      "bulkDownload": "まとめて保存"
+      "bulkDownload": "まとめて保存",
+      "bulkDownloadHelp": "保存ヘルプ"
     },
     "label": {
       "creater": "投稿者",
@@ -221,7 +223,7 @@
   },
   "adminPushNotification": {
     "title": "メッセージ送信",
-    "pushConfirm": "botをフォローしている参加者全員に送るメッセージを確認しました",
+    "pushConfirm": "指定したゲスト全員に送るメッセージを確認しました",
     "sellect": {
       "invitation_reminder": "招待状回答リマインド",
       "reminder": "前日メッセージ",

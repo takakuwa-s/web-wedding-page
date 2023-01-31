@@ -20,6 +20,7 @@ import liff from '@line/liff/dist/lib';
 import { Config } from '../common/dto/config';
 import { getConfig } from '../common/utils/configApiCall';
 import { updateConfigAndFetched } from './configSlice';
+import BulkDownloadFilesHelp from '../features/image-list/BulkDownloadFilesHelp';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -61,6 +62,7 @@ function App() {
           <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
           <Route path="image/list/memory" element={<ImageList gallery={Gallery.MEMORY} />} />
           <Route path="image/buik_download" element={<BulkDownloadFiles />}  />
+          <Route path="image/buik_download/help" element={<BulkDownloadFilesHelp />}  />
           </>
         )}
         <Route path="user" element={<UserDetail />} />

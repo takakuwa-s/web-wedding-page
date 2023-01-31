@@ -20,9 +20,11 @@ import { CheckImage } from '../../common/dto/checkImage';
 import { shareMessageToChat } from '../../common/utils/lineApiCall';
 import { downloadFile, generateZipDownloadUrl } from '../../common/utils/fileDownloadUtils';
 import AddFileButton from '../../common/components/add-file-button/AddFileButton';
+import { useNavigate } from 'react-router-dom';
 
 function ImageListAll() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.user.user);
   const files = useAppSelector((state: RootState) => state.files.files);
@@ -183,6 +185,15 @@ function ImageListAll() {
                   onClick={downloadMultipleImages}
                 >{t("imageList.button.bulkDownload")}
                 </Button>
+                {(liff.getOS() === "ios" || liff.getOS() === "android") && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline-secondary"
+                    onClick={() => navigate("/image/buik_download/help")}
+                  >{t("imageList.button.bulkDownloadHelp")}
+                  </Button>
+                )}
               </>
             )}
             {liff.getOS() === "ios" && !canMultiSelect && !alertMsg && (
