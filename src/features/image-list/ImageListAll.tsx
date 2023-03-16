@@ -35,7 +35,7 @@ function ImageListAll() {
   const [isReloading, setIsReloading] = useState(false);
   const [disableReloading, setDisableReloading] = useState(false);
   const [reloadAlertMsg, setReloadAlertMsg] = useState("");
-  const FILE_LIMIT = 50;
+  const FILE_LIMIT = 66;
 
   useEffect(() => {
     setIsLoading(true);
@@ -159,7 +159,7 @@ function ImageListAll() {
           <Col className="ps-4 ">
             <Button
               type="button"
-              className="me-3"
+              className="me-2"
               size="sm"
               disabled={!files.length}
               variant={canMultiSelect ? "outline-dark" : "outline-info" }
@@ -198,6 +198,9 @@ function ImageListAll() {
             )}
             {liff.getOS() === "ios" && !canMultiSelect && !alertMsg && (
               <span className="photo-explain-container m-3 p-1">{t("imageList.iosSave")}</span>
+            )}
+            {liff.getOS() === "android" && !canMultiSelect && !alertMsg && (
+              <span className="photo-explain-container m-3 p-1">{t("imageList.androidSave")}</span>
             )}
           </Col>
         </Row>

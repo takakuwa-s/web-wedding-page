@@ -28,7 +28,7 @@ function ImageListMy() {
   const [isLoading, setIsLoading] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const [disableReloading, setDisableReloading] = useState(false);
-  const FILE_LIMIT = 50;
+  const FILE_LIMIT = 66;
 
   useEffect(() => {
     setIsLoading(true);

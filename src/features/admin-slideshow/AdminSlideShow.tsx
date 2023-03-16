@@ -49,7 +49,7 @@ function AdminSlideShow() {
       },
       e => {
         console.error(e);
-        setAlert({msg: t('adminSlideShow.alert.createErr'), variant: "danger"});
+        setAlert({msg: t('adminSlideShow.alert.createErr') + e, variant: "danger"});
       },
       () => setIsCreateLoading(false)
     )
