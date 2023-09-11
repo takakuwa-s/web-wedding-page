@@ -7,20 +7,36 @@ export interface User extends StringKeyObject {
   attendance: boolean;
   guestType: GuestType;
   lineName: string;
-  familyName: string;
-  firstName: string;
-  familyNameKana: string;
-  firstNameKana: string;
-  phoneNumber: string;
+  name: string;
+  nameKana: string;
   postalCode: string;
   address: string;
-  taxiUse: boolean;
+  email: string;
   allergy: string;
   message: string;
+  companions : Companion[];
   follow: boolean;
   registered: boolean;
   isAdmin: boolean;
   note: string;
+}
+
+export interface Companion {
+  name: string;
+  allergy: string;
+}
+
+export function initCompanions(): Companion[] {
+  return [
+    {
+      name: '',
+      allergy: '',
+    },
+    {
+      name: '',
+      allergy: '',
+    }
+  ];
 }
 
 export enum GuestType {
@@ -35,16 +51,14 @@ export function initUser(): User {
     attendance: true,
     guestType: GuestType.GROOM,
     lineName: '',
-    familyName: '',
-    firstName: '',
-    familyNameKana: '',
-    firstNameKana: '',
-    phoneNumber: '',
+    name: '',
+    nameKana: '',
     postalCode: '',
     address: '',
-    taxiUse: false,
+    email: '',
     allergy: '',
     message: '',
+    companions : initCompanions(),
     follow: false,
     registered: false,
     isAdmin: false,

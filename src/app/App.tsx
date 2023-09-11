@@ -8,7 +8,7 @@ import UserDetail from '../features/user-detail/UserDetail';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { updateUserAndFetched } from '../features/user-detail/userSlice';
 import Admin from '../features/admin/Admin';
-import { GuestType, User } from '../common/dto/user';
+import { GuestType, User, initCompanions } from '../common/dto/user';
 import ErrorPage from '../features/error-page/ErrorPage';
 import AdminUserDetail from '../features/admin-user-detail/AdminUserDetail';
 import { Gallery } from '../common/dto/gallery';
@@ -37,6 +37,9 @@ function App() {
       (u: User) => {
         if (!u.guestType) {
           u.guestType = GuestType.GROOM;
+        }
+        if (!u.companions) {
+          u.companions = initCompanions();
         }
         dispatch(updateUserAndFetched({user: u, fetched: true}));
     });
