@@ -194,11 +194,14 @@ function AdminUsers() {
                   <th>{t("adminUsers.userLabel.registered")}</th>
                   <th>{t("adminUsers.userLabel.follow")}</th>
                   <th>{t("adminUsers.userLabel.guestType")}</th>
-                  <th>{t("adminUsers.userLabel.phone")}</th>
+                  <th>メール</th>
                   <th>{t("adminUsers.userLabel.postalCode")}</th>
                   <th>{t("adminUsers.userLabel.address")}</th>
-                  <th>{t("adminUsers.userLabel.taxiUse")}</th>
                   <th>{t("adminUsers.userLabel.allergy")}</th>
+                  <th>連れ1 名前</th>
+                  <th>連れ1 アレルギー</th>
+                  <th>連れ2 名前</th>
+                  <th>連れ2 アレルギー</th>
                   <th>{t("adminUsers.userLabel.message")}</th>
                   <th>{t("adminUsers.userLabel.note")}</th>
                 </tr>
@@ -208,18 +211,21 @@ function AdminUsers() {
                   <tr key={idx} onClick={() => navigate(`/admin/user/${u.id}`)}>
                     <td>{idx + 1}</td>
                     <td>{u.lineName}</td>
-                    <td>{`${u.familyName} ${u.firstName}`}</td>
-                    <td>{`${u.familyNameKana} ${u.firstNameKana}`}</td>
+                    <td>{u.name}</td>
+                    <td>{u.nameKana}</td>
                     <td>{u.isAdmin ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.attendance ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.registered ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.follow ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{t(`attendance.guestType.${u.guestType.toLowerCase()}`)}</td>
-                    <td>{u.phoneNumber}</td>
+                    <td>{u.email}</td>
                     <td>{u.postalCode}</td>
                     <td>{u.address}</td>
-                    <td>{u.taxiUse ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}</td>
                     <td>{u.allergy}</td>
+                    <td>{u.companions[0].name}</td>
+                    <td>{u.companions[0].allergy}</td>
+                    <td>{u.companions[1].name}</td>
+                    <td>{u.companions[1].allergy}</td>
                     <td>{u.message}</td>
                     <td>{u.note}</td>
                   </tr>

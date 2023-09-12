@@ -171,11 +171,11 @@ function AdminUserDetail() {
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.name")}
-            value={`${user.familyName} ${user.firstName}`}
+            value={user.name}
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.nameKana")}
-            value={`${user.familyNameKana} ${user.firstNameKana}`}
+            value={user.nameKana}
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.follow")}
@@ -190,8 +190,8 @@ function AdminUserDetail() {
             value={t(`attendance.guestType.${user.guestType.toLowerCase()}`)}
           />
           <AttendanceConfirmItem
-            label={t("adminUsers.userLabel.phone")}
-            value={user.phoneNumber}
+            label="メール"
+            value={user.email}
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.postalCode")}
@@ -202,12 +202,24 @@ function AdminUserDetail() {
             value={user.address}
           />
           <AttendanceConfirmItem
-            label={t("adminUsers.userLabel.taxiUse")}
-            value={user.taxiUse ? t("adminUsers.boolAnswer.true") : t("adminUsers.boolAnswer.false")}
-          />
-          <AttendanceConfirmItem
             label={t("adminUsers.userLabel.allergy")}
             value={user.allergy}
+          />
+          <AttendanceConfirmItem
+            label="連れ1 名前"
+            value={user.companions[0].name}
+          />
+          <AttendanceConfirmItem
+            label="連れ1 アレルギー"
+            value={user.companions[0].name}
+          />
+          <AttendanceConfirmItem
+            label="連れ2 名前"
+            value={user.companions[0].name}
+          />
+          <AttendanceConfirmItem
+            label="連れ2 アレルギー"
+            value={user.companions[0].name}
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.message")}

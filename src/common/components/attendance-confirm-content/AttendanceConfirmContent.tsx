@@ -4,8 +4,8 @@ import AttendanceConfirmItem from "../attendance-confirm-item/AttendanceConfirmI
 
 function AttendanceConfirmContent(props: IProps) {
   const { t } = useTranslation();
-  const { attendance, guestType, familyName, firstName, familyNameKana, firstNameKana,
-    phoneNumber, postalCode, address, taxiUse, allergy, message} = props.user;
+  const { attendance, guestType, name, nameKana,
+    email, postalCode, address, allergy, companions, message} = props.user;
   return (
     <>
       <AttendanceConfirmItem
@@ -18,15 +18,15 @@ function AttendanceConfirmContent(props: IProps) {
       />
       <AttendanceConfirmItem
         label={t("attendance.name.label")}
-        value={`${familyName} ${firstName}`}
+        value={name}
       />
       <AttendanceConfirmItem
         label={t("attendance.nameKana.label")}
-        value={`${familyNameKana} ${firstNameKana}`}
+        value={nameKana}
       />
       <AttendanceConfirmItem
-        label={t("attendance.phone.label")}
-        value={phoneNumber}
+        label="メールアドレス"
+        value={email}
       />
       <AttendanceConfirmItem
         label={t("attendance.postalCode.label")}
@@ -37,12 +37,24 @@ function AttendanceConfirmContent(props: IProps) {
         value={address}
       />
       <AttendanceConfirmItem
-        label={t("attendance.taxiUse.label")}
-        value={taxiUse ? t("attendance.taxiUse.true") : t("attendance.taxiUse.false")}
-      />
-      <AttendanceConfirmItem
         label={t("attendance.allergy.label")}
         value={allergy}
+      />
+      <AttendanceConfirmItem
+        label="お連れ様1 名前"
+        value={companions[0].name}
+      />
+      <AttendanceConfirmItem
+        label="お連れ様1 アレルギー"
+        value={companions[0].allergy}
+      />
+      <AttendanceConfirmItem
+        label="お連れ様1 名前"
+        value={companions[1].name}
+      />
+      <AttendanceConfirmItem
+        label="お連れ様2 アレルギー"
+        value={companions[1].allergy}
       />
       <AttendanceConfirmItem
         label={t("attendance.message.label")}

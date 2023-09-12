@@ -1,12 +1,7 @@
 import { useTranslation } from "react-i18next";
-import Col from "react-bootstrap/esm/Col";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import Button from "react-bootstrap/esm/Button";
-import liff from "@line/liff/dist/lib";
 import { logEvent } from "firebase/analytics";
 import { analytics } from "../../common/utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AttendanceComplete(props: IProps) {
   const { t } = useTranslation();
@@ -31,17 +26,32 @@ function AttendanceComplete(props: IProps) {
   }
   return (
     <div className="form-wrap">
-        <div className="form-wrap__inner">
-            <div className="form-image"><img src="../app-files/img/form_head03.jpg" alt=""/></div>
-            <div className="form-indicator">
-                <div className="form-indicator__item">入力</div>
-                <div className="form-indicator__item">確認</div>
-                <div className="form-indicator__item is-current">完了</div>
-            </div>
-            <h1 className="form-heading">送信完了しました</h1>
-            <p className="form-text">回答の送信が完了しました。<br/>ご回答ありがとうございました。</p>
-            <div className="form-finish-button"><a href="../index.html">TOPへ戻る</a></div>
+      <div className="form-wrap__inner">
+        <div className="form-image"><img src="../app-files/img/form_head03.jpg" alt="" /></div>
+        <div className="form-indicator">
+          <div className="form-indicator__item">入力</div>
+          <div className="form-indicator__item">確認</div>
+          <div className="form-indicator__item is-current">完了</div>
         </div>
+        {props.err ? (
+          <>
+            <h1 className="form-heading">エラー</h1>
+            <p className="form-text">エラーです<br />ご回答ありがとうございました。</p>
+            <div className="form-finish-button">
+              <Link to="/">TOPへ戻る</Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <h1 className="form-heading">送信完了しました</h1>
+            <p className="form-text">回答の送信が完了しました。<br />ご回答ありがとうございました。</p>
+            <div className="form-finish-button">
+              <Link to="/">TOPへ戻る</Link>
+            </div>
+          </>
+        )}
+
+      </div>
     </div>
     // <Container fluid>
     //   <Row>

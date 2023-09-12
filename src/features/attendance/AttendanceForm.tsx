@@ -132,230 +132,236 @@ function AttendanceForm(props: IProps) {
   ];
 
   return (
-    <form className="form-wrap" action="./confirm.html">
-      <div className="form-wrap__inner">
-        <div className="form-image"><img src="../app-files/img/form_head01.jpg" alt="" /></div>
-        <div className="form-indicator">
-          <div className="form-indicator__item is-current">入力</div>
-          <div className="form-indicator__item">確認</div>
-          <div className="form-indicator__item">完了</div>
-        </div>
-        <h1 className="form-heading">回答フォーム</h1>
-        <p className="form-text">各項目への入力をお願いいたします</p>
-        <div className="form-input-field">
-          <section>
-            <h2>お名前</h2>
-            <div className="form-input-textfield">
-              <input
-                type="text"
-                maxLength={100}
-                name="name"
-                placeholder="山田花子"
-                value={user.name}
-                onChange={(e) => setUser({ ...user, name: e.target.value })} />
+    <>
+      {!fetched ? (
+        <Loading />
+      ) : (
+        <form className="form-wrap" action="./confirm.html">
+          <div className="form-wrap__inner">
+            <div className="form-image"><img src="../app-files/img/form_head01.jpg" alt="" /></div>
+            <div className="form-indicator">
+              <div className="form-indicator__item is-current">入力</div>
+              <div className="form-indicator__item">確認</div>
+              <div className="form-indicator__item">完了</div>
             </div>
-          </section>
-          <section>
-            <h2>ふりがな</h2>
-            <div className="form-input-textfield">
-              <input
-                type="text"
-                maxLength={100}
-                name="hurigana"
-                placeholder="やまだはなこ"
-                value={user.nameKana}
-                onChange={(e) => setUser({ ...user, nameKana: e.target.value })} />
-            </div>
-          </section>
-          <section>
-            <h2>出欠</h2>
-            <div className="form-input-attendancefield">
-              {attendanceRadioes.map(radio => (
-                <div className="form-input-attendancefield__item" key={radio.key}>
+            <h1 className="form-heading">回答フォーム</h1>
+            <p className="form-text">各項目への入力をお願いいたします</p>
+            <div className="form-input-field">
+              <section>
+                <h2>お名前</h2>
+                <div className="form-input-textfield">
                   <input
-                    type="radio"
-                    name="attendance"
-                    id={radio.id}
-                    checked={radio.checked}
-                    onChange={radio.onChange}/>
-                  <label htmlFor={radio.id}>{radio.label}</label>
+                    type="text"
+                    maxLength={100}
+                    name="name"
+                    placeholder="山田花子"
+                    value={user.name}
+                    onChange={(e) => setUser({ ...user, name: e.target.value })} />
                 </div>
-              ))}
-            </div>
-          </section>
-          <section>
-            <h2>新郎新婦との関係性</h2>
-            <div className="form-input-radiofield">
-              {guestTypeRadioes.map(radio => (
-                <div className="form-input-radiofield__item" key={radio.key}>
+              </section>
+              <section>
+                <h2>ふりがな</h2>
+                <div className="form-input-textfield">
                   <input
-                    type="radio"
-                    name="relation"
-                    id={radio.id}
-                    value={radio.value}
-                    checked={radio.value === user.guestType}
-                    onChange={() => setUser({ ...user, guestType: radio.value })}/>
-                  <label htmlFor={radio.id}>{radio.label}</label>
+                    type="text"
+                    maxLength={100}
+                    name="hurigana"
+                    placeholder="やまだはなこ"
+                    value={user.nameKana}
+                    onChange={(e) => setUser({ ...user, nameKana: e.target.value })} />
                 </div>
-              ))}
+              </section>
+              <section>
+                <h2>出欠</h2>
+                <div className="form-input-attendancefield">
+                  {attendanceRadioes.map(radio => (
+                    <div className="form-input-attendancefield__item" key={radio.key}>
+                      <input
+                        type="radio"
+                        name="attendance"
+                        id={radio.id}
+                        checked={radio.checked}
+                        onChange={radio.onChange} />
+                      <label htmlFor={radio.id}>{radio.label}</label>
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <section>
+                <h2>新郎新婦との関係性</h2>
+                <div className="form-input-radiofield">
+                  {guestTypeRadioes.map(radio => (
+                    <div className="form-input-radiofield__item" key={radio.key}>
+                      <input
+                        type="radio"
+                        name="relation"
+                        id={radio.id}
+                        value={radio.value}
+                        checked={radio.value === user.guestType}
+                        onChange={() => setUser({ ...user, guestType: radio.value })} />
+                      <label htmlFor={radio.id}>{radio.label}</label>
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <section>
+                <h2>郵便番号</h2>
+                <div className="form-input-postfield">
+                  <div className="form-input-postfield__text">
+                    <input
+                      type="text"
+                      maxLength={100}
+                      name="post-code"
+                      placeholder="1234567"
+                      className="js-adress-set__post-code"
+                      value={user.postalCode}
+                      onChange={(e) => setUser({ ...user, postalCode: e.target.value })} />
+                  </div>
+                  <div className="form-input-postfield__button">
+                    <button type="button" className="js-adress-set" onClick={fetchAddress}>住所検索</button>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h2>住所</h2>
+                <div className="form-input-textfield">
+                  <input
+                    type="text"
+                    className="js-adress-set__target"
+                    maxLength={100}
+                    name="address"
+                    placeholder="東京都渋谷区0-1-23"
+                    value={user.address}
+                    onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                </div>
+              </section>
+              <section>
+                <h2>メールアドレス</h2>
+                <div className="form-input-textfield">
+                  <input
+                    type="text"
+                    maxLength={100}
+                    name="mail"
+                    placeholder="sample@sample.com"
+                    value={user.email}
+                    onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                </div>
+              </section>
+              <section>
+                <h2>アレルギーや苦手な食材</h2>
+                <div className="form-input-textfield">
+                  <input
+                    type="text"
+                    maxLength={100}
+                    name="food"
+                    placeholder="食材名、食材名"
+                    value={user.allergy}
+                    onChange={(e) => setUser({ ...user, allergy: e.target.value })} />
+                </div>
+              </section>
+              <section>
+                <h2>お連れ様追加</h2>
+                <section className="form-add">
+                  <h3>１人目</h3>
+                  <div className="form-input-textfield">
+                    <input
+                      type="text"
+                      maxLength={100}
+                      name="add01-name"
+                      placeholder="お連れ様氏名"
+                      value={user.companions[0].name}
+                      onChange={(e) => {
+                        const companions = [{
+                          name: e.target.value,
+                          allergy: user.companions[0].allergy,
+                        }, {
+                          name: user.companions[1].name,
+                          allergy: user.companions[1].allergy,
+                        }];
+                        setUser({ ...user, companions: companions })
+                      }} />
+                  </div>
+                  <div className="form-input-textfield">
+                    <input
+                      type="text"
+                      maxLength={100}
+                      name="add01-food"
+                      placeholder="お連れ様のアレルギーや苦手な食材"
+                      value={user.companions[0].allergy}
+                      onChange={(e) => {
+                        const companions = [{
+                          name: user.companions[0].name,
+                          allergy: e.target.value,
+                        }, {
+                          name: user.companions[1].name,
+                          allergy: user.companions[1].allergy,
+                        }];
+                        setUser({ ...user, companions: companions })
+                      }} />
+                  </div>
+                </section>
+                <section className="form-add">
+                  <h3>２人目</h3>
+                  <div className="form-input-textfield">
+                    <input
+                      type="text"
+                      maxLength={100}
+                      name="add02-name"
+                      placeholder="お連れ様氏名"
+                      value={user.companions[1].name}
+                      onChange={(e) => {
+                        const companions = [{
+                          name: user.companions[0].name,
+                          allergy: user.companions[0].allergy,
+                        }, {
+                          name: e.target.value,
+                          allergy: user.companions[1].allergy,
+                        }];
+                        setUser({ ...user, companions: companions })
+                      }} />
+                  </div>
+                  <div className="form-input-textfield">
+                    <input
+                      type="text"
+                      maxLength={100}
+                      name="add02-food"
+                      placeholder="お連れ様のアレルギーや苦手な食材"
+                      value={user.companions[1].allergy}
+                      onChange={(e) => {
+                        const companions = [{
+                          name: user.companions[0].name,
+                          allergy: user.companions[0].allergy,
+                        }, {
+                          name: user.companions[1].name,
+                          allergy: e.target.value,
+                        }];
+                        setUser({ ...user, companions: companions })
+                      }} />
+                  </div>
+                </section>
+              </section>
+              <section>
+                <h2>メッセージ</h2>
+                <div className="form-input-textfield">
+                  <textarea
+                    maxLength={100}
+                    name="メッセージ"
+                    value={user.message}
+                    onChange={(e) => setUser({ ...user, message: e.target.value })}></textarea>
+                </div>
+              </section>
             </div>
-          </section>
-          <section>
-            <h2>郵便番号</h2>
-            <div className="form-input-postfield">
-              <div className="form-input-postfield__text">
-                <input
-                  type="text"
-                  maxLength={100}
-                  name="post-code"
-                  placeholder="1234567"
-                  className="js-adress-set__post-code"
-                  value={user.postalCode}
-                  onChange={(e) => setUser({ ...user, postalCode: e.target.value })} />
-              </div>
-              <div className="form-input-postfield__button">
-                <button type="button" className="js-adress-set" onClick={fetchAddress}>住所検索</button>
-              </div>
+            <div className="form-input-button">
+              <button
+                type="button"
+                onClick={handleSubmit}
+              >{t("attendance.submit")}
+              </button>
             </div>
-          </section>
-          <section>
-            <h2>住所</h2>
-            <div className="form-input-textfield">
-              <input
-                type="text"
-                className="js-adress-set__target"
-                maxLength={100}
-                name="address"
-                placeholder="東京都渋谷区0-1-23"
-                value={user.address}
-                onChange={(e) => setUser({ ...user, address: e.target.value })} />
-            </div>
-          </section>
-          <section>
-            <h2>メールアドレス</h2>
-            <div className="form-input-textfield">
-              <input
-                type="text"
-                maxLength={100}
-                name="mail"
-                placeholder="sample@sample.com"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })} />
-            </div>
-          </section>
-          <section>
-            <h2>アレルギーや苦手な食材</h2>
-            <div className="form-input-textfield">
-              <input
-                type="text"
-                maxLength={100}
-                name="food"
-                placeholder="食材名、食材名"
-                value={user.allergy}
-                onChange={(e) => setUser({ ...user, allergy: e.target.value })} />
-            </div>
-          </section>
-          <section>
-            <h2>お連れ様追加</h2>
-            <section className="form-add">
-              <h3>１人目</h3>
-              <div className="form-input-textfield">
-                <input
-                  type="text"
-                  maxLength={100}
-                  name="add01-name"
-                  placeholder="お連れ様氏名"
-                  value={user.companions[0].name}
-                  onChange={(e) => {
-                    const companions = [{
-                      name: e.target.value,
-                      allergy: user.companions[0].allergy,
-                    }, {
-                      name: user.companions[1].name,
-                      allergy: user.companions[1].allergy,
-                    }];
-                    setUser({ ...user, companions: companions })
-                  }} />
-              </div>
-              <div className="form-input-textfield">
-                <input
-                  type="text"
-                  maxLength={100}
-                  name="add01-food"
-                  placeholder="お連れ様のアレルギーや苦手な食材"
-                  value={user.companions[0].allergy}
-                  onChange={(e) => {
-                    const companions = [{
-                      name: user.companions[0].name,
-                      allergy: e.target.value,
-                    }, {
-                      name: user.companions[1].name,
-                      allergy: user.companions[1].allergy,
-                    }];
-                    setUser({ ...user, companions: companions })
-                  }} />
-              </div>
-            </section>
-            <section className="form-add">
-              <h3>２人目</h3>
-              <div className="form-input-textfield">
-                <input
-                  type="text"
-                  maxLength={100}
-                  name="add02-name"
-                  placeholder="お連れ様氏名"
-                  value={user.companions[1].name}
-                  onChange={(e) => {
-                    const companions = [{
-                      name: user.companions[0].name,
-                      allergy: user.companions[0].allergy,
-                    }, {
-                      name: e.target.value,
-                      allergy: user.companions[1].allergy,
-                    }];
-                    setUser({ ...user, companions: companions })
-                  }} />
-              </div>
-              <div className="form-input-textfield">
-                <input
-                  type="text"
-                  maxLength={100}
-                  name="add02-food"
-                  placeholder="お連れ様のアレルギーや苦手な食材"
-                  value={user.companions[1].allergy}
-                  onChange={(e) => {
-                    const companions = [{
-                      name: user.companions[0].name,
-                      allergy: user.companions[0].allergy,
-                    }, {
-                      name: user.companions[1].name,
-                      allergy: e.target.value,
-                    }];
-                    setUser({ ...user, companions: companions })
-                  }} />
-              </div>
-            </section>
-          </section>
-          <section>
-            <h2>メッセージ</h2>
-            <div className="form-input-textfield">
-              <textarea
-                maxLength={100}
-                name="メッセージ"
-                value={user.message}
-                onChange={(e) => setUser({ ...user, message: e.target.value })}></textarea>
-            </div>
-          </section>
-        </div>
-        <div className="form-input-button">
-          <button
-            type="button"
-            onClick={handleSubmit}
-          >{t("attendance.submit")}
-          </button>
-        </div>
-      </div>
-    </form>
+          </div>
+        </form>
+      )}
+    </>
     //   <Container fluid className="form-back-ground">
     //     <Row>
     //       <Col>
