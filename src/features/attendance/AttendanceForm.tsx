@@ -67,29 +67,23 @@ function AttendanceForm(props: IProps) {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     console.log(user);
-    // const familyNameValidation = validateStr(user.familyName);
-    // const firstNameValidation = validateStr(user.firstName);
-    // const familyNameKanaValidation = validateKana(user.familyNameKana);
-    // const firstNameKanaValidation = validateKana(user.firstNameKana);
-    // const postalCodeValidation = validatePostalCode(user.postalCode);
-    // const addressValidation = validateStr(user.address);
+    const nameValidation = validateStr(user.name);
+    const nameKanaValidation = validateKana(user.nameKana);
+    const postalCodeValidation = validatePostalCode(user.postalCode);
+    const addressValidation = validateStr(user.address);
 
-    // if (familyNameValidation.isValid
-    //   && firstNameValidation.isValid
-    //   && familyNameKanaValidation.isValid
-    //   && firstNameKanaValidation.isValid
-    //   && postalCodeValidation.isValid
-    //   && addressValidation.isValid) {
+    if (nameValidation.isValid
+       && nameKanaValidation.isValid
+       && postalCodeValidation.isValid
+       && addressValidation.isValid) {
     props.onConfirm(user);
-    // } else {
-    //   setFamilyNameValidation(familyNameValidation);
-    //   setFirstNameValidation(firstNameValidation);
-    //   setFamilyNameKanaValidation(familyNameKanaValidation);
-    //   setFirstNameKanaValidation(firstNameKanaValidation);
-    //   setAddressValidation(addressValidation);
+     } else {
+       setNameValidation(nameValidation);
+       setNameKanaValidation(nameKanaValidation);
+       setAddressValidation(addressValidation);
     //   setAlertMsg(t("attendance.inputAlert") as SetStateAction<string>);
     //   window.scrollTo(0,0);
-    // }
+    }
   }
 
 
@@ -156,7 +150,8 @@ function AttendanceForm(props: IProps) {
                     name="name"
                     placeholder="山田花子"
                     value={user.name}
-                    onChange={(e) => setUser({ ...user, name: e.target.value })} />
+                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                    onBlur={(e) => setNameValidation(validateStr(e.target.value))} />
                 </div>
               </section>
               <section>
@@ -168,7 +163,8 @@ function AttendanceForm(props: IProps) {
                     name="hurigana"
                     placeholder="やまだはなこ"
                     value={user.nameKana}
-                    onChange={(e) => setUser({ ...user, nameKana: e.target.value })} />
+                    onChange={(e) => setUser({ ...user, nameKana: e.target.value })}
+                    onBlur={(e) => setNameKanaValidation(validateStr(e.target.value))}  />
                 </div>
               </section>
               <section>
@@ -215,7 +211,8 @@ function AttendanceForm(props: IProps) {
                       placeholder="1234567"
                       className="js-adress-set__post-code"
                       value={user.postalCode}
-                      onChange={(e) => setUser({ ...user, postalCode: e.target.value })} />
+                      onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
+                      onBlur={(e) => validatePostalCode(e.target.value)}  />
                   </div>
                   <div className="form-input-postfield__button">
                     <button type="button" className="js-adress-set" onClick={fetchAddress}>住所検索</button>
@@ -232,7 +229,8 @@ function AttendanceForm(props: IProps) {
                     name="address"
                     placeholder="東京都渋谷区0-1-23"
                     value={user.address}
-                    onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                    onChange={(e) => setUser({ ...user, address: e.target.value })}
+                    onBlur={(e) => setAddressValidation(validateStr(e.target.value))} />
                 </div>
               </section>
               <section>

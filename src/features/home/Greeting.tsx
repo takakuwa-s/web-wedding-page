@@ -1,36 +1,25 @@
-import Col from "react-bootstrap/esm/Col";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
 import { useTranslation } from "react-i18next";
-import greetingHeader from "../../resource/greeting-header.png"
-import greetingFooter from "../../resource/greeting-footer.png"
-import brideSignature from "../../resource/bride-signature.png"
-import groomSignature from "../../resource/groom-signature.png"
-
 import './Home.scss';
 
 function Greeting() {
   const { t } = useTranslation();
 
   return (
-    <>
-
-      <Container fluid>
-        <Row className="my-7">
-          <Col className="px-0 mx-auto text-center" xs={10} sm={9} md={8} lg={7} xl={6} >
-            <div className="position-relative">
-              <img src={greetingHeader} alt="greeting-header" className="greeting-img greeting-img-size greeting-img-header" />
-              <div className="my-5 py-3 information-content">
-                <pre className="mb-0">{t("greetingMessage.content")}</pre>
-                <img src={groomSignature} alt="groom-signature" className="signature" />
-                <img src={brideSignature} alt="bride-signature" className="signature" />
-              </div>
-              <img src={greetingFooter} alt="greeting-footer" className="greeting-img greeting-img-size greeting-img-footer mt-0" />
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <section className="home-box">
+      <div className="home-box__inner">
+        <div className="home-box__head">
+          <h2><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fhome_title02.png?alt=media&token=bca09557-37b3-4929-89c1-413ec8a5f19c" alt="Message"/></h2>
+        </div>
+        <div className="home-box__body">
+          <p className="home-box__text">謹啓　清秋の候　皆様にはますますご清祥のこととお慶び申し上げます</p>
+          <p className="home-box__text">このたび　私たちは結婚式を挙げることになりました<br/>つきましては　日ごろお世話になっている皆様にお集まりいただき<br/>ささやかな披露宴を催したいと存じます</p>
+          <p className="home-box__text">ご多用中　誠に恐縮ではございますがご来臨の栄を賜りたく<br/>謹んでご案内申し上げます</p>
+          <p className="home-box__text--right">謹白</p>
+          <p className="home-box__text--right">2023年10月吉日</p>
+          <p className="home-box__name">佑祥・彩華</p>
+        </div>
+      </div>
+    </section>
   );
 }
 

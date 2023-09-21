@@ -2,7 +2,7 @@ html {
   -ms-text-size-adjust: 100%;
 -webkit-text-size-adjust: 100%;
 height: -webkit-fill-available;
-font-size: 62.5%;
+//font-size: 62.5%;
 font-variant-ligatures: no-common-ligatures;
 line-height: 1.15;
 }
@@ -31,68 +31,6 @@ img {
 }
 header {
   display: none;;
-}
-
-
-
-.home-hero {
-  position: relative;
-  width: 100%;
-}
-.home-hero .home-hero__heading {
-  position: relative;
-  font-style: italic;
-  font-family: 'Italianno', cursive;
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  width: 100%;
-  margin: 0;
-  text-align: center;
-  transform: translateX(-50%);
-  font-size: 6rem;
-  color: #e9e7d8;
-  text-shadow: #264039 1px 0 10px;
-  z-index: 10;
-}
-.home-hero .home-hero__item {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  height: 100vh;
-}
-.home-hero .home-hero__image {
-  position: absolute;
-  height: 100%;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.home-hero .home-hero__image img {
-  height: 100%;
-  width: auto;
-  max-width: none;
-}
-.home-box {
-  padding: 2em 15px;
-  background-color: #c5cdd6;
-}
-.home-box .home-box__inner {
-  position: relative;
-  padding: 15px;
-  background-color: rgba(255,255,255,.7);
-}
-.home-box .home-box__inner::after {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: calc(100% - 12px);
-  height: calc(100% - 12px);
-  border: 1px solid #c5cdd6;
-  content: "";
-}
-.home-box h2 {
-  font-family: 'Italianno', cursive;
 }
 
 

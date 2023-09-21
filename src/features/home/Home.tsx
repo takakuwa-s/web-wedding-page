@@ -1,7 +1,9 @@
 import Information from './Information';
 import Top from './Top';
-import SwipeWrapper from "../../common/components/swiper-wrapper/SwipeWrapper";
+//import SwipeWrapper from "../../common/components/swiper-wrapper/SwipeWrapper";
 import Greeting from './Greeting';
+import Profile from './Profile';
+import Event from './Event';
 import { useEffect } from 'react';
 
 function Home() {
@@ -53,10 +55,20 @@ function Home() {
     <div className="home-back-ground">
       <Top />
       <Greeting />
-      <SwipeWrapper images={images}/>
+      <Profile />
+      <Event />
       <Information />
     </div>
   );
+  /*return (
+    <div className="home-back-ground">
+      <Top />
+      <Greeting />
+      <Profile />
+      <SwipeWrapper images={images}/>
+      <Information />
+    </div>
+  );*/
 }
 
 export default Home;
