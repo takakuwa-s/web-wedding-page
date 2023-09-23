@@ -7,7 +7,7 @@ font-variant-ligatures: no-common-ligatures;
 line-height: 1.15;
 }
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'Zen Old Mincho', serif !important;
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.6;
@@ -117,15 +117,17 @@ img {
     z-index: 1;
   }
   &__name{
-    //text-align: center;
-    position: absolute;
-    top: 23vw;
-    left: calc(50% - 22.5vw - 14vw);
     font-family: 'DM Serif Display', serif;
-    z-index: 2;
-    width: 45vw;
-    margin: 0;
-    padding-left: 6vw;
+    @media screen and (min-width: 768px) {
+      position: absolute;
+      top: 23vw;
+      left: calc(50% - 22.5vw - 14vw);
+      z-index: 2;
+      width: 45vw;
+      margin: 0;
+      padding-left: 6vw;
+    }
+    //text-align: center;
     @media screen and (min-width: 768px) {
       font-size: 3.2vw;
     }
@@ -192,8 +194,12 @@ img {
 .home-box {
   position: relative;
   z-index: 3;
-  margin-top: -200px;
   padding: 0 15px;
+  @media screen and (min-width: 768px) {
+    margin-top: -200px;
+  }
+  @media screen and (max-width: 767px) {
+  }
   &__inner {
     max-width: 560px;
     position: relative;
@@ -228,7 +234,8 @@ img {
     padding: 1em 30px 3em;
   }
   @media screen and (max-width: 767px) {
-    margin: 2em 15px;
+    margin: 2em 0;
+    padding: 15px;
   }
   h2{
     text-align: center;
@@ -237,32 +244,65 @@ img {
     font-size: 3.2rem;
   }
   &__inner {
-    display: flex;
-    justify-content: center;
     margin-top: 1em;
+    @media screen and (min-width: 768px) {
+      display: flex;
+      justify-content: center;
+    }
+    @media screen and (max-width: 767px) {
+    }
   }
   %profile-item {
-    width: 390px;
     text-align: center;
+    @media screen and (min-width: 768px) {
+      width: 390px;
+    }
+    @media screen and (max-width: 767px) {
+      display: flex;
+      width: 100%;
+    }
   }
   &__item {
     &--groom {
       @extend %profile-item;
+      #{$this}__body {
+        @media screen and (max-width: 767px) {
+          margin-left: 1em;
+        }
+      }
     }
     &--bride {
       @extend %profile-item;
-      margin-left: 3em;
+      @media screen and (min-width: 768px) {
+        margin-left: 3em;
+      }
+      @media screen and (max-width: 767px) {
+        flex-direction: row-reverse;
+      }
+      #{$this}__body {
+        @media screen and (max-width: 767px) {
+          margin-right: 1em;
+        }
+      }
     }
   }
   &__head {
-    height: 369px;
-    img{
-      height: 100%;
-      max-width: none;
+    @media screen and (min-width: 768px) {
+      height: 369px;
+      img{
+        height: 100%;
+        max-width: none;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      width: 55%;
     }
   }
   &__body {
     text-align: center;
+    @media screen and (max-width: 767px) {
+      flex: 1;
+    }
   }
   &__table {
     max-width: 828px;
@@ -328,5 +368,9 @@ img {
     font-family: 'DM Serif Display', serif;
     margin: 0;
     font-size: 3.2rem;
+  }
+  &__map {
+    max-width: 700px;
+    margin: 0 auto;
   }
 }

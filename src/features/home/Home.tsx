@@ -16,7 +16,7 @@ function Home() {
     window.scrollTo(option);
   }, []);
 
-  const images = [
+  /*const images = [
     {
       src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-1.jpg?alt=media&token=6a0fb3dd-01e4-40e9-a6ae-b8e41ad9c6e4",
       alt: "swiper photo 1"
@@ -49,7 +49,7 @@ function Home() {
       src: "https://firebasestorage.googleapis.com/v0/b/wedding-dev-1df62.appspot.com/o/resource%2Fswiper-photo-8.jpg?alt=media&token=bfe718f2-9df7-45eb-b412-4584e5f0ba23",
       alt: "swiper photo 8"
     },
-  ];
+  ];*/
 
   return (
     <div className="home-back-ground">

@@ -1,13 +1,14 @@
-import { useTranslation } from "react-i18next";
-import { logEvent } from "firebase/analytics";
-import { analytics } from "../../common/utils/firebase";
-import { Link, useNavigate } from "react-router-dom";
+//import { useTranslation } from "react-i18next";
+//import { logEvent } from "firebase/analytics";
+//import { analytics } from "../../common/utils/firebase";
+//import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function AttendanceComplete(props: IProps) {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  //const { t } = useTranslation();
+  //const navigate = useNavigate();
 
-  let title: string;
+  /*let title: string;
   let comment1: string;
   let comment2: string;
   let comment3: string;
@@ -23,11 +24,11 @@ function AttendanceComplete(props: IProps) {
     comment1 = t("attendanceComplete.success.comment1");
     comment2 = t("attendanceComplete.success.comment2");
     comment3 = t("attendanceComplete.success.comment3");
-  }
+  }*/
   return (
     <div className="form-wrap">
       <div className="form-wrap__inner">
-        <div className="form-image"><img src="../app-files/img/form_head03.jpg" alt="" /></div>
+        <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head03.jpg?alt=media&token=bae8b375-25e6-44f9-838a-ffde9c844604" alt="" /></div>
         <div className="form-indicator">
           <div className="form-indicator__item">入力</div>
           <div className="form-indicator__item">確認</div>

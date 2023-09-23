@@ -82,25 +82,11 @@
     },
     "name": {
       "label": "お名前",
-      "familyName": {
-        "placeholder": "性",
-        "feedback": "入力してください"
-      },
-      "firstName": {
-        "placeholder": "名",
-        "feedback": "入力してください"
-      }
+      "feedback": "入力してください"
     },
     "nameKana": {
       "label": "ふりがな",
-      "familyName": {
-        "placeholder": "せい",
-        "feedback": "かな文字で入力してください"
-      },
-      "firstName": {
-        "placeholder": "めい",
-        "feedback": "かな文字で入力してください"
-      }
+      "feedback": "かな文字で入力してください"
     },
     "phone": {
       "label": "電話番号",
@@ -109,13 +95,15 @@
     },
     "postalCode": {
       "label": "郵便番号",
-      "placeholder": "2400112",
       "feedback": "ハイフンなしの7桁の数字で入力してください"
     },
     "address": {
       "label": "ご住所",
-      "placeholder": "神奈川県三浦郡葉山町堀内９２２−２ スケープス ザ スィート",
       "feedback": "入力してください"
+    },
+    "mail": {
+      "label": "メールアドレス",
+      "feedback": "正しい形式で入力してください"
     },
     "taxiUse": {
       "label": "タクシーのご利用",

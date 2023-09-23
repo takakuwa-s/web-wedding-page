@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import './Home.scss';
 
 function Event() {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
   return (
     <section className="home-event">
       <div className="home-event__inner">

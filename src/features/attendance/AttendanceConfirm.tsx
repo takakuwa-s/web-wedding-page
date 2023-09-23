@@ -20,7 +20,7 @@ function AttendanceConfirm(props: IProps) {
   return (
     <div className="form-wrap">
         <div className="form-wrap__inner">
-          <div className="form-image"><img src="../app-files/img/form_head02.jpg" alt=""/></div>
+          <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head02.jpg?alt=media&token=8a59549b-aae3-4f6b-a7f2-fd34d2b78b27" alt=""/></div>
           <div className="form-indicator">
             <div className="form-indicator__item">入力</div>
             <div className="form-indicator__item is-current">確認</div>

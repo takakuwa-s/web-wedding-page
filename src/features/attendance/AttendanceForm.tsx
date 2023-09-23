@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
+//import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import Loading from "../../common/components/loading/Loading";
 import { GuestType, User } from "../../common/dto/user";
 import { initValidation } from "../../common/dto/validation";
 import './Attendance.scss';
+//import { Id } from "@reduxjs/toolkit/dist/tsHelpers";
 
 function AttendanceForm(props: IProps) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const fetched = useAppSelector((state: RootState) => state.user.fetched);
-  const [alertMsg, setAlertMsg] = useState("");
+  //const [alertMsg, setAlertMsg] = useState("");
   const [user, setUser] = useState(props.user);
-  const [companions, setCompanions] = useState(props.user.companions);
-  const [nameValidation, setNameValidation] = useState(initValidation());
-  const [nameKanaValidation, setNameKanaValidation] = useState(initValidation());
+  //const [companions, setCompanions] = useState(props.user.companions);
+  const [nameValidation, setItemNameValidation] = useState(initValidation());
+  const [nameKanaValidation, setItemNameKanaValidation] = useState(initValidation());
   const [postalCodeValidation, setPostalCodeValidation] = useState(initValidation());
   const [addressValidation, setAddressValidation] = useState(initValidation());
+  const [mailValidation, setMailValidation] = useState(initValidation());
 
   useEffect(() => {
     const option: any = {
@@ -57,6 +59,11 @@ function AttendanceForm(props: IProps) {
     return { isValid: isValid, isInvalid: !isValid };
   }
 
+  const validateMail = (val: string) => {
+    const isValid = val.length > 0 && /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/.test(val);
+    return { isValid: isValid, isInvalid: !isValid };
+  }
+
   const validatePostalCode = (val: string) => {
     const isValid = /^\d{7}$/.test(val);
     const validation = { isValid: isValid, isInvalid: !isValid };
@@ -67,22 +74,28 @@ function AttendanceForm(props: IProps) {
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     console.log(user);
-    const nameValidation = validateStr(user.name);
-    const nameKanaValidation = validateKana(user.nameKana);
-    const postalCodeValidation = validatePostalCode(user.postalCode);
-    const addressValidation = validateStr(user.address);
+    const itemNameValidation = validateStr(user.name);
+    const itemNameKanaValidation = validateKana(user.nameKana);
+    const itemPostalCodeValidation = validatePostalCode(user.postalCode);
+    const itmAddressValidation = validateStr(user.address);
+    const itmMailValidation = validateMail(user.mail);
 
-    if (nameValidation.isValid
-       && nameKanaValidation.isValid
-       && postalCodeValidation.isValid
-       && addressValidation.isValid) {
+    if (itemNameValidation.isValid
+       && itemNameKanaValidation.isValid
+       && itemPostalCodeValidation.isValid
+       && itmAddressValidation.isValid
+       && itmMailValidation.isValid) {
+        alert('bbb')
     props.onConfirm(user);
      } else {
-       setNameValidation(nameValidation);
-       setNameKanaValidation(nameKanaValidation);
+       setItemNameValidation(nameValidation);
+       setPostalCodeValidation(postalCodeValidation);
+       setItemNameKanaValidation(nameKanaValidation);
        setAddressValidation(addressValidation);
-    //   setAlertMsg(t("attendance.inputAlert") as SetStateAction<string>);
-    //   window.scrollTo(0,0);
+       setMailValidation(mailValidation);
+       alert('aaa')
+       //setAlertMsg(t("attendance.inputAlert") as SetStateAction<string>);
+       //window.scrollTo(0,0);
     }
   }
 
@@ -132,7 +145,7 @@ function AttendanceForm(props: IProps) {
       ) : (
         <form className="form-wrap" action="./confirm.html">
           <div className="form-wrap__inner">
-            <div className="form-image"><img src="../app-files/img/form_head01.jpg" alt="" /></div>
+            <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head01.jpg?alt=media&token=29dae985-8fe1-4b5b-b573-f20b4a127b00" alt="" /></div>
             <div className="form-indicator">
               <div className="form-indicator__item is-current">入力</div>
               <div className="form-indicator__item">確認</div>
@@ -142,7 +155,7 @@ function AttendanceForm(props: IProps) {
             <p className="form-text">各項目への入力をお願いいたします</p>
             <div className="form-input-field">
               <section>
-                <h2>お名前</h2>
+                <h2>お名前 <i>必須</i></h2>
                 <div className="form-input-textfield">
                   <input
                     type="text"
@@ -151,11 +164,12 @@ function AttendanceForm(props: IProps) {
                     placeholder="山田花子"
                     value={user.name}
                     onChange={(e) => setUser({ ...user, name: e.target.value })}
-                    onBlur={(e) => setNameValidation(validateStr(e.target.value))} />
+                    onBlur={(e) => setItemNameValidation(validateStr(e.target.value))} />
                 </div>
+                <div className="error-item">{t("attendance.name.feedback")}</div>
               </section>
               <section>
-                <h2>ふりがな</h2>
+                <h2>ふりがな<i>必須</i></h2>
                 <div className="form-input-textfield">
                   <input
                     type="text"
@@ -164,11 +178,12 @@ function AttendanceForm(props: IProps) {
                     placeholder="やまだはなこ"
                     value={user.nameKana}
                     onChange={(e) => setUser({ ...user, nameKana: e.target.value })}
-                    onBlur={(e) => setNameKanaValidation(validateStr(e.target.value))}  />
+                    onBlur={(e) => setItemNameKanaValidation(validateKana(e.target.value))}  />
                 </div>
+                <div className="error-item">{t("attendance.nameKana.feedback")}</div>
               </section>
               <section>
-                <h2>出欠</h2>
+                <h2>出欠<i>必須</i></h2>
                 <div className="form-input-attendancefield">
                   {attendanceRadioes.map(radio => (
                     <div className="form-input-attendancefield__item" key={radio.key}>
@@ -184,7 +199,7 @@ function AttendanceForm(props: IProps) {
                 </div>
               </section>
               <section>
-                <h2>新郎新婦との関係性</h2>
+                <h2>新郎新婦との関係性<i>必須</i></h2>
                 <div className="form-input-radiofield">
                   {guestTypeRadioes.map(radio => (
                     <div className="form-input-radiofield__item" key={radio.key}>
@@ -201,7 +216,7 @@ function AttendanceForm(props: IProps) {
                 </div>
               </section>
               <section>
-                <h2>郵便番号</h2>
+                <h2>郵便番号<i>必須</i></h2>
                 <div className="form-input-postfield">
                   <div className="form-input-postfield__text">
                     <input
@@ -218,9 +233,10 @@ function AttendanceForm(props: IProps) {
                     <button type="button" className="js-adress-set" onClick={fetchAddress}>住所検索</button>
                   </div>
                 </div>
+                <div className="error-item">{t("attendance.postalCode.feedback")}</div>
               </section>
               <section>
-                <h2>住所</h2>
+                <h2>住所<i>必須</i></h2>
                 <div className="form-input-textfield">
                   <input
                     type="text"
@@ -232,9 +248,10 @@ function AttendanceForm(props: IProps) {
                     onChange={(e) => setUser({ ...user, address: e.target.value })}
                     onBlur={(e) => setAddressValidation(validateStr(e.target.value))} />
                 </div>
+                <div className="error-item">{t("attendance.address.feedback")}</div>
               </section>
               <section>
-                <h2>メールアドレス</h2>
+                <h2>メールアドレス<i>必須</i></h2>
                 <div className="form-input-textfield">
                   <input
                     type="text"
@@ -242,8 +259,10 @@ function AttendanceForm(props: IProps) {
                     name="mail"
                     placeholder="sample@sample.com"
                     value={user.email}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                    onChange={(e) => setUser({ ...user, email: e.target.value })}
+                    onBlur={(e) => setMailValidation(validateMail(e.target.value))}  />
                 </div>
+                <div className="error-item">{t("attendance.mail.feedback")}</div>
               </section>
               <section>
                 <h2>アレルギーや苦手な食材</h2>

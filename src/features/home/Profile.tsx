@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import './Home.scss';
 
 function Profile() {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
 
   return (
     <section className="home-profile">
@@ -59,41 +59,6 @@ function Profile() {
           </div>
         </div>
       </div>
-      <table className="home-profile__table">
-        <colgroup>
-          <col span={2} className="home-profile__table__col" />
-        </colgroup>
-        <tbody>
-          <tr>
-            <th colSpan={2}>相手の第一印象は？</th>
-          </tr>
-          <tr>
-            <td>かわいい</td>
-            <td>かっこいい</td>
-          </tr>
-          <tr>
-            <th colSpan={2}>相手の好きなところは？</th>
-          </tr>
-          <tr>
-            <td>かわいい</td>
-            <td>かっこいい</td>
-          </tr>
-          <tr>
-            <th colSpan={2}>楽しかったデートは？</th>
-          </tr>
-          <tr>
-            <td>かわいい</td>
-            <td>かっこいい</td>
-          </tr>
-          <tr>
-            <th colSpan={2}>どんな家庭にしたい？</th>
-          </tr>
-          <tr>
-            <td>かわいい</td>
-            <td>かっこいい</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
   );
 }

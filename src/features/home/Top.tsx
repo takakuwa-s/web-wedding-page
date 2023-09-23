@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
+//import { useTranslation } from "react-i18next";
 import './Home.scss';
 
 function Top() {
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
   return (
     <div className="home-hero">
       <h1 className="home-hero__heading"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fhome_title01.PNG?alt=media&token=0d91bde1-d157-4e2f-8920-fc57a638e7d7" alt="Wedding Invitation"/></h1>
