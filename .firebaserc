@@ -2,6 +2,6 @@
   "projects": {
     "default": "wedding-dev-9342b",
     "dev": "wedding-dev-9342b",
-    "prod": "wedding-dev-9342b"
+    "prod": "wedding-prod-shimakame"
   }
 }
