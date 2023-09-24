@@ -1,8 +1,28 @@
+html {
+  -ms-text-size-adjust: 100%;
+-webkit-text-size-adjust: 100%;
+height: -webkit-fill-available;
+font-size: 62.5%;
+font-variant-ligatures: no-common-ligatures;
+line-height: 1.15;
+}
 body {
+  font-family: 'Zen Old Mincho', serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 400;
+  line-height: 1.6;
+  word-wrap: break-word;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  background-color: #fff;
+  color: #000;
+  word-break: break-word;
   margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: 'YuMincho', sans-serif !important;
+  *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+  }
 }
 
 code {

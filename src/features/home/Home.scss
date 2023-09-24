@@ -2,13 +2,13 @@ html {
   -ms-text-size-adjust: 100%;
 -webkit-text-size-adjust: 100%;
 height: -webkit-fill-available;
-//font-size: 62.5%;
+font-size: 62.5%;
 font-variant-ligatures: no-common-ligatures;
 line-height: 1.15;
 }
 body {
   font-family: 'Zen Old Mincho', serif !important;
-  font-size: 1.6rem;
+  font-size: 1.6rem !important;
   font-weight: 400;
   line-height: 1.6;
   word-wrap: break-word;
@@ -65,12 +65,6 @@ img {
   position: relative;
   height: 100vh;
   overflow: hidden;
-  picture {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    transform: translateY(-50%);
-  }
   &__item {
     position: absolute;
     top: 50%;
@@ -89,7 +83,7 @@ img {
     position: absolute;
     top: calc(50% + 50px);
     left: 50%;
-    color: #fff;
+    color: #333;
     font-family: 'DM Serif Display', serif;
     font-size: 1.8rem;
     transform: translateX(-50%);
@@ -97,24 +91,93 @@ img {
 }
 
 //メインビジュアル
+.home-main {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  &::before {
+    position: absolute;
+    background: url(https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fhome_im03.PNG?alt=media&token=486fa044-8810-4e79-8b17-358263ef542e) no-repeat left top/100%;
+    content: "";
+    z-index: 2;
+    @media screen and (min-width: 768px) {
+      left: calc(50% - 23.8vw + 33vw);
+      top: -22vw;
+      max-width: 600px;
+      max-height: 591px;
+      width: 47.6vw;
+      height: 46.9vw;
+    }
+    @media screen and (max-width: 767px) {
+      right: -30vw;
+      top: -22vw;
+      max-width: 600px;
+      max-height: 591px;
+      width: 80vw;
+      height: 78.8vw;
+    }
+  }
+  &::after {
+    position: absolute;
+    background: url(https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fhome_im04.PNG?alt=media&token=7a942150-50cb-4ab3-b367-f03fb6533cad) no-repeat left top/100%;
+    content: "";
+    z-index: 2;
+    @media screen and (min-width: 768px) {
+      left: calc(50% - 14.27vw - 33.8vw);
+      top: 41.7vw;
+      max-width: 854px;
+      max-height: 548px;
+      width: 44.47vw;
+      height: 28.54vw;
+    }
+    @media screen and (max-width: 767px) {
+      left: calc(50% - 72.5vw - 33.8vw);
+      top: 142.7vw;
+      max-width: 1088px;
+      max-height: 698px;
+      width: 145vw;
+      height: 93.06vw;
+    }
+  }
+}
 .home-hero {
+  overflow: hidden;
   position: relative;
   width: 100%;
+  @media screen and (min-width: 768px) {
+    height: 57.125vw;
+  }
+  @media screen and (max-width: 767px) {
+    height: 177.86vw;
+  }
   &__heading {
     position: absolute;
-    top: 0;
-    left: calc(50% - 22.5vw - 14vw);
     z-index: 2;
-    width: 45vw;
     margin: 0;
+    @media screen and (min-width: 768px) {
+      width: 45vw;
+      top: 0;
+      left: calc(50% - 22.5vw - 14vw);
+    }
+    @media screen and (max-width: 767px) {
+      width: 114%;
+      top: -10vw;
+      left: 0;
+    }
   }
   &__item{
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    min-height: 78.125vw;
-    z-index: 1;
+    @media screen and (min-width: 768px) {
+      position: absolute;
+      z-index: 1;
+      top: 5vw;
+      left: calc(50% - 15.65vw + 14vw);
+      width: 31.3vw;
+      height: 46.9vw;
+    }
+    @media screen and (max-width: 767px) {
+      width: calc(100% - 40px);
+      margin: 20px auto 5px;
+    }
   }
   &__name{
     font-family: 'DM Serif Display', serif;
@@ -126,14 +189,23 @@ img {
       width: 45vw;
       margin: 0;
       padding-left: 6vw;
-    }
-    //text-align: center;
-    @media screen and (min-width: 768px) {
       font-size: 3.2vw;
+    }
+    @media screen and (max-width: 767px) {
+      position: relative;
+      z-index: 3;
+      line-height: 1.2;
+      text-align: center;
+      font-size: 7vw;
+      margin: 0;
     }
     &__label {
       @media screen and (min-width: 768px) {
         font-size: 2.2vw;
+      }
+      @media screen and (max-width: 767px) {
+        display: block;
+        font-size: 5vw;
       }
     }
   }
@@ -141,27 +213,41 @@ img {
     //text-align: center;
     display: flex;
     align-items: center;
-    position: absolute;
-    top: 28vw;
-    left: calc(50% - 22.5vw - 14vw);
     font-family: 'DM Serif Display', serif;
     z-index: 2;
-    width: 45vw;
     margin: 0;
-    padding-left: 6vw;
+    @media screen and (min-width: 768px) {
+      position: absolute;
+      top: 28vw;
+      left: calc(50% - 22.5vw - 14vw);
+      width: 45vw;
+      padding-left: 6vw;
+    }
+    @media screen and (max-width: 767px) {
+      position: relative;
+      z-index: 3;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+      padding-left: 0;
+      line-height: 1;
+    }
     &__month {
       position: relative;
       padding-right: 1em;
       @media screen and (min-width: 768px) {
         font-size: 2.2vw;
       }
+      @media screen and (max-width: 767px) {
+        font-size: 5.2vw;
+      }
       &::after {
         position: absolute;
         top: 50%;
         right: .5em;
         width: 1px;
-        height: 16px;
-        margin-top: -8px;
+        height: 22px;
+        margin-top: -11px;
         background-color: #000;
         content: "";
       }
@@ -170,6 +256,9 @@ img {
       @media screen and (min-width: 768px) {
         font-size: 3.8vw;
       }
+      @media screen and (max-width: 767px) {
+        font-size: 10.8vw;
+      }
     }
     &__year {
       position: relative;
@@ -177,13 +266,16 @@ img {
       @media screen and (min-width: 768px) {
         font-size: 2.2vw;
       }
+      @media screen and (max-width: 767px) {
+        font-size: 5.2vw;
+      }
       &::before {
         position: absolute;
         top: 50%;
         left: .5em;
         width: 1px;
-        height: 16px;
-        margin-top: -8px;
+        height: 22px;
+        margin-top: -11px;
         background-color: #000;
         content: "";
       }
@@ -196,7 +288,6 @@ img {
   z-index: 3;
   padding: 0 15px;
   @media screen and (min-width: 768px) {
-    margin-top: -200px;
   }
   @media screen and (max-width: 767px) {
   }
@@ -228,20 +319,35 @@ img {
 //プロフィール
 .home-profile {
   $this : &;
-  background-color: #efe5e5;
   @media screen and (min-width: 768px) {
     margin: 2em auto;
     padding: 1em 30px 3em;
+    background-color: #efe5e5;
   }
   @media screen and (max-width: 767px) {
+    position: relative;
     margin: 2em 0;
     padding: 15px;
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 95%;
+      height: 100%;
+      background-color: #efe5e5;
+      content: "";
+      z-index: 1;
+    }
   }
   h2{
     text-align: center;
     font-family: 'DM Serif Display', serif;
     margin: 0;
-    font-size: 3.2rem;
+    font-size: 5.2rem;
+    @media screen and (max-width: 767px) {
+      position: relative;
+      z-index: 2;
+    }
   }
   &__inner {
     margin-top: 1em;
@@ -250,6 +356,8 @@ img {
       justify-content: center;
     }
     @media screen and (max-width: 767px) {
+      position: relative;
+      z-index: 2;
     }
   }
   %profile-item {
@@ -369,8 +477,60 @@ img {
     margin: 0;
     font-size: 3.2rem;
   }
+  &__inner {
+    padding: 0 15px 5em;
+  }
   &__map {
     max-width: 700px;
     margin: 0 auto;
+  }
+  &__link {
+    max-width: 700px;
+    margin: 0 auto;
+    a {
+      position: relative;
+      padding-left: 1em;
+      color: #333;
+      font-size: 1.8rem;
+      @media screen and (min-width: 768px) {
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      &::before {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-top: 1px solid #333;
+        border-right: 1px solid #333;
+        transform: rotate(45deg);
+        content: "";
+      }
+    }
+  }
+}
+//フォームボタン
+.home-button {
+  margin: 2em auto 0;
+  border-radius: 3px;
+  text-align: center;
+  padding: 1em 0;
+  background-color: #efe5e5;
+  color: #333;
+  display: block;
+  width: 300px;
+  text-decoration: none;
+  box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.1);
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all .2s;
+  font-weight: bold;
+  @media screen and (min-width: 768px) {
+    &:hover {
+      opacity: .7;
+    }
   }
 }

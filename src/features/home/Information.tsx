@@ -17,7 +17,7 @@ import './Home.scss';
         <div className="home-access__map">
         <img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fhome_map01.jpg?alt=media&token=a5a60372-cddf-4d3f-a609-1bf15051a41f" alt="" />
         </div>
-        <p><a href="https://maps.app.goo.gl/ub4fmNBZE9L86vij6" target="_blank" rel="noopner">Google Map</a></p>
+        <p className="home-access__link"><a href="https://maps.app.goo.gl/ub4fmNBZE9L86vij6" target="_blank" rel="noopner">Google Map</a></p>
     {config.attendanceFeatureAvailable ? (
       <button
         className="home-button"
