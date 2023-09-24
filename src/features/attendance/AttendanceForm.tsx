@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-//import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-//import ErrorAlert from "../../common/components/error-alert/ErrorAlert";
 import Loading from "../../common/components/loading/Loading";
 import { GuestType, User } from "../../common/dto/user";
 import { initValidation } from "../../common/dto/validation";
 import './Attendance.scss';
-//import { Id } from "@reduxjs/toolkit/dist/tsHelpers";
 
 function AttendanceForm(props: IProps) {
   const { t } = useTranslation();
-  //const navigate = useNavigate();
   const fetched = useAppSelector((state: RootState) => state.user.fetched);
-  //const [alertMsg, setAlertMsg] = useState("");
   const [user, setUser] = useState(props.user);
-  //const [companions, setCompanions] = useState(props.user.companions);
-  const [nameValidation, setItemNameValidation] = useState(initValidation());
-  const [nameKanaValidation, setItemNameKanaValidation] = useState(initValidation());
+  const [showErr, setShowErr] = useState(false);
+  const [nameValidation, setNameValidation] = useState(initValidation());
+  const [nameKanaValidation, setNameKanaValidation] = useState(initValidation());
   const [postalCodeValidation, setPostalCodeValidation] = useState(initValidation());
   const [addressValidation, setAddressValidation] = useState(initValidation());
   const [mailValidation, setMailValidation] = useState(initValidation());
@@ -56,12 +51,16 @@ function AttendanceForm(props: IProps) {
 
   const validateKana = (val: string) => {
     const isValid = val.length > 0 && /^[ぁ-んー　]*$/.test(val);
-    return { isValid: isValid, isInvalid: !isValid };
+    const validation = { isValid: isValid, isInvalid: !isValid };
+    setNameKanaValidation(validation);
+    return validation;
   }
 
   const validateMail = (val: string) => {
     const isValid = val.length > 0 && /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/.test(val);
-    return { isValid: isValid, isInvalid: !isValid };
+    const validation = { isValid: isValid, isInvalid: !isValid };
+    setMailValidation(validation);
+    return validation;
   }
 
   const validatePostalCode = (val: string) => {
@@ -75,27 +74,22 @@ function AttendanceForm(props: IProps) {
     event.preventDefault();
     console.log(user);
     const itemNameValidation = validateStr(user.name);
+    setNameValidation(itemNameValidation);
     const itemNameKanaValidation = validateKana(user.nameKana);
     const itemPostalCodeValidation = validatePostalCode(user.postalCode);
-    const itmAddressValidation = validateStr(user.address);
-    const itmMailValidation = validateMail(user.mail);
+    const itemAddressValidation = validateStr(user.address);
+    setAddressValidation(itemAddressValidation);
+    const itemMailValidation = validateMail(user.email);
 
     if (itemNameValidation.isValid
        && itemNameKanaValidation.isValid
        && itemPostalCodeValidation.isValid
-       && itmAddressValidation.isValid
-       && itmMailValidation.isValid) {
-        alert('bbb')
-    props.onConfirm(user);
+       && itemAddressValidation.isValid
+       && itemMailValidation.isValid) {
+      props.onConfirm(user);
      } else {
-       setItemNameValidation(nameValidation);
-       setPostalCodeValidation(postalCodeValidation);
-       setItemNameKanaValidation(nameKanaValidation);
-       setAddressValidation(addressValidation);
-       setMailValidation(mailValidation);
-       alert('aaa')
-       //setAlertMsg(t("attendance.inputAlert") as SetStateAction<string>);
-       //window.scrollTo(0,0);
+      //  alert('入力内容に誤りがあります')
+      setShowErr(true);
     }
   }
 
@@ -143,7 +137,9 @@ function AttendanceForm(props: IProps) {
       {!fetched ? (
         <Loading />
       ) : (
-        <form className="form-wrap" action="./confirm.html">
+        <form className="form-wrap">
+          <div style={{visibility : showErr ? "visible" : "hidden"}}>
+          エラー</div>
           <div className="form-wrap__inner">
             <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head01.jpg?alt=media&token=29dae985-8fe1-4b5b-b573-f20b4a127b00" alt="" /></div>
             <div className="form-indicator">
@@ -164,9 +160,9 @@ function AttendanceForm(props: IProps) {
                     placeholder="山田花子"
                     value={user.name}
                     onChange={(e) => setUser({ ...user, name: e.target.value })}
-                    onBlur={(e) => setItemNameValidation(validateStr(e.target.value))} />
+                    onBlur={(e) => setNameValidation(validateStr(e.target.value))} />
                 </div>
-                <div className="error-item">{t("attendance.name.feedback")}</div>
+                <div style={{visibility : nameValidation.isInvalid ? "visible" : "hidden"}} className="error-item">{t("attendance.name.feedback")}</div>
               </section>
               <section>
                 <h2>ふりがな<i>必須</i></h2>
@@ -178,9 +174,9 @@ function AttendanceForm(props: IProps) {
                     placeholder="やまだはなこ"
                     value={user.nameKana}
                     onChange={(e) => setUser({ ...user, nameKana: e.target.value })}
-                    onBlur={(e) => setItemNameKanaValidation(validateKana(e.target.value))}  />
+                    onBlur={(e) => validateKana(e.target.value)}  />
                 </div>
-                <div className="error-item">{t("attendance.nameKana.feedback")}</div>
+                <div style={{visibility : nameKanaValidation.isInvalid ? "visible" : "hidden"}} className="error-item">{t("attendance.nameKana.feedback")}</div>
               </section>
               <section>
                 <h2>出欠<i>必須</i></h2>
@@ -233,7 +229,7 @@ function AttendanceForm(props: IProps) {
                     <button type="button" className="js-adress-set" onClick={fetchAddress}>住所検索</button>
                   </div>
                 </div>
-                <div className="error-item">{t("attendance.postalCode.feedback")}</div>
+                <div style={{visibility : postalCodeValidation.isInvalid ? "visible" : "hidden"}} className="error-item">{t("attendance.postalCode.feedback")}</div>
               </section>
               <section>
                 <h2>住所<i>必須</i></h2>
@@ -248,7 +244,7 @@ function AttendanceForm(props: IProps) {
                     onChange={(e) => setUser({ ...user, address: e.target.value })}
                     onBlur={(e) => setAddressValidation(validateStr(e.target.value))} />
                 </div>
-                <div className="error-item">{t("attendance.address.feedback")}</div>
+                <div style={{visibility : addressValidation.isInvalid ? "visible" : "hidden"}} className="error-item">{t("attendance.address.feedback")}</div>
               </section>
               <section>
                 <h2>メールアドレス<i>必須</i></h2>
@@ -260,9 +256,9 @@ function AttendanceForm(props: IProps) {
                     placeholder="sample@sample.com"
                     value={user.email}
                     onChange={(e) => setUser({ ...user, email: e.target.value })}
-                    onBlur={(e) => setMailValidation(validateMail(e.target.value))}  />
+                    onBlur={(e) => validateMail(e.target.value)}  />
                 </div>
-                <div className="error-item">{t("attendance.mail.feedback")}</div>
+                <div style={{visibility : mailValidation.isInvalid ? "visible" : "hidden"}} className="error-item">{t("attendance.mail.feedback")}</div>
               </section>
               <section>
                 <h2>アレルギーや苦手な食材</h2>
@@ -379,231 +375,6 @@ function AttendanceForm(props: IProps) {
         </form>
       )}
     </>
-    //   <Container fluid className="form-back-ground">
-    //     <Row>
-    //       <Col>
-    //         <h2 className="pt-5 text-center form-title">{t("attendance.title")}</h2>
-    //       </Col>
-    //     </Row>
-    //     <ErrorAlert msg={alertMsg} variant="danger" />
-    //     {!fetched ? (
-    //       <Loading />
-    //     ) : (
-    //       <Form className="pt-2 pb-5">
-    //         <Form.Group as={Row} className="my-3" controlId="formAttendance">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.attendance.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           {
-    //             user.registered
-    //               ? (
-    //                 <Col xs={12} sm={8} className="d-inline-flex justify-content-start align-items-center">
-    //                   <span className="span-alert-label">{t("attendance.attendance.alert")}</span>
-    //                 </Col>
-    //               ) : (
-    //                 <Col sm={8} className="py-2">
-    //                   <FormCheckRadio 
-    //                     name="attendance"
-    //                     labelClassName="radio-label"
-    //                     checks={attendanceRadioes}
-    //                   />
-    //                 </Col>
-    //               )
-    //           }
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formGuestType">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.guestType.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           <Col sm={8} className="py-2">
-    //             <FormCheckRadio 
-    //               name="guestType"
-    //               labelClassName="radio-label"
-    //               checks={guestTypeRadioes}
-    //             />
-    //           </Col>
-    //         </Form.Group>
-    //         <Row className="my-3">
-    //           <Col sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center align-items-center">
-    //             {t("attendance.name.label")}<span className="required">*</span>
-    //           </Col>
-    //           <Col sm={8}>
-    //             <Row>
-    //               <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyName">
-    //                 <Form.Control
-    //                   type="text"
-    //                   value={user.familyName}
-    //                   onChange={(e) => setUser({ ...user, familyName: e.target.value })}
-    //                   onBlur={(e) => setFamilyNameValidation(validateStr(e.target.value))}
-    //                   placeholder={t("attendance.name.familyName.placeholder")}
-    //                   isInvalid={familyNameValidation.isInvalid}
-    //                   isValid={familyNameValidation.isValid}
-    //                   required />
-    //                 <Form.Control.Feedback type="invalid">{t("attendance.name.familyName.feedback")}</Form.Control.Feedback>
-    //               </Form.Group>
-    //               <Form.Group as={Col} xs={12} sm={6} controlId="formFirstName">
-    //                 <Form.Control
-    //                   type="text"
-    //                   value={user.firstName}
-    //                   onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-    //                   onBlur={(e) => setFirstNameValidation(validateStr(e.target.value))}
-    //                   placeholder={t("attendance.name.firstName.placeholder")}
-    //                   isInvalid={firstNameValidation.isInvalid}
-    //                   isValid={firstNameValidation.isValid}
-    //                   required />
-    //                 <Form.Control.Feedback type="invalid">{t("attendance.name.firstName.feedback")}</Form.Control.Feedback>
-    //               </Form.Group>
-    //             </Row>
-    //           </Col>
-    //         </Row>
-    //         <Form.Group as={Row} className="my-3" controlId="formNameKana">
-    //           <Col sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center align-items-center">
-    //             {t("attendance.nameKana.label")}<span className="required">*</span>
-    //           </Col>
-    //           <Col sm={8}>
-    //             <Row>
-    //               <Form.Group as={Col} xs={12} sm={6} controlId="formFamilyNameKana">
-    //                 <Form.Control
-    //                   type="text"
-    //                   value={user.familyNameKana}
-    //                   onChange={(e) => setUser({ ...user, familyNameKana: e.target.value })}
-    //                   onBlur={(e) => setFamilyNameKanaValidation(validateKana(e.target.value))}
-    //                   placeholder={t("attendance.nameKana.familyName.placeholder")}
-    //                   isInvalid={familyNameKanaValidation.isInvalid}
-    //                   isValid={familyNameKanaValidation.isValid}
-    //                   required />
-    //                 <Form.Control.Feedback type="invalid">{t("attendance.nameKana.familyName.feedback")}</Form.Control.Feedback>
-    //               </Form.Group>
-    //               <Form.Group as={Col} xs={12} sm={6} controlId="formFirstNameKana">
-    //                 <Form.Control
-    //                   type="text"
-    //                   value={user.firstNameKana}
-    //                   onChange={(e) => setUser({ ...user, firstNameKana: e.target.value })}
-    //                   onBlur={(e) => setFirstNameKanaValidation(validateKana(e.target.value))}
-    //                   placeholder={t("attendance.nameKana.firstName.placeholder")}
-    //                   isInvalid={firstNameKanaValidation.isInvalid}
-    //                   isValid={firstNameKanaValidation.isValid}
-    //                   required />
-    //                 <Form.Control.Feedback type="invalid">{t("attendance.nameKana.firstName.feedback")}</Form.Control.Feedback>
-    //               </Form.Group>
-    //             </Row>
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formPhoneNumber">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.phone.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           <Col sm={8}>
-    //             <Form.Control
-    //               type="tel"
-    //               value={user.phoneNumber}
-    //               onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
-    //               onBlur={(e) => validatePhoneNumber(e.target.value)}
-    //               placeholder={t("attendance.phone.placeholder")}
-    //               isInvalid={phoneNumberValidation.isInvalid}
-    //               isValid={phoneNumberValidation.isValid}
-    //               required />
-    //             <Form.Control.Feedback type="invalid">{t("attendance.phone.feedback")}</Form.Control.Feedback>
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formPostalCode">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.postalCode.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           <Col sm={8}>
-    //             <Form.Control
-    //               type="tel"
-    //               value={user.postalCode}
-    //               onChange={(e) => setUser({ ...user, postalCode: e.target.value })}
-    //               onBlur={(e) => validatePostalCode(e.target.value)}
-    //               placeholder={t("attendance.postalCode.placeholder")}
-    //               isInvalid={postalCodeValidation.isInvalid}
-    //               isValid={postalCodeValidation.isValid}
-    //               required />
-    //             <Form.Control.Feedback type="invalid">{t("attendance.postalCode.feedback")}</Form.Control.Feedback>
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formAddress">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.address.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           <Col sm={8}>
-    //             <Form.Control
-    //               type="text"
-    //               value={user.address}
-    //               disabled={!user.postalCode || postalCodeValidation.isInvalid}
-    //               onChange={(e) => setUser({ ...user, address: e.target.value })}
-    //               onBlur={(e) => setAddressValidation(validateStr(e.target.value))}
-    //               placeholder={t("attendance.address.placeholder")}
-    //               isInvalid={addressValidation.isInvalid}
-    //               isValid={addressValidation.isValid}
-    //               required />
-    //             <Form.Control.Feedback type="invalid">{t("attendance.address.feedback")}</Form.Control.Feedback>
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formTaxiUse">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.taxiUse.label")}<span className="required">*</span>
-    //           </Form.Label>
-    //           <Col sm={8} className="py-2">
-    //             <FormCheckRadio 
-    //               name="taxiUse"
-    //               labelClassName="radio-label"
-    //               checks={taxiUseRadioes}
-    //             />
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formAllergy">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.allergy.label")}
-    //           </Form.Label>
-    //           <Col sm={8}>
-    //             <Form.Control
-    //               type="text"
-    //               value={user.allergy}
-    //               onChange={(e) => setUser({ ...user, allergy: e.target.value })}
-    //               placeholder={t("attendance.allergy.placeholder")} />
-    //           </Col>
-    //         </Form.Group>
-    //         <Form.Group as={Row} className="my-3" controlId="formMessage">
-    //           <Form.Label column sm={3} xl={{ span: 2, offset: 1 }} className="form-label-white d-inline-flex justify-content-sm-center">
-    //             {t("attendance.message.label")}
-    //           </Form.Label>
-    //           <Col sm={8}>
-    //             <Form.Control
-    //               type="text"
-    //               as="textarea"
-    //               rows={6}
-    //               value={user.message}
-    //               onChange={(e) => setUser({ ...user, message: e.target.value })}
-    //               placeholder={t("attendance.message.placeholder")} />
-    //           </Col>
-    //         </Form.Group>
-    //         <Row className="pt-5">
-    //           <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-    //             <Button
-    //               type="button"
-    //               size="lg"
-    //               variant="primary"
-    //               onClick={handleSubmit}
-    //             >{t("attendance.submit")}
-    //             </Button>
-    //           </Col>
-    //         </Row>
-    //         <Row className="pt-3 pb-5">
-    //           <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
-    //             <Button
-    //               type="button"
-    //               size="lg"
-    //               variant="primary"
-    //               onClick={() => navigate("/")}
-    //             >{t("attendance.back")}
-    //             </Button>
-    //           </Col>
-    //         </Row>
-    //       </Form>
-    //     )}
-    //   </Container>
   );
 }
 

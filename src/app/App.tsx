@@ -21,6 +21,7 @@ import { Config } from '../common/dto/config';
 import { getConfig } from '../common/utils/configApiCall';
 import { updateConfigAndFetched } from './configSlice';
 import BulkDownloadFilesHelp from '../features/image-list/BulkDownloadFilesHelp';
+import Profile2 from '../features/profile/Profile2';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -57,6 +58,7 @@ function App() {
       <WeddingNavbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile2 />} />
         {config.attendanceFeatureAvailable && <Route path="attendance" element={<Attendance />} />}
         {config.fileFeatureAvailable && (
           <>

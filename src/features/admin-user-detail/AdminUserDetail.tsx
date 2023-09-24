@@ -207,19 +207,19 @@ function AdminUserDetail() {
           />
           <AttendanceConfirmItem
             label="連れ1 名前"
-            value={user.companions[0].name}
+            value={user.companions && user.companions.length > 0 ? user.companions[0].name : ""}
           />
           <AttendanceConfirmItem
             label="連れ1 アレルギー"
-            value={user.companions[0].name}
+            value={user.companions && user.companions.length > 0 ? user.companions[0].allergy : ""}
           />
           <AttendanceConfirmItem
             label="連れ2 名前"
-            value={user.companions[0].name}
+            value={user.companions && user.companions.length > 1 ? user.companions[1].name : ""}
           />
           <AttendanceConfirmItem
             label="連れ2 アレルギー"
-            value={user.companions[0].name}
+            value={user.companions && user.companions.length > 1 ? user.companions[1].allergy : ""}
           />
           <AttendanceConfirmItem
             label={t("adminUsers.userLabel.message")}

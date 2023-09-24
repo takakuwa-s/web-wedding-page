@@ -147,7 +147,8 @@ function AdminSlideShow() {
         <Col md={6} xl={4} className="d-grid gap-2 mx-auto">
           <SubmitButton
             buttonSize="lg"
-            disabled={disableCreate}
+            // disabled={disableCreate}
+            disabled
             isLoading={isCreateLoading}
             buttonText={t("adminSlideShow.button.create")}
             onClick={onClickCreate}/>

@@ -6,8 +6,8 @@ import "./i18n/i18n-configs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import liff from '@line/liff';
 import LIFFInspectorPlugin from '@line/liff-inspector';
-import { logEvent } from 'firebase/analytics';
-import { analytics } from './common/utils/firebase';
+// import { logEvent } from 'firebase/analytics';
+// import { analytics } from './common/utils/firebase';
 import store from './app/store'
 import { Provider } from 'react-redux'
 import ErrorPage from './features/error-page/ErrorPage';
@@ -42,7 +42,7 @@ liff
     element = <App/>;
   })
   .catch((e) => {
-    logEvent(analytics, 'init error occurs');
+    // logEvent(analytics, 'init error occurs');
     element = <ErrorPage err={{
       code: 500,
       message: e.message,

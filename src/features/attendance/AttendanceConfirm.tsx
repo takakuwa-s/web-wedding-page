@@ -40,7 +40,7 @@ function AttendanceConfirm(props: IProps) {
                 </tr>
                 <tr>
                   <th>出欠</th>
-                  <td>{props.user.isAdmin ? "ご出席" : "ご欠席"}</td>
+                  <td>{props.user.attendance ? "ご出席" : "ご欠席"}</td>
                 </tr>
                 <tr>
                   <th>新郎新婦との関係性</th>
@@ -75,10 +75,10 @@ function AttendanceConfirm(props: IProps) {
                 </tr>
               </tbody>
             </table>
-            <form className="form-confirm-button" action="./finish.html">
+            <form className="form-confirm-button">
               <button type="button" disabled={isLoading} onClick={handleRegister}>送信する</button>
             </form>
-            <form className="form-confirm-button-v2" action="./input.html">
+            <form className="form-confirm-button-v2">
               <button type="button" disabled={isLoading} onClick={props.onBackButtonClicked}>修正する</button>
             </form>
         </div>

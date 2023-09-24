@@ -222,10 +222,10 @@ function AdminUsers() {
                     <td>{u.postalCode}</td>
                     <td>{u.address}</td>
                     <td>{u.allergy}</td>
-                    <td>{u.companions[0].name}</td>
-                    <td>{u.companions[0].allergy}</td>
-                    <td>{u.companions[1].name}</td>
-                    <td>{u.companions[1].allergy}</td>
+                    <td>{u.companions && u.companions.length > 0 ? u.companions[0].name : ""}</td>
+                    <td>{u.companions && u.companions.length > 0 ? u.companions[0].allergy : ""}</td>
+                    <td>{u.companions && u.companions.length > 1 ? u.companions[1].name : ""}</td>
+                    <td>{u.companions && u.companions.length > 1 ? u.companions[1].allergy : ""}</td>
                     <td>{u.message}</td>
                     <td>{u.note}</td>
                   </tr>

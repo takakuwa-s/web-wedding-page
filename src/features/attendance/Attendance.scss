@@ -129,6 +129,33 @@ header {
   margin-top: 2em;
   padding: 30px;
   background-color: rgba(255,255,255,.7);
+  input[type="radio"] {
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+  }
+  input:focus {
+    border-bottom: 1px solid #00aca5 !important;
+  }
+  input:focus::-webkit-input-placeholder {
+    color: #d2ebea !important;
+  }
+  input:focus::-moz-placeholde {
+    color: #d2ebea !important;
+  }
+  input:focus::-ms-input-placeholder {
+    color: #d2ebea !important;
+  }
+  input:focus::placeholder {
+    color: #d2ebea !important;
+  }
 }
 .form-input-field section {
   margin-top: 1.5em;
@@ -160,33 +187,6 @@ header {
 }
 .form-input-field h2 + * {
   margin-top: .5em;
-}
-input[type="radio"] {
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  border: 0;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-}
-input:focus {
-  border-bottom: 1px solid #00aca5 !important;
-}
-input:focus::-webkit-input-placeholder {
-  color: #d2ebea !important;
-}
-input:focus::-moz-placeholde {
-  color: #d2ebea !important;
-}
-input:focus::-ms-input-placeholder {
-  color: #d2ebea !important;
-}
-input:focus::placeholder {
-  color: #d2ebea !important;
 }
 .form-input-field .form-input-textfield input {
   width: 100%;
