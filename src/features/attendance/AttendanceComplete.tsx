@@ -13,7 +13,7 @@ function AttendanceComplete(props: IProps) {
           </>
         ) : (
           <>
-          <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head03.jpg?alt=media&token=bae8b375-25e6-44f9-838a-ffde9c844604" alt="" /></div>
+          <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head03.jpg?alt=media&token=f3d2633d-1744-433c-b402-d2c9a6e3544c" alt="" /></div>
           <div className="form-indicator">
             <div className="form-indicator__item">入力</div>
             <div className="form-indicator__item">確認</div>

@@ -138,10 +138,8 @@ function AttendanceForm(props: IProps) {
         <Loading />
       ) : (
         <form className="form-wrap">
-          <div style={{visibility : showErr ? "visible" : "hidden"}}>
-          エラー</div>
           <div className="form-wrap__inner">
-            <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head01.jpg?alt=media&token=29dae985-8fe1-4b5b-b573-f20b4a127b00" alt="" /></div>
+            <div className="form-image"><img src="https://firebasestorage.googleapis.com/v0/b/wedding-dev-9342b.appspot.com/o/app-img%2Fform_head01.jpg?alt=media&token=73b1f0e3-e5d4-48fe-bfff-e5e8eb2f3a72" alt="" /></div>
             <div className="form-indicator">
               <div className="form-indicator__item is-current">入力</div>
               <div className="form-indicator__item">確認</div>
@@ -149,6 +147,7 @@ function AttendanceForm(props: IProps) {
             </div>
             <h1 className="form-heading">回答フォーム</h1>
             <p className="form-text">各項目への入力をお願いいたします</p>
+            <div className="form-wrap__error" style={{visibility : showErr ? "visible" : "hidden"}}>エラー</div>
             <div className="form-input-field">
               <section>
                 <h2>お名前 <i>必須</i></h2>
