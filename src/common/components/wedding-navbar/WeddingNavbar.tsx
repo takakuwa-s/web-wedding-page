@@ -39,7 +39,7 @@ function WeddingNavbar() {
               <Nav.Link as={Link} to="/" eventKey="top" className="pb-5 text-decoration-none text-white">{t('nav.top')}</Nav.Link>
               {configFetched && config.fileFeatureAvailable && <Nav.Link as={Link} to="/image/list/all" eventKey="images" className="pb-5 text-decoration-none text-white">{t('nav.image')}</Nav.Link>}
               <Nav.Link as={Link} to="/user" eventKey="user" className="pb-5 text-decoration-none text-white">{t('nav.user')}</Nav.Link>
-              <Nav.Link as={Link} to="/profile" eventKey="profile" className="pb-5 text-decoration-none text-white">Profile</Nav.Link>
+              {/* <Nav.Link as={Link} to="/profile" eventKey="profile" className="pb-5 text-decoration-none text-white">Profile</Nav.Link> */}
               {configFetched && config.attendanceFeatureAvailable && <Nav.Link as={Link} to="/attendance" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.attendance')}</Nav.Link>}
               {user.isAdmin && <Nav.Link as={Link} to="/admin/users" eventKey="attendance" className="pb-5 text-decoration-none text-white">{t('nav.admin')}</Nav.Link>}
             </Nav>
