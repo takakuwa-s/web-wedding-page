@@ -1,11 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { saveUser } from "../../common/utils/userApiCall";
 import { User } from "../../common/dto/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AttendanceConfirm(props: IProps) {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const option: any = {
+      top: 0,
+      left: 0,
+      behavior: "instant"
+    };
+    window.scrollTo(option);
+  }, []);
 
   const handleRegister = () => {
     setIsLoading(true);
@@ -71,7 +80,7 @@ function AttendanceConfirm(props: IProps) {
                 </tr>
                 <tr>
                   <th>メッセージ</th>
-                  <td>{props.user.message}</td>
+                  <td><pre>{props.user.message}</pre></td>
                 </tr>
               </tbody>
             </table>

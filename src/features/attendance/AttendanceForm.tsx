@@ -88,8 +88,8 @@ function AttendanceForm(props: IProps) {
        && itemMailValidation.isValid) {
       props.onConfirm(user);
      } else {
-      //  alert('入力内容に誤りがあります')
       setShowErr(true);
+      window.scrollTo(0,0);
     }
   }
 
