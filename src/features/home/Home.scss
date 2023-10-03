@@ -152,7 +152,7 @@ img {
   }
   &__heading {
     position: absolute;
-    z-index: 2;
+    z-index:99;
     margin: 0;
     @media screen and (min-width: 768px) {
       width: 45vw;
@@ -308,6 +308,7 @@ img {
     margin-top: 1em;
   }
   &__text {
+    margin-bottom: 1.7em;
     &--right {
       text-align: right;
     }
@@ -442,21 +443,30 @@ img {
 }
 //イベント
 .home-event {
+  margin: 0 auto;
   text-align: center;
+  max-width: 560px;
+  padding: 0 15px;
   h2{
     text-align: center;
     font-family: 'DM Serif Display', serif;
     margin: 0;
-    font-size: 3.2rem;
+    font-size: 5.2rem;
   }
   section {
     margin-top: 1em;
+    > *:last-child {
+      margin-bottom: 0;
+    }
   }
   h3{
+    display: inline-block;
     text-align: center;
     font-family: 'DM Serif Display', serif;
     margin: 0;
+    padding: 0 .3em .2em;
     font-size: 2.4rem;
+    border-bottom: 1px solid #000;
   }
   &__subtitle {
     margin: .3em 0 0;
@@ -468,14 +478,58 @@ img {
     font-weight: 700;
     font-size: 1.8rem;
   }
+  &__place {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid #ddd;
+    dt {
+      width: 4.3em;
+      font-weight: bold;
+      margin-right: 1em;
+    }
+    dd {
+      width: 178px;
+    }
+  }
+  &__tel {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    margin-top: .5em;
+    dt {
+      width: 4.3em;
+      font-weight: bold;
+      margin-right: 1em;
+    }
+    a {
+      display: inline-block;
+      color: #000;
+      @media screen and (min-width: 768px) {
+        text-decoration: none;
+        cursor: auto;
+        &:hover {
+          color: #000;
+        }
+      }
+      @media screen and (max-width: 767px) {
+        flex-direction: row-reverse;
+      }
+    }
+    dd {
+      width: 178px;
+    }
+  }
 }
 //アクセス
 .home-access {
   h2{
     text-align: center;
     font-family: 'DM Serif Display', serif;
-    margin: 0;
-    font-size: 3.2rem;
+    margin: 1em  0 0;
+    font-size: 5.2rem;
   }
   &__inner {
     padding: 0 15px 5em;
@@ -510,15 +564,22 @@ img {
       }
     }
   }
+  &__note {
+    max-width: 700px;
+    margin: 2em auto 0;
+    text-align: center;
+    + * {
+      margin-top: .6em !important;
+    }
+  }
 }
 //フォームボタン
 .home-button {
   margin: 2em auto 0;
-  border-radius: 3px;
   text-align: center;
   padding: 1em 0;
-  background-color: #efe5e5;
-  color: #333;
+  background-color: #000;
+  color: #fff;
   display: block;
   width: 300px;
   text-decoration: none;

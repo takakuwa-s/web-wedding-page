@@ -399,6 +399,13 @@ header {
   font-size: 1.6rem;
   cursor: pointer;
 }
+@media screen and (max-width: 767px) {
+  .form-confirm-button button:focus,
+  .form-confirm-button button:hover {
+    background-color: #506664 !important;
+    color: #fff !important;
+  }
+}
 .form-confirm-button button:disabled {
   background-color: #616161;
   color: #fff;

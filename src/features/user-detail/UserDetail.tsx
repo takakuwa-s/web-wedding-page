@@ -8,6 +8,7 @@ import AttendanceConfirmContent from "../../common/components/attendance-confirm
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import Loading from "../../common/components/loading/Loading";
+import '../attendance/Attendance.scss';
 
 function UserDetail() {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ function UserDetail() {
         <>
           <AttendanceConfirmContent user={user}/>
           <Row className="pt-3 pb-5">
-            <Col sm={4} xl={3} xxl={2} className="d-grid gap-2 mx-auto">
+            <Col sm={4} xl={3} xxl={2} className="form-confirm-button">
               {config.attendanceFeatureAvailable ? (
                 <Button
                   type="button"
@@ -56,14 +57,12 @@ function UserDetail() {
   }
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <h2 className="pt-5 text-center">{t("userDetail.title")}</h2>
-        </Col>
-      </Row>
-      {content}
-    </Container>
+    <div className="form-wrap">
+      <div className="form-wrap__inner">
+        <h1 className="form-heading">ご回答内容</h1>
+        {content}
+      </div>
+    </div>
   );
 }
 

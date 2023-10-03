@@ -4,7 +4,7 @@ import Row from "react-bootstrap/esm/Row";
 const AttendanceConfirmItem: React.VFC<IProps> = ({ as: CustomTag = "p", label, value}) => {
   return (
     <Row className="my-3">
-      <Col xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }} className="text-center">
+      <Col xs={4} sm={{ span: 3, offset: 3 }} lg={{ span: 2, offset: 4 }}>
         <span>{label}</span>
       </Col>
       <Col xs={8} sm={6}>

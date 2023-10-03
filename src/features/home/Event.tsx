@@ -25,6 +25,14 @@ function Event() {
           <p className="home-event__date">2023.12.10<br/>12:15</p>
           <p>受付時間　11:50</p>
         </section>
+        <dl className="home-event__place">
+          <dt>場所:</dt>
+          <dd>TRUNK(HOTEL)<br/>3F SORANIWA<br/>東京都渋谷区神宮前5-31</dd>
+        </dl>
+        <dl className="home-event__tel">
+          <dt>電話番号:</dt>
+          <dd><a href="tel:0357663200">03-5766-3200</a></dd>
+        </dl>
       </div>
     </section>
   );
