@@ -148,8 +148,8 @@ function ImageListAll() {
   };
 
   return (
-    <Container fluid className="pb-5">
-      <div className="fixed-top bg-white">
+    <Container fluid className="gallery">
+      <div className="">
         <Row>
           <Col>
             <h2 className="pt-3 text-center">{t('imageList.title.all')}</h2>

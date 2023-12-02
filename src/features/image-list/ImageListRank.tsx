@@ -41,7 +41,7 @@ function ImageListRank() {
   }, [t, user.isAdmin, dispatch]);
 
   return (
-    <Container fluid className="pb-5">
+    <Container fluid className="gallery">
       <Row>
         <Col>
           <h2 className="pt-3 text-center">{t('imageList.title.rank')}</h2>

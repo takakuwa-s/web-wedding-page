@@ -20,21 +20,6 @@ import './Home.scss';
         <p className="home-access__link">
           <a href="https://maps.app.goo.gl/ub4fmNBZE9L86vij6" target="_blank" rel="noopner">Google Map</a>
         </p>
-        <p className="home-access__note">誠に勝手ながら11月10日までにご一報くださいますようお願い申し上げます。</p>
-    {config.attendanceFeatureAvailable ? (
-      <button
-        className="home-button"
-        onClick={() => navigate("/attendance")}
-      >{t("information.register.button")}
-      </button>
-    ) : (
-      <button
-      className="home-button"
-        aria-disabled
-        disabled
-      >{t("information.register.buttonDisabled")}
-      </button>
-    )}
       </div>
     </section>
     
