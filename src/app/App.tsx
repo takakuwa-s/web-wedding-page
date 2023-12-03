@@ -29,7 +29,7 @@ function App() {
   const userFetched = useAppSelector((state: RootState) => state.user.fetched);
   const config = useAppSelector((state: RootState) => state.config.config);
   const configFetched = useAppSelector((state: RootState) => state.config.fetched);
-  if (!userFetched) {
+  if (!userFetched && window.location.pathname !== '/image/buik_download') {
     let userId = liff.getDecodedIDToken()?.sub;
     if (process.env.REACT_APP_ENV === 'local') {
       userId = "U544c7c84c496d89b3f56b034b75f8dae";
@@ -45,7 +45,7 @@ function App() {
         dispatch(updateUserAndFetched({user: u, fetched: true}));
     });
   }
-  if (!configFetched) {
+  if (!configFetched && window.location.pathname !== '/image/buik_download') {
     getConfig((c: Config) => {
       dispatch(updateConfigAndFetched({config: c, fetched: true}));
     })
