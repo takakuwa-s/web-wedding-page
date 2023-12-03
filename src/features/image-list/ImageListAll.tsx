@@ -185,15 +185,6 @@ function ImageListAll() {
                   onClick={downloadMultipleImages}
                 >{t("imageList.button.bulkDownload")}
                 </Button>
-                {(liff.getOS() === "ios" || liff.getOS() === "android") && (
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline-secondary"
-                    onClick={() => navigate("/image/buik_download/help")}
-                  >{t("imageList.button.bulkDownloadHelp")}
-                  </Button>
-                )}
               </>
             )}
             {liff.getOS() === "ios" && !canMultiSelect && !alertMsg && (

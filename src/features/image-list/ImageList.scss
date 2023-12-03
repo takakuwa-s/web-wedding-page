@@ -105,7 +105,7 @@ img {
   h2{
     text-align: center;
     font-family: 'DM Serif Display', serif;
-    margin: 0;
+    margin: 0 0 .5em;
     font-size: 5.2rem;
     @media screen and (max-width: 767px) {
       position: relative;
@@ -120,13 +120,14 @@ img {
     color: #fff;
     font-size: 1.8rem;
     box-shadow: 1px 1px 2px rgba(0,0,0,.2);
-    @media screen and (min-width: 768px) {
-      &:hover {
-        text-decoration: none;
-        background-color: #504a4a;
-        color: #fff;
-        opacity: .7;
-      }
+    &:focus,
+    &:focus-visible,
+    &:active,
+    &:hover {
+      text-decoration: none;
+      background-color: #504a4a !important;
+      color: #fff !important;
+      opacity: .7;
     }
     &:disabled {
       box-shadow: none;
@@ -142,17 +143,27 @@ img {
     color: #fff;
     font-size: 1.8rem;
     box-shadow: 1px 1px 2px rgba(0,0,0,.2);
-    @media screen and (min-width: 768px) {
-      &:hover {
-        text-decoration: none;
-        background-color: #504a4a;
-        color: #fff;
-        opacity: .7;
-      }
+    &:focus,
+    &:focus-visible,
+    &:active,
+    &:hover {
+      text-decoration: none;
+      background-color: #504a4a;
+      color: #fff;
+      opacity: .7;
     }
     &:disabled {
       color: #444;
       box-shadow: none;
     }
+  }
+  .pswp-gallery > * {
+    @media screen and (min-width: 768px) {
+      height: 16.66666667vw;
+    }
+    @media screen and (max-width: 767px) {
+      height: 33.0666667vw;
+    }
+    
   }
 }

@@ -7,7 +7,7 @@ function ProcessingImage() {
   console.log("ProcessingImage");
   const { t } = useTranslation();
   return (
-    <div className="square rounded align-items-center d-flex justify-content-center flex-column not-uploaded-image">
+    <div className="square rounded align-items-center d-flex justify-content-center not-uploaded-image">
       <Loading/>
       <span>{t('imageList.uploading')}</span>
     </div>
