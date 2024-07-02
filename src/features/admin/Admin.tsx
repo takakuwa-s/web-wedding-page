@@ -17,14 +17,14 @@ function Admin(props: IProps) {
       id: AdminPage.USERS,
       title: t("admin.tab.users"),
     },
-    {
-      id: AdminPage.PUSH_NOTIFICATION,
-      title: t("admin.tab.pushNotification"),
-    },
-    {
-      id: AdminPage.SLIDE_SHOW,
-      title: t("admin.tab.slideshow"),
-    },
+    // {
+    //   id: AdminPage.PUSH_NOTIFICATION,
+    //   title: t("admin.tab.pushNotification"),
+    // },
+    // {
+    //   id: AdminPage.SLIDE_SHOW,
+    //   title: t("admin.tab.slideshow"),
+    // },
   ];
   const components = {
     USERS: <AdminUsers />,

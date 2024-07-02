@@ -143,10 +143,10 @@ function AdminUsers() {
   const options = [
     {value: ",", label: t("adminUsers.sellect.all")},
     {value: "IsAdmin,t", label: t("adminUsers.sellect.admin")},
-    {value: "Registered,t", label: t("adminUsers.sellect.registered")},
-    {value: "Registered,", label: t("adminUsers.sellect.notRegistered")},
-    {value: "Attendance,t", label: t("adminUsers.sellect.participant")},
-    {value: "Attendance,", label: t("adminUsers.sellect.absentee")},
+    // {value: "Registered,t", label: t("adminUsers.sellect.registered")},
+    // {value: "Registered,", label: t("adminUsers.sellect.notRegistered")},
+    // {value: "Attendance,t", label: t("adminUsers.sellect.participant")},
+    // {value: "Attendance,", label: t("adminUsers.sellect.absentee")},
     {value: "Follow,t", label: t("adminUsers.sellect.follow")},
     {value: "Follow,", label: t("adminUsers.sellect.unfollow")},
   ];

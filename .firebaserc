@@ -1,7 +1,6 @@
 {
   "projects": {
-    "default": "wedding-dev-1df62",
-    "dev": "wedding-dev-1df62",
-    "prod": "wedding-343414"
+    "default": "wedding-prod-taishi-saeko",
+    "prod": "wedding-prod-taishi-saeko"
   }
 }

@@ -1,6 +1,6 @@
 import WeddingNavbar from '../common/components/wedding-navbar/WeddingNavbar';
 import Attendance from '../features/attendance/Attendance';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../features/home/Home';
 import { error } from '../common/dto/error';
 import ImageList from '../features/image-list/ImageList';
@@ -28,7 +28,7 @@ function App() {
   const userFetched = useAppSelector((state: RootState) => state.user.fetched);
   const config = useAppSelector((state: RootState) => state.config.config);
   const configFetched = useAppSelector((state: RootState) => state.config.fetched);
-  if (!userFetched) {
+  if (!userFetched && window.location.pathname !== '/image/buik_download') {
     let userId = liff.getDecodedIDToken()?.sub;
     if (process.env.REACT_APP_ENV === 'local') {
       userId = "U544c7c84c496d89b3f56b034b75f8dae";
@@ -41,7 +41,7 @@ function App() {
         dispatch(updateUserAndFetched({user: u, fetched: true}));
     });
   }
-  if (!configFetched) {
+  if (!configFetched && window.location.pathname !== '/image/buik_download') {
     getConfig((c: Config) => {
       dispatch(updateConfigAndFetched({config: c, fetched: true}));
     })
@@ -53,8 +53,9 @@ function App() {
     <BrowserRouter>
       <WeddingNavbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {config.attendanceFeatureAvailable && <Route path="attendance" element={<Attendance />} />}
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Navigate replace to="image/list/all"/>} />
+        {/* {config.attendanceFeatureAvailable && <Route path="attendance" element={<Attendance />} />} */}
         {config.fileFeatureAvailable && (
           <>
           <Route path="image/list/all" element={<ImageList gallery={Gallery.ALL} />} />
@@ -62,16 +63,16 @@ function App() {
           <Route path="image/list/rank" element={<ImageList gallery={Gallery.RANK} />} />
           <Route path="image/list/memory" element={<ImageList gallery={Gallery.MEMORY} />} />
           <Route path="image/buik_download" element={<BulkDownloadFiles />}  />
-          <Route path="image/buik_download/help" element={<BulkDownloadFilesHelp />}  />
+          {/* <Route path="image/buik_download/help" element={<BulkDownloadFilesHelp />}  /> */}
           </>
         )}
-        <Route path="user" element={<UserDetail />} />
+        {/* <Route path="user" element={<UserDetail />} /> */}
         {user.isAdmin ? (
           <>
             <Route path="admin/users" element={<Admin adminPage={AdminPage.USERS} />} />
             <Route path="admin/user/:id" element={<AdminUserDetail />} />
-            <Route path="admin/push_notification" element={<Admin  adminPage={AdminPage.PUSH_NOTIFICATION} />} />
-            <Route path="admin/slide_show" element={<Admin adminPage={AdminPage.SLIDE_SHOW} />} />
+            {/* <Route path="admin/push_notification" element={<Admin  adminPage={AdminPage.PUSH_NOTIFICATION} />} /> */}
+            {/* <Route path="admin/slide_show" element={<Admin adminPage={AdminPage.SLIDE_SHOW} />} /> */}
           </>
         ) : (
           <Route path="admin/*" element={<ErrorPage err={forbiddenError}/>} />
